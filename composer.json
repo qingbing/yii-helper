@@ -20,11 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "YiiHelper": "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
+            "YiiHelper\\": "src"
         }
     }
 }
