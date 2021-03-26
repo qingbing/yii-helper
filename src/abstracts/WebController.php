@@ -7,14 +7,14 @@
 
 namespace YiiHelper\abstracts;
 
-use yii\db\ActiveRecord;
+use YiiHelper\traits\TResponse;
 
 /**
- * db-model 基类
- *
- * Class Model
+ * web 基类
+ * Class WebController
  * @package YiiHelper\abstracts
  */
-abstract class Model extends ActiveRecord
+abstract class WebController extends \yii\rest\Controller
 {
+    use TResponse;
 }

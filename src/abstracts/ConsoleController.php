@@ -7,14 +7,16 @@
 
 namespace YiiHelper\abstracts;
 
-use yii\db\ActiveRecord;
+
+use yii\console\Controller;
 
 /**
- * db-model 基类
+ * 控制台基类
  *
- * Class Model
+ * Class ConsoleController
  * @package YiiHelper\abstracts
  */
-abstract class Model extends ActiveRecord
+abstract class ConsoleController extends Controller
 {
+
 }
