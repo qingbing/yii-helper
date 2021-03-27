@@ -6,7 +6,7 @@ yii 公用的一些基础类库
 ### 抽象类
 1. [控制台基类 : ConsoleController](doc/abstracts/ConsoleController.md)
 1. [db-model基类 : Model](doc/abstracts/Model.md)
-1. [控制器基类 : WebController](doc/abstracts/WebController.md)
+1. [控制器基类 : RestController](doc/abstracts/RestController.md)
 
 
 ### 控制器

@@ -10,7 +10,7 @@ namespace YiiHelper\controllers;
 
 use yii\base\Action;
 use yii\helpers\ArrayHelper;
-use YiiHelper\abstracts\WebController;
+use YiiHelper\abstracts\RestController;
 use YiiHelper\filters\ActionFilter;
 
 /**
@@ -19,7 +19,7 @@ use YiiHelper\filters\ActionFilter;
  * Class HealthController
  * @package YiiHelper\controllers
  */
-class HealthController extends WebController
+class HealthController extends RestController
 {
     /**
      * @var array|callable|null 在 beforeAction 前需要执行的回调函数

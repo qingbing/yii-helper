@@ -14,7 +14,7 @@ use YiiHelper\traits\TResponse;
  * Class WebController
  * @package YiiHelper\abstracts
  */
-abstract class WebController extends \yii\rest\Controller
+abstract class RestController extends \yii\rest\Controller
 {
     use TResponse;
 }
