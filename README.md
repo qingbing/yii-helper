@@ -25,7 +25,8 @@ yii 公用的一些基础类库
 
 
 ### 助手类器
-1. [响应类Response : Response](doc/helpers/Response.md)
+1. [响应类 : Response](doc/helpers/Response.md)
+1. [数据分页类 : Pager](doc/helpers/Pager.md)
 
 
 ### 片段
