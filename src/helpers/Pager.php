@@ -77,7 +77,7 @@ class Pager extends Factory
         if ($totalCount > 0) {
             // 强制参数校验
             $pageNo = $pageNo > 1 ? $pageNo : 1;
-            $pageNo = $pageSize > 1 ? $pageSize : 10;
+            $pageSize = $pageSize > 1 ? $pageSize : 10;
             // 数据查询
             $query->limit($pageSize);
             $query->offset($pageNo < 1 ? 0 : ($pageNo - 1) * $pageSize);
