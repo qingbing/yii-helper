@@ -3,12 +3,17 @@
 yii 公用的一些基础类库
 
 ## 文档链接
-1. [控制台基类 : ConsoleController](doc/abstracts/ConsoleController.md)
+1. [对于Yii某些封装的提示完善,仅供提示使用](doc/YiiHelper.md)
 
 ### 抽象类
 1. [控制台基类 : ConsoleController](doc/abstracts/ConsoleController.md)
 1. [db-model基类 : Model](doc/abstracts/Model.md)
 1. [控制器基类 : RestController](doc/abstracts/RestController.md)
+
+
+### 组件封装
+1. [扩展用户登录组件 : User](doc/components/User.md)
+
 
 ### 封装行为
 1. [模型中客户端IP自动填充行为 : IpBehavior](doc/behaviors/IpBehavior.md)
