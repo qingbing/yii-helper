@@ -16,7 +16,8 @@
         }
     ],
     "require": {
-        "qingbing/zf-helper": ">=1.0, <2.0"
+        "qingbing/zf-helper": ">=1.0, <2.0",
+        "myweishanli/yii2-ip2location": "^1.0"
     },
     "autoload": {
         "psr-4": {
