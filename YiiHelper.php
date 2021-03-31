@@ -20,6 +20,9 @@ namespace yii\web {
      *
      * @property-read $user \YiiHelper\components\User
      * @method \YiiHelper\components\User getUser()
+     *
+     * @property-read $mailer \yii\swiftmailer\Mailer
+     * @method \yii\swiftmailer\Mailer getMailer()
      */
     class Application
     {
