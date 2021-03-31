@@ -3,6 +3,7 @@
 yii 公用的一些基础类库
 
 ## 文档链接
+1. [IP地址解析 : Ip2Location](doc/Ip2Location.md)
 1. [对于Yii某些封装的提示完善,仅供提示使用](doc/YiiHelper.md)
 
 ### 抽象类
