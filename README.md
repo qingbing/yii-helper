@@ -10,6 +10,11 @@ yii 公用的一些基础类库
 1. [db-model基类 : Model](doc/abstracts/Model.md)
 1. [控制器基类 : RestController](doc/abstracts/RestController.md)
 
+### 封装行为
+1. [模型中客户端IP自动填充行为 : IpBehavior](doc/behaviors/IpBehavior.md)
+1. [模型中客户端日志ID自动填充行为 : TraceIdBehavior](doc/behaviors/TraceIdBehavior.md)
+1. [模型中用户ID自动填充行为 : UidBehavior](doc/behaviors/UidBehavior.md)
+1. [模型中登录用户名自动填充行为 : UsernameBehavior](doc/behaviors/UsernameBehavior.md)
 
 ### 控制器
 1. [健康状态控制器 : HealthController](doc/controllers/HealthController.md)
