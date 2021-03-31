@@ -31,6 +31,7 @@ yii 公用的一些基础类库
 
 ### 片段
 1. [响应处理片段 : Response](doc/traits/TResponse.md)
+1. [制作保存失败抛出异常片段 : TSave](doc/traits/TSave.md)
 
 
 # ====== 组件编号 102 ======
