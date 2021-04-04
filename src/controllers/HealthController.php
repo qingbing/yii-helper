@@ -8,7 +8,6 @@
 namespace YiiHelper\controllers;
 
 
-use yii\base\Action;
 use yii\helpers\ArrayHelper;
 use YiiHelper\abstracts\RestController;
 use YiiHelper\filters\ActionFilter;
