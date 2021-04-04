@@ -43,12 +43,12 @@ class Pager extends Factory
     /**
      * 设置返回数据是否为数组形式，设置为数组返回，否则为对象（模型）返回
      *
-     * @param int $count
+     * @param bool $asArray
      * @return $this
      */
     public function setAsArray(bool $asArray = true)
     {
-        $this->_totalCount = $count;
+        $this->_asArray = $asArray;
         return $this;
     }
 
@@ -76,7 +76,7 @@ class Pager extends Factory
         }
         if ($totalCount > 0) {
             // 强制参数校验
-            $pageNo = $pageNo > 1 ? $pageNo : 1;
+            $pageNo   = $pageNo > 1 ? $pageNo : 1;
             $pageSize = $pageSize > 1 ? $pageSize : 10;
             // 数据查询
             $query->limit($pageSize);
