@@ -1,4 +1,4 @@
-# 服务 OpeateLogService ： 操作日志服务
+# 服务 OperateLogService ： 操作日志服务
 - 设置日志模型 ： setModel(AOperateLog $model)
 - 请求服务
     - 获取日志类型列表 ： types()
@@ -16,7 +16,7 @@ class LogController extends Controller
      */
     public $model;
     /**
-     * @var OpeateLogService
+     * @var OperateLogService
      */
     public $service;
 
@@ -24,7 +24,7 @@ class LogController extends Controller
      * LogController constructor.
      * {@inheritdoc}
      */
-    public function __construct($id, $module, $config = [], OpeateLogService $service, OperateLog $model)
+    public function __construct($id, $module, $config = [], OperateLogService $service, OperateLog $model)
     {
         parent::__construct($id, $module, $config);
         $this->model   = $model;

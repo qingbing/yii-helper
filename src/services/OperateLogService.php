@@ -8,7 +8,6 @@
 namespace YiiHelper\services;
 
 
-use yii\data\Pagination;
 use YiiHelper\helpers\Pager;
 use YiiHelper\models\abstracts\AOperateLog;
 use Zf\Helper\Exceptions\BusinessException;
@@ -16,12 +15,12 @@ use Zf\Helper\Exceptions\BusinessException;
 /**
  * 操作日志服务
  *
- * Class OpeateLogService
+ * Class OperateLogService
  * @package YiiHelper\services
  *
  * @property-write AOperateLog $model
  */
-class OpeateLogService
+class OperateLogService
 {
     /**
      * @var AOperateLog
@@ -99,6 +98,7 @@ class OpeateLogService
      *
      * @param mixed $id
      * @return AOperateLog|null
+     * @throws BusinessException
      */
     public function view($id)
     {
@@ -106,7 +106,7 @@ class OpeateLogService
             'id' => $id,
         ]);
         if (null === $res) {
-            throw new BusinessExcepion('不存在的日志信息');
+            throw new BusinessException('不存在的日志信息');
         }
         return $res;
     }
