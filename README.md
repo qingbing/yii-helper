@@ -43,7 +43,7 @@ yii 公用的一些基础类库
 
 
 ### 控制器服务类
-1. [操作日志服务 : OpeateLogService](doc/services/OpeateLogService.md)
+1. [操作日志服务 : OperateLogService](doc/services/OperateLogService.md)
 
 
 ### 片段
