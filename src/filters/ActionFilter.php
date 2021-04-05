@@ -51,8 +51,10 @@ class ActionFilter extends \yii\base\ActionFilter
             throw new Exception('\YiiHelper\filters\ActionFilter->beforeActionCallback需要配置成callable', 1020001002);
         }
         // owner(controller) 中的 beforeActionCallback
-        if ($this->owner->hasProperty('beforeActionCallback')) {
-            if (is_callable($this->owner->beforeActionCallback)) {
+        if (property_exists($this->owner, 'beforeActionCallback')) {
+            if (is_string($this->owner->beforeActionCallback) && is_callable([$this->owner, $this->owner->beforeActionCallback])) {
+                $callbacks[] = [$this->owner, $this->owner->beforeActionCallback];
+            } else if (is_callable($this->owner->beforeActionCallback)) {
                 $callbacks[] = $this->owner->beforeActionCallback;
             } elseif (is_array($this->owner->beforeActionCallback)) {
                 foreach ($this->owner->beforeActionCallback as $callback) {
@@ -100,8 +102,10 @@ class ActionFilter extends \yii\base\ActionFilter
             throw new Exception('\YiiHelper\filters\ActionFilter->afterActionCallback需要配置成callable', 1020001006);
         }
         // owner(controller) 中的 afterActionCallback
-        if ($this->owner->hasProperty('afterActionCallback')) {
-            if (is_callable($this->owner->afterActionCallback)) {
+        if (property_exists($this->owner, 'afterActionCallback')) {
+            if (is_string($this->owner->afterActionCallback) && is_callable([$this->owner, $this->owner->afterActionCallback])) {
+                $callbacks[] = [$this->owner, $this->owner->afterActionCallback];
+            } else if (is_callable($this->owner->afterActionCallback)) {
                 $callbacks[] = $this->owner->afterActionCallback;
             } elseif (is_array($this->owner->afterActionCallback)) {
                 foreach ($this->owner->afterActionCallback as $callback) {
