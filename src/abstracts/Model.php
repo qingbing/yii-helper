@@ -8,6 +8,7 @@
 namespace YiiHelper\abstracts;
 
 use yii\db\ActiveRecord;
+use YiiHelper\traits\TSave;
 
 /**
  * db-model 基类
@@ -17,4 +18,6 @@ use yii\db\ActiveRecord;
  */
 abstract class Model extends ActiveRecord
 {
+    // 使用 保存片段
+    use TSave;
 }

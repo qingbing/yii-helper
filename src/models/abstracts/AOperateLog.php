@@ -8,11 +8,11 @@
 namespace YiiHelper\models\abstracts;
 
 
+use YiiHelper\abstracts\Model;
 use YiiHelper\behaviors\IpBehavior;
 use YiiHelper\behaviors\TraceIdBehavior;
 use YiiHelper\behaviors\UidBehavior;
 use YiiHelper\behaviors\UsernameBehavior;
-use YiiHelper\models\BaseModel;
 
 /**
  * 操作日志抽象类
@@ -23,7 +23,7 @@ use YiiHelper\models\BaseModel;
  * Class AOperateLog
  * @package YiiHelper\models\abstracts
  */
-abstract class AOperateLog extends BaseModel
+abstract class AOperateLog extends Model
 {
     /**
      * 获取所有日志类型
