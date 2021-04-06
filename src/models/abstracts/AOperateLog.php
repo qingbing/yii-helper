@@ -8,14 +8,11 @@
 namespace YiiHelper\models\abstracts;
 
 
-use yii\behaviors\AttributeBehavior;
-use yii\db\ActiveRecord;
 use YiiHelper\behaviors\IpBehavior;
 use YiiHelper\behaviors\TraceIdBehavior;
 use YiiHelper\behaviors\UidBehavior;
 use YiiHelper\behaviors\UsernameBehavior;
-use YiiHelper\components\User;
-use YiiHelper\traits\TSave;
+use YiiHelper\models\BaseModel;
 
 /**
  * 操作日志抽象类
@@ -26,11 +23,8 @@ use YiiHelper\traits\TSave;
  * Class AOperateLog
  * @package YiiHelper\models\abstracts
  */
-abstract class AOperateLog extends ActiveRecord
+abstract class AOperateLog extends BaseModel
 {
-    // 使用 保存片段
-    use TSave;
-
     /**
      * 获取所有日志类型
      *
