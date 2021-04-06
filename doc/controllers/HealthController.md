@@ -1,10 +1,7 @@
 # 控制器 HealthController : 健康状态控制器
-- 提供访问
-    - index : 健康探测
 - 可配置属性
     - beforeActionCallback ： beforeAction 前需要执行的回调函数
     - afterActionCallback ： afterAction 前需要执行的回调函数
-
 
 ##  使用方法
 ### 1. 方法一 ： 文件配置
