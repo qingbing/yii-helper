@@ -7,12 +7,11 @@
 
 namespace YiiHelper\abstracts;
 
-use yii\base\InvalidConfigException;
+use Exception;
 use yii\helpers\ArrayHelper;
 use yii\rest\Controller;
 use YiiHelper\traits\TResponse;
 use YiiHelper\traits\TValidator;
-use Zf\Helper\Exceptions\ParameterException;
 
 /**
  * web 基类
@@ -32,7 +31,7 @@ abstract class RestController extends Controller
      * @param string $key
      * @param null|mixed $default
      * @return array|mixed|string|null
-     * @throws \Exception
+     * @throws Exception
      */
     protected function getParam(string $key, $default = null)
     {
@@ -59,8 +58,8 @@ abstract class RestController extends Controller
     /**
      * 分页参数校验
      *
-     * @throws ParameterException
-     * @throws InvalidConfigException
+     * @return array
+     * @throws Exception
      */
     protected function pageParams()
     {
