@@ -8,6 +8,7 @@
 namespace YiiHelper\services;
 
 
+use Exception;
 use YiiHelper\helpers\Pager;
 use YiiHelper\models\abstracts\AOperateLog;
 use Zf\Helper\Exceptions\BusinessException;
@@ -18,24 +19,24 @@ use Zf\Helper\Exceptions\BusinessException;
  * Class OperateLogService
  * @package YiiHelper\services
  *
- * @property-write AOperateLog $model
+ * @property-write AOperateLog $newModel
  */
 class OperateLogService
 {
     /**
      * @var AOperateLog
      */
-    protected $model;
+    protected $newModel;
 
     /**
      * 设置日志模型
      *
-     * @param AOperateLog $model
+     * @param AOperateLog $newModel
      * @return $this
      */
-    public function setModel(AOperateLog $model)
+    public function setNewModel(AOperateLog $newModel)
     {
-        $this->model = $model;
+        $this->newModel = $newModel;
         return $this;
     }
 
@@ -46,7 +47,7 @@ class OperateLogService
      */
     public function types()
     {
-        return $this->model::types();
+        return $this->newModel::types();
     }
 
     /**
@@ -58,7 +59,7 @@ class OperateLogService
     public function search(array $params = []): array
     {
         // 创建查询器
-        $query = $this->model::find()
+        $query = $this->newModel::find()
             ->orderBy('id DESC');
         // 日志ID
         if (!empty($params['id'])) {
@@ -98,16 +99,28 @@ class OperateLogService
      *
      * @param mixed $id
      * @return AOperateLog|null
-     * @throws BusinessException
+     * @throws Exception
      */
     public function view($id)
     {
-        $res = $this->model::findOne([
+        return $this->getModel($id);
+    }
+
+    /**
+     * 获取替换配置
+     *
+     * @param int $id
+     * @return AOperateLog|null
+     * @throws Exception
+     */
+    protected function getModel($id)
+    {
+        $model = $this->newModel::findOne([
             'id' => $id,
         ]);
-        if (null === $res) {
+        if (null === $model) {
             throw new BusinessException('不存在的日志信息');
         }
-        return $res;
+        return $model;
     }
 }
