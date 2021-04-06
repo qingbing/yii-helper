@@ -2,6 +2,11 @@
 ## 描述
 yii 公用的一些基础类库
 
+## 功能集
+1. [完整功能 ： 健康（应用心跳）探测](doc/features/1.health.md)
+1. [完整功能 ： 替换配置](doc/features/2.replace-setting.md)
+
+
 ## 文档链接
 1. [IP地址解析 : Ip2Location](doc/Ip2Location.md)
 1. [对于Yii某些封装的提示完善,仅供提示使用](doc/YiiHelper.md)
@@ -24,6 +29,7 @@ yii 公用的一些基础类库
 
 ### 控制器
 1. [健康状态控制器 : HealthController](doc/controllers/HealthController.md)
+1. [替换模版 : ReplaceSettingController](doc/controllers/ReplaceSettingController.md)
 
 
 ### 过滤器
@@ -39,6 +45,7 @@ yii 公用的一些基础类库
 ### 模型类
 
 #### 抽象模型
+1. [替换配置 : ReplaceSetting](doc/models/ReplaceSetting.md)
 1. [操作日志抽象类 : AOperateLog](doc/models/abstracts/AOperateLog.md)
 
 
@@ -46,10 +53,18 @@ yii 公用的一些基础类库
 1. [操作日志服务 : OperateLogService](doc/services/OperateLogService.md)
 
 
+### 工具类
+1. [模板替换 : ReplaceSetting](doc/tools/ReplaceSetting.md)
+
+
 ### 片段
 1. [响应处理片段 : Response](doc/traits/TResponse.md)
 1. [制作保存失败抛出异常片段 : TSave](doc/traits/TSave.md)
 1. [数据验证片段 : TValidator](doc/traits/TValidator.md)
+
+
+### 片段
+1. [yii-validator扩展验证数据类型为json字符串 : JsonValidator](doc/validators/JsonValidator.md)
 
 
 # ====== 组件编号 102 ======
