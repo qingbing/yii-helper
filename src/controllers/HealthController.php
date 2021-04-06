@@ -8,6 +8,7 @@
 namespace YiiHelper\controllers;
 
 
+use Exception;
 use yii\helpers\ArrayHelper;
 use YiiHelper\abstracts\RestController;
 use YiiHelper\filters\ActionFilter;
@@ -48,7 +49,7 @@ class HealthController extends RestController
      * 健康探测
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function actionIndex()
     {
