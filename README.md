@@ -28,6 +28,9 @@ yii 公用的一些基础类库
 1. [模型中用户ID自动填充行为 : UidBehavior](doc/behaviors/UidBehavior.md)
 1. [模型中登录用户名自动填充行为 : UsernameBehavior](doc/behaviors/UsernameBehavior.md)
 
+### 业务功能
+1. [业务功能类-接口参数信息管理 : BusinessInterface](doc/business/BusinessInterface.md)
+
 ### 控制器
 1. [健康状态控制器 : HealthController](doc/controllers/HealthController.md)
 1. [替换模版 : ReplaceSettingController](doc/controllers/ReplaceSettingController.md)
