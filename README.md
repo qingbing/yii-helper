@@ -18,6 +18,7 @@ yii 公用的一些基础类库
 
 
 ### 组件封装
+1. [yii扩展类 : Application](doc/components/Application.md)
 1. [扩展用户登录组件 : User](doc/components/User.md)
 
 
