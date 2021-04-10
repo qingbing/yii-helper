@@ -18,4 +18,4 @@ CREATE TABLE `{{operate_log}}` (
   KEY `idx_traceId` (`trace_id`),
   KEY `idx_uid` (`uid`),
   KEY `idx_create_at` (`created_at`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='操作日志表'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='操作日志表';
