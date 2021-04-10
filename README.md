@@ -20,6 +20,7 @@ yii 公用的一些基础类库
 ### 组件封装
 1. [yii扩展类 : Application](doc/components/Application.md)
 1. [缓存助手 : CacheHelper](doc/components/CacheHelper.md)
+1. [应用事件句柄 : EventHandler](doc/components/EventHandler.md)
 1. [扩展用户登录组件 : User](doc/components/User.md)
 
 
