@@ -15,7 +15,10 @@ namespace YiiHelper\components;
  *
  * @property $username
  */
-abstract class User extends \yii\web\User
+class User extends \yii\web\User
 {
-    abstract public function getUsername();
+    public function getUsername()
+    {
+
+    }
 }
