@@ -21,6 +21,7 @@ yii 公用的一些基础类库
 1. [yii扩展类 : Application](doc/components/Application.md)
 1. [缓存助手 : CacheHelper](doc/components/CacheHelper.md)
 1. [应用事件句柄 : EventHandler](doc/components/EventHandler.md)
+1. [接口及接口日志组件 : InterfaceLog](doc/components/InterfaceLog.md)
 1. [扩展用户登录组件 : User](doc/components/User.md)
 
 
@@ -51,6 +52,10 @@ yii 公用的一些基础类库
 ### 模型类
 
 #### 抽象模型
+1. [接口参数字段 : InterfaceFields](doc/models/InterfaceFields.md)
+1. [接口日志 : InterfaceLogs](doc/models/InterfaceLogs.md)
+1. [接口信息 : Interfaces](doc/models/Interfaces.md)
+1. [接口系统 : InterfaceSystem](doc/models/InterfaceSystem.md)
 1. [替换配置 : ReplaceSetting](doc/models/ReplaceSetting.md)
 1. [操作日志抽象类 : AOperateLog](doc/models/abstracts/AOperateLog.md)
 
