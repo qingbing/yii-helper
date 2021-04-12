@@ -7,6 +7,8 @@
 
 namespace YiiHelper\components;
 
+use YiiHelper\models\UserAccount;
+
 /**
  * 扩展用户登录组件
  *
@@ -17,8 +19,20 @@ namespace YiiHelper\components;
  */
 class User extends \yii\web\User
 {
-    public function getUsername()
-    {
+    /**
+     * @var array 支持的用户登录类型
+     */
+    public $loginTypes = [
+        UserAccount::TYPE_EMAIL,
+    ];
 
+    /**
+     * 返回登录用户名
+     *
+     * @return string
+     */
+    public function getNickname()
+    {
+        return '';
     }
 }

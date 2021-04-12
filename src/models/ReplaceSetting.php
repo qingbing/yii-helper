@@ -96,7 +96,7 @@ class ReplaceSetting extends Model
     const FIELD_NOW_DATE  = '{{now_date}}';
     const FIELD_CLIENT_IP = '{{client_ip}}';
     const FIELD_DOMAIN    = '{{domain}}';
-    const FIELD_USERNAME  = '{{login_username}}';
+    const FIELD_NICKNAME  = '{{login_nickname}}';
     const FIELD_UID       = '{{login_uid}}';
 
     /**
@@ -111,7 +111,7 @@ class ReplaceSetting extends Model
             self::FIELD_NOW_DATE  => Format::date(),
             self::FIELD_CLIENT_IP => \Yii::$app->getRequest()->getUserIP(),
             self::FIELD_DOMAIN    => \Yii::$app->getRequest()->getHostInfo(),
-            self::FIELD_USERNAME  => \Yii::$app->getUser()->getUsername(),
+            self::FIELD_NICKNAME  => \Yii::$app->getUser()->getNickname(),
             self::FIELD_UID       => \Yii::$app->getUser()->getId(),
         ];
     }
@@ -127,7 +127,7 @@ class ReplaceSetting extends Model
             self::FIELD_NOW_TIME  => '当前时间',
             self::FIELD_NOW_DATE  => '当前日期',
             self::FIELD_CLIENT_IP => '客户IP',
-            self::FIELD_USERNAME  => '登录用户名',
+            self::FIELD_NICKNAME  => '登录用户昵称',
             self::FIELD_UID       => '登录用户UID',
         ];
     }

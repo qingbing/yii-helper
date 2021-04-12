@@ -78,8 +78,8 @@ class OperateLogService
             $query->andWhere(['=', 'uid', $params['uid']]);
         }
         // 用户名
-        if (!empty($params['username'])) {
-            $query->andWhere(['=', 'username', $params['username']]);
+        if (!empty($params['nickname'])) {
+            $query->andWhere(['=', 'nickname', $params['nickname']]);
         }
         // 关键字
         if (!empty($params['keyword'])) {

@@ -11,7 +11,7 @@ CREATE TABLE `{{operate_log}}` (
   `data` json COMMENT '操作的具体内容',
   `ip` varchar(15) NOT NULL DEFAULT '' COMMENT '登录IP',
   `uid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
-  `username` varchar(50) NOT NULL DEFAULT '' COMMENT '用户名',
+  `nickname` varchar(50) NOT NULL DEFAULT '' COMMENT '用户昵称',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
   KEY `idx_type` (`type`),

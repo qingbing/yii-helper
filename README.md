@@ -27,9 +27,9 @@ yii 公用的一些基础类库
 
 ### 封装行为
 1. [模型中客户端IP自动填充行为 : IpBehavior](doc/behaviors/IpBehavior.md)
+1. [模型中登录用户昵称自动填充行为 : NicknameBehavior](doc/behaviors/NicknameBehavior.md)
 1. [模型中客户端日志ID自动填充行为 : TraceIdBehavior](doc/behaviors/TraceIdBehavior.md)
 1. [模型中用户ID自动填充行为 : UidBehavior](doc/behaviors/UidBehavior.md)
-1. [模型中登录用户名自动填充行为 : UsernameBehavior](doc/behaviors/UsernameBehavior.md)
 
 ### 业务功能
 1. [业务功能类-接口参数信息管理 : BusinessInterface](doc/business/BusinessInterface.md)

@@ -12,7 +12,7 @@ use YiiHelper\abstracts\Model;
 use YiiHelper\behaviors\IpBehavior;
 use YiiHelper\behaviors\TraceIdBehavior;
 use YiiHelper\behaviors\UidBehavior;
-use YiiHelper\behaviors\UsernameBehavior;
+use YiiHelper\behaviors\NicknameBehavior;
 
 /**
  * 操作日志抽象类
@@ -41,7 +41,7 @@ abstract class AOperateLog extends Model
     {
         return [
             UidBehavior::class,
-            UsernameBehavior::class,
+            NicknameBehavior::class,
             IpBehavior::class,
             TraceIdBehavior::class
         ];
@@ -59,7 +59,7 @@ abstract class AOperateLog extends Model
             [['keyword'], 'string', 'max' => 100],
             [['message'], 'string', 'max' => 255],
             [['ip'], 'string', 'max' => 15],
-            [['username'], 'string', 'max' => 50],
+            [['nickname'], 'string', 'max' => 50],
         ];
     }
 
@@ -77,7 +77,7 @@ abstract class AOperateLog extends Model
             'data'       => 'Data',
             'ip'         => 'Ip',
             'uid'        => 'Uid',
-            'username'   => 'Username',
+            'nickname'   => 'Nickname',
             'created_at' => 'Created At',
         ];
     }
@@ -87,7 +87,7 @@ abstract class AOperateLog extends Model
      *
      * @param string $type
      * @param string $keyword
-     * @param mixe $data
+     * @param mixed $data
      * @param string $message
      * @return bool
      */

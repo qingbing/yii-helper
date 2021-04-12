@@ -13,18 +13,18 @@ use yii\db\ActiveRecord;
 use YiiHelper\components\User;
 
 /**
- * 模型中登录用户名自动填充行为
+ * 模型中登录用户昵称自动填充行为
  *
- * Class UsernameBehavior
+ * Class NicknameBehavior
  * @package YiiHelper\behaviors
  */
-class UsernameBehavior extends AttributeBehavior
+class NicknameBehavior extends AttributeBehavior
 {
     /**
      * @var array 操作事件及字段定义
      */
     public $attributes = [
-        ActiveRecord::EVENT_BEFORE_INSERT => 'username',
+        ActiveRecord::EVENT_BEFORE_INSERT => 'nickname',
     ];
 
     /**
@@ -39,7 +39,7 @@ class UsernameBehavior extends AttributeBehavior
             if (\Yii::$app->getUser()->getIsGuest() || !\Yii::$app->getUser() instanceof User) {
                 return '';
             }
-            return \Yii::$app->getUser()->getUsername();
+            return \Yii::$app->getUser()->getNickname();
         }
         return parent::getValue($event);
     }
