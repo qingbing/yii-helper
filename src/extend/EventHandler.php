@@ -5,7 +5,7 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\components;
+namespace YiiHelper\extend;
 
 
 use yii\base\Event;

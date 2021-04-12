@@ -5,7 +5,7 @@
     - 应用响应发送前调用 ： beforeResponseSend(Event $event)
     - 应用响应发送后调用 ： beforeResponseSend(Event $event)
 - beforeRequest、afterResponseSend 为设计接口请求日志和接口参数抓取是而使用
-    - 使用时这两个配置要一并配置 components->interfaceLog,参考 [InterfaceLog](InterfaceLog.md)
+    - 使用时这两个配置要一并配置 components->interfaceLog,参考 [InterfaceLog](../components/InterfaceLog.md)
 - afterRequest 暂未启用
 - beforeResponseSend 主要为规范响应输出格式等问题
 
