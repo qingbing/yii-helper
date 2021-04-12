@@ -18,7 +18,6 @@ yii 公用的一些基础类库
 
 
 ### 组件封装
-1. [yii扩展类 : Application](doc/components/Application.md)
 1. [缓存助手 : CacheHelper](doc/components/CacheHelper.md)
 1. [应用事件句柄 : EventHandler](doc/components/EventHandler.md)
 1. [接口及接口日志组件 : InterfaceLog](doc/components/InterfaceLog.md)
@@ -62,6 +61,10 @@ yii 公用的一些基础类库
 
 ### 控制器服务类
 1. [操作日志服务 : OperateLogService](doc/services/OperateLogService.md)
+
+
+### yii扩展类
+1. [yii扩展类 : Application](doc/extend/Application.md)
 
 
 ### 工具类

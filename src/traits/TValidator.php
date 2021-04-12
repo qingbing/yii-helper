@@ -9,7 +9,7 @@ namespace YiiHelper\traits;
 
 
 use YiiHelper\helpers\DynamicModel;
-use Zf\Helper\Exceptions\ParameterException;
+use Zf\Helper\Exceptions\BusinessException;
 
 /**
  * 数据验证片段
@@ -24,7 +24,7 @@ trait TValidator
      *
      * @param array $rules
      * @return array
-     * @throws ParameterException
+     * @throws BusinessException
      * @throws \yii\base\InvalidConfigException
      */
     protected function validateParams($rules = [], $labels = [])
@@ -48,7 +48,7 @@ trait TValidator
      * @param array $rules
      * @param array $labels
      * @return bool
-     * @throws ParameterException
+     * @throws BusinessException
      * @throws \yii\base\InvalidConfigException
      */
     protected function validate(array $data, $rules = [], $labels = [])
@@ -60,7 +60,7 @@ trait TValidator
         if ($model->hasErrors()) {
             // 验证失败
             $error = $model->getErrorSummary(false);
-            throw new ParameterException(reset($error), 10000);
+            throw new BusinessException(reset($error), 10000);
         }
         return true;
     }

@@ -9,7 +9,7 @@ namespace {
     /**
      * Class Yii
      *
-     * @property-read $app \YiiHelper\components\Application
+     * @property-read $app \YiiHelper\extend\Application
      */
     class Yii
     {

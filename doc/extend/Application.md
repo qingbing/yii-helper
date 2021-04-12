@@ -8,5 +8,5 @@
 ```php
 # 修改 /web/index.php（网页入口文件）， 使用 该应用来启动项目
 
-(new \YiiHelper\components\Application($config))->run();
+(new \YiiHelper\extend\Application($config))->run();
 ```

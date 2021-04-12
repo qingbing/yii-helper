@@ -5,7 +5,7 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\components;
+namespace YiiHelper\extend;
 
 
 use yii\base\InvalidRouteException;
@@ -14,7 +14,7 @@ use yii\base\InvalidRouteException;
  * 扩展功能
  *
  * Class Application
- * @package YiiHelper\components
+ * @package YiiHelper\extend
  */
 class Application extends \yii\web\Application
 {

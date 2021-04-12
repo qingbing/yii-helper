@@ -101,11 +101,11 @@ class BusinessInterface
      *
      * @param string $systemAlias
      * @param string $pathInfo
-     * @param array $input
-     * @param array $output
+     * @param array|null $input
+     * @param array|null $output
      * @throws Throwable
      */
-    public static function addInterface(string $systemAlias, string $pathInfo, array $input = [], array $output = [])
+    public static function addInterface(string $systemAlias, string $pathInfo, ?array $input = [], ?array $output = [])
     {
         // 利用事务的形式，写入接口数据
         Yii::$app->getDb()->transaction(function () use ($systemAlias, $pathInfo, $input, $output) {

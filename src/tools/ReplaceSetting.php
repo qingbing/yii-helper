@@ -10,7 +10,7 @@ namespace YiiHelper\tools;
 
 use yii\db\Query;
 use YiiHelper\models\ReplaceSetting as ReplaceSettingAlias;
-use Zf\Helper\Exceptions\RuntimeException;
+use Zf\Helper\Exceptions\BusinessException;
 
 class ReplaceSetting
 {
@@ -19,7 +19,7 @@ class ReplaceSetting
      *
      * @param string $code
      * @return ReplaceSetting
-     * @throws RuntimeException
+     * @throws BusinessException
      */
     public static function getInstance(string $code)
     {
@@ -36,7 +36,7 @@ class ReplaceSetting
      *
      * ReplaceSetting constructor.
      * @param string $code
-     * @throws RuntimeException
+     * @throws BusinessException
      */
     final private function __construct(string $code)
     {
@@ -47,7 +47,7 @@ class ReplaceSetting
                 'code' => $code,
             ])->one();
         if (false === $record) {
-            throw new RuntimeException(replace('找不到替换模版"{code}"', [
+            throw new BusinessException(replace('找不到替换模版"{code}"', [
                 '{code}' => $code,
             ]), 1000);
         }
