@@ -20,10 +20,10 @@ use YiiHelper\behaviors\NicknameBehavior;
  * 2. 继承时需要实现日志支持类型:types()
  * 3. db-sql 参考 sql/operate_log.sql
  *
- * Class AOperateLog
+ * Class OperateLog
  * @package YiiHelper\models\abstracts
  */
-abstract class AOperateLog extends Model
+abstract class OperateLog extends Model
 {
     const TYPE_LOGIN = 'login';
 

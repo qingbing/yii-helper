@@ -57,7 +57,7 @@ yii 公用的一些基础类库
 1. [接口信息 : Interfaces](doc/models/Interfaces.md)
 1. [接口系统 : InterfaceSystem](doc/models/InterfaceSystem.md)
 1. [替换配置 : ReplaceSetting](doc/models/ReplaceSetting.md)
-1. [操作日志抽象类 : AOperateLog](doc/models/abstracts/AOperateLog.md)
+1. [操作日志抽象类 : OperateLog](doc/models/abstracts/OperateLog.md)
 
 
 ### 控制器服务类

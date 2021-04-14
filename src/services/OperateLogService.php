@@ -11,7 +11,7 @@ namespace YiiHelper\services;
 use Exception;
 use YiiHelper\abstracts\Service;
 use YiiHelper\helpers\Pager;
-use YiiHelper\models\abstracts\AOperateLog;
+use YiiHelper\models\abstracts\OperateLog;
 use Zf\Helper\Exceptions\BusinessException;
 
 /**
@@ -20,22 +20,22 @@ use Zf\Helper\Exceptions\BusinessException;
  * Class OperateLogService
  * @package YiiHelper\services
  *
- * @property-write AOperateLog $newModel
+ * @property-write OperateLog $newModel
  */
 class OperateLogService extends Service
 {
     /**
-     * @var AOperateLog
+     * @var OperateLog
      */
     protected $newModel;
 
     /**
      * 设置日志模型
      *
-     * @param AOperateLog $newModel
+     * @param OperateLog $newModel
      * @return $this
      */
-    public function setNewModel(AOperateLog $newModel)
+    public function setNewModel(OperateLog $newModel)
     {
         $this->newModel = $newModel;
         return $this;
@@ -99,7 +99,7 @@ class OperateLogService extends Service
      * 获取日志详情
      *
      * @param mixed $id
-     * @return AOperateLog|null
+     * @return OperateLog|null
      * @throws Exception
      */
     public function view($id)
@@ -111,7 +111,7 @@ class OperateLogService extends Service
      * 获取替换配置
      *
      * @param int $id
-     * @return AOperateLog|null
+     * @return OperateLog|null
      * @throws Exception
      */
     protected function getModel($id)

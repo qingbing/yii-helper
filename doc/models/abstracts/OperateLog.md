@@ -1,4 +1,4 @@
-# 操作日志抽象类 AOperateLog
+# 操作日志抽象类 OperateLog
 - 抽象类
 - 继承必须指定使用的数据库名 public static function tableName(){}
 - 必须指定支持的日志类型 public static function types(){}
@@ -15,7 +15,7 @@
  * Class OperateLog
  * @package app\models
  */
-class OperateLog extends AOperateLog
+class OperateLog extends \YiiHelper\models\abstracts\OperateLog
 {
     const TYPE_LOGIN = 'login';
     const TYPE_USER  = 'user';
