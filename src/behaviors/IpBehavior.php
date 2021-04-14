@@ -10,6 +10,7 @@ namespace YiiHelper\behaviors;
 
 use yii\behaviors\AttributeBehavior;
 use yii\db\ActiveRecord;
+use YiiHelper\helpers\Req;
 
 /**
  * 模型中客户端IP自动填充行为
@@ -36,7 +37,7 @@ class IpBehavior extends AttributeBehavior
     protected function getValue($event)
     {
         if (null === $this->value) {
-            return \Yii::$app->getRequest()->getUserIP();
+            return Req::getUserIp();
         }
         return parent::getValue($event);
     }

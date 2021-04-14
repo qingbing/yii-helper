@@ -25,6 +25,8 @@ use YiiHelper\behaviors\NicknameBehavior;
  */
 abstract class AOperateLog extends Model
 {
+    const TYPE_LOGIN = 'login';
+
     /**
      * 获取所有日志类型
      *

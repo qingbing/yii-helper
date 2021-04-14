@@ -9,6 +9,7 @@ namespace YiiHelper\services;
 
 
 use Exception;
+use YiiHelper\abstracts\Service;
 use YiiHelper\helpers\Pager;
 use YiiHelper\models\ReplaceSetting;
 use Zf\Helper\Exceptions\BusinessException;
@@ -19,7 +20,7 @@ use Zf\Helper\Exceptions\BusinessException;
  * Class ReplaceSettingService
  * @package YiiHelper\services
  */
-class ReplaceSettingService
+class ReplaceSettingService extends Service
 {
     /**
      * @var ReplaceSetting

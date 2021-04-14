@@ -9,6 +9,7 @@ namespace YiiHelper\models;
 
 
 use YiiHelper\abstracts\Model;
+use YiiHelper\helpers\Req;
 use Zf\Helper\Format;
 
 /**
@@ -109,7 +110,7 @@ class ReplaceSetting extends Model
         return [
             self::FIELD_NOW_TIME  => Format::datetime(),
             self::FIELD_NOW_DATE  => Format::date(),
-            self::FIELD_CLIENT_IP => \Yii::$app->getRequest()->getUserIP(),
+            self::FIELD_CLIENT_IP => Req::getUserIp(),
             self::FIELD_DOMAIN    => \Yii::$app->getRequest()->getHostInfo(),
             self::FIELD_NICKNAME  => \Yii::$app->getUser()->getNickname(),
             self::FIELD_UID       => \Yii::$app->getUser()->getId(),

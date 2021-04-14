@@ -74,6 +74,8 @@ class ErrorHandler extends \yii\web\ErrorHandler
 
         // 发送响应
         $response->send();
+
+        // 记录错误或异常日志
         Yii::error([
             'type'    => get_class($exception),
             'file'    => $exception->getFile(),
@@ -81,6 +83,7 @@ class ErrorHandler extends \yii\web\ErrorHandler
             'Line'    => $exception->getLine(),
             'message' => $exception->getMessage(),
             'Trace'   => $exception->getTraceAsString(),
-        ], 'zf');
+        ], ($exception instanceof \Error || $exception instanceof \ErrorException)
+            ? 'custom.error' : 'custom.exception');
     }
 }

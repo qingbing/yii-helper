@@ -10,6 +10,7 @@ namespace YiiHelper\extend;
 
 use yii\base\Event;
 use yii\web\Response;
+use Zf\Helper\ReqHelper;
 
 /**
  * Class EventHandler
@@ -60,12 +61,6 @@ class EventHandler
         if (!in_array($response->getStatusCode(), [200, 302])) {
             // error
             $response->format = Response::FORMAT_JSON;
-            if (YII_DEBUG) {
-                $response->data = \YiiHelper\helpers\Response::getInstance()
-                    ->setMsg($response->statusText)
-                    ->setCode($response->statusCode)
-                    ->output(null);
-            }
         } else if (is_array($response->data)) {
             $response->format = Response::FORMAT_JSON;
         } else if (is_string($response->data)) {
@@ -77,6 +72,9 @@ class EventHandler
                 ->setCode(0)
                 ->output($response->data);
         }
+        // 在响应中添加 trace-id
+        $response->getHeaders()
+            ->add('x-trace-id', ReqHelper::getTraceId());
     }
 
     /**

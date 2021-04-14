@@ -9,6 +9,7 @@ namespace YiiHelper\services;
 
 
 use Exception;
+use YiiHelper\abstracts\Service;
 use YiiHelper\helpers\Pager;
 use YiiHelper\models\abstracts\AOperateLog;
 use Zf\Helper\Exceptions\BusinessException;
@@ -21,7 +22,7 @@ use Zf\Helper\Exceptions\BusinessException;
  *
  * @property-write AOperateLog $newModel
  */
-class OperateLogService
+class OperateLogService extends Service
 {
     /**
      * @var AOperateLog

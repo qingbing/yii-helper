@@ -14,9 +14,9 @@ use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\web\Application;
 use yii\web\HeaderCollection;
-use yii\web\Request;
 use yii\web\Response;
 use YiiHelper\business\BusinessInterface;
+use YiiHelper\helpers\Req;
 use YiiHelper\models\InterfaceLogs;
 use Zf\Helper\DataStore;
 use Zf\Helper\ReqHelper;
@@ -56,7 +56,7 @@ class InterfaceLog extends Component
     ];
 
     /**
-     * @var Request
+     * @var yii\web\Request
      */
     protected $request;
     /**
@@ -217,7 +217,7 @@ class InterfaceLog extends Component
             'trace_id'     => ReqHelper::getTraceId(),
             'interface_id' => $interfaceInfo['id'],
             'method'       => $this->request->getMethod(),
-            'client_ip'    => $this->request->getUserIP(),
+            'client_ip'    => Req::getUserIp(),
             'request_data' => DataStore::get($this->getStoreKey()),
             'is_intercept' => 0,
             'is_success'   => 0,
