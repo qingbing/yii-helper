@@ -15,6 +15,7 @@ yii 公用的一些基础类库
 1. [控制台基类 : ConsoleController](doc/abstracts/ConsoleController.md)
 1. [db-model基类 : Model](doc/abstracts/Model.md)
 1. [控制器基类 : RestController](doc/abstracts/RestController.md)
+1. [服务基类 : Service](doc/abstracts/Service.md)
 
 
 ### 组件封装
@@ -80,6 +81,9 @@ yii 公用的一些基础类库
 
 ### 片段
 1. [yii-validator扩展验证数据类型为json字符串 : JsonValidator](doc/validators/JsonValidator.md)
+1. [yii-validator扩展验证数据是否是手机号码 : MobileValidator](doc/validators/MobileValidator.md)
+1. [yii-validator扩展验证数据是否是姓名 : NameValidator](doc/validators/NameValidator.md)
+1. [yii-validator扩展验证数据是否是用户名格式 : UsernameValidator](doc/validators/UsernameValidator.md)
 
 
 # ====== 组件编号 102 ======
