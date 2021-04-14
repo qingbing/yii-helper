@@ -37,6 +37,9 @@ yii 公用的一些基础类库
 1. [健康状态控制器 : HealthController](doc/controllers/HealthController.md)
 1. [替换模版 : ReplaceSettingController](doc/controllers/ReplaceSettingController.md)
 
+#### 抽象控制器
+1. [用户登录相关接口 : LoginController](doc/controllers/abstracts/LoginController.md)
+
 
 ### 过滤器
 1. [Action过滤器 : ActionFilter](doc/filters/ActionFilter.md)
@@ -51,17 +54,32 @@ yii 公用的一些基础类库
 
 ### 模型类
 
-#### 抽象模型
+#### 模型
 1. [接口参数字段 : InterfaceFields](doc/models/InterfaceFields.md)
 1. [接口日志 : InterfaceLogs](doc/models/InterfaceLogs.md)
 1. [接口信息 : Interfaces](doc/models/Interfaces.md)
 1. [接口系统 : InterfaceSystem](doc/models/InterfaceSystem.md)
 1. [替换配置 : ReplaceSetting](doc/models/ReplaceSetting.md)
+
+##### 抽象模型
 1. [操作日志抽象类 : OperateLog](doc/models/abstracts/OperateLog.md)
+1. [用户模型 : User](doc/models/abstracts/User.md)
+1. [用户账户模型 : UserAccount](doc/models/abstracts/UserAccount.md)
 
 
 ### 控制器服务类
-1. [操作日志服务 : OperateLogService](doc/services/OperateLogService.md)
+
+#### 服务抽象类
+1. [操作日志服务 : OperateLogService](doc/services/abstracts/OperateLogService.md)
+
+#### 登录服务
+1. [通过邮箱登录 : LoginByEmail](doc/services/login/LoginByEmail.md)
+1. [通过手机号登录 : LoginByMobile](doc/services/login/LoginByMobile.md)
+1. [通过姓名登录 : LoginByName](doc/services/login/LoginByName.md)
+1. [通过用户名登录 : LoginByUsername](doc/services/login/LoginByUsername.md)
+
+##### 抽象
+1. [账户登录基类 : LoginBase](doc/services/login/abstracts/LoginBase.md)
 
 
 ### yii扩展类

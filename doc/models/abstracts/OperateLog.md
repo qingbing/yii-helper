@@ -1,4 +1,5 @@
 # 操作日志抽象类 OperateLog
+- table : {{operate_log}}
 - 抽象类
 - 继承必须指定使用的数据库名 public static function tableName(){}
 - 必须指定支持的日志类型 public static function types(){}

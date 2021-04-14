@@ -1,3 +1,12 @@
 # 扩展用户登录组件 User
 - 继承 \yii\web\User
-- 增加抽象方法获取登录用户名 getUsername()
+- 配置属性
+    - operateClass : 操作日志类名 "\app\models\OperateLog::class"
+    - multiLogin : 统一账号是否允许多处登录, 默认 false
+    - loginTypes ： 支持的登录账户方式，默认
+- 增加抽象方法获取登录用户名 getNickname()
+- 获取登录账号信息（用户登录后有效） ： getUserAccount()
+- 扩展理解
+    - beforeLogin($identity, $cookieBased, $duration) ： 辅助添加了多机控制，登录账号类型、登录账号标记
+    - afterLogin($identity, $cookieBased, $duration) ： 更新账户信息、用户信息，添加登录日志
+    - beforeLogout($identity) ： 添加退出日志
