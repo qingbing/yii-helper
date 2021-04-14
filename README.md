@@ -5,6 +5,9 @@ yii 公用的一些基础类库
 ## 功能集
 1. [完整功能 ： 健康（应用心跳）探测](doc/features/1.health.md)
 1. [完整功能 ： 替换配置](doc/features/2.replace-setting.md)
+1. [完整功能 ： 操作日志](doc/features/3.operate-log.md)
+1. [完整功能 ： 接口日志管理](doc/features/4.interface-log.md)
+1. [完整功能 ： 账户登录](doc/features/5.login.md)
 
 
 ## 文档链接
