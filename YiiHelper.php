@@ -6,13 +6,29 @@
  */
 
 namespace {
+
+    use YiiHelper\extend\Application;
+
     /**
      * Class Yii
      *
-     * @property-read $app \YiiHelper\extend\Application
+     * @property-read $app Application
      */
     class Yii
     {
+        /**
+         * @var Application
+         */
+        public static $app;
+
+        /**
+         * @return Application
+         * @throws \yii\base\InvalidConfigException
+         */
+        public static function app(): Application
+        {
+            return new Application();
+        }
     }
 }
 
@@ -52,7 +68,7 @@ namespace yii\web {
 }
 
 
-namespace YiiHelper\components {
+namespace YiiHelper\extend {
     /**
      * Class Application
      * @package YiiHelper\components

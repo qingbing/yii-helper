@@ -24,8 +24,10 @@ CREATE TABLE `pub_interface_system` (
 
 insert into `pub_interface_system`
 ( `alias`, `name`, `description`, `uri_prefix`, `rule`, `ext`, `is_enable`, `is_continue`, `is_record_field`, `is_open_log`, `sort_order`) values
-( 'portal', '门户', '门户网站', '', 'inner', null, '1', '1', '1', '1', '127'),
-( 'admin', '后台', '后台', '', 'inner', null, '1', '1', '1', '1', '0');
+( 'program', '程序员后台', '程序员配置后台程序', '', 'inner', null, '1', '1', '1', '1', '127'),
+( 'portal', '后台门户', '后台各系统统一入口转发', '', 'inner', null, '1', '1', '1', '1', '127'),
+( 'admin', '管理员后台', '管理员配置后台程序', '', 'inner', null, '1', '1', '1', '1', '127'),
+( 'site', '前台网站', '网站主页', '', 'inner', null, '1', '1', '1', '1', '127');
 
 -- ----------------------------
 --  Table structure for `pub_interfaces`

@@ -125,22 +125,10 @@ class InterfaceLog extends Component
      */
     protected function releasePath()
     {
-        $pathInfo = $this->request->getPathInfo();
-        $pos      = strpos($pathInfo, '/');
-        if (empty($pathInfo)) {
-            $systemAlias  = $this->defaultSystem;
-            $realPathInfo = '';
-        } else if (false === $pos) {
-            $systemAlias  = $pathInfo;
-            $realPathInfo = '';
-        } else {
-            $systemAlias  = substr($pathInfo, 0, $pos);
-            $realPathInfo = substr($pathInfo, $pos + 1);
-        }
-        $this->_systemAlias   = $systemAlias;
-        $this->_realPathInfo  = $realPathInfo;
-        $this->_systemInfo    = BusinessInterface::getSystem($systemAlias);
-        $this->_interfaceInfo = BusinessInterface::getSystemInterface($systemAlias, $realPathInfo);
+        $this->_systemAlias   = Yii::$app->getSystemAlias();
+        $this->_realPathInfo  = $this->request->getPathInfo();
+        $this->_systemInfo    = BusinessInterface::getSystem($this->_systemAlias);
+        $this->_interfaceInfo = BusinessInterface::getSystemInterface($this->_systemAlias, $this->_realPathInfo);
     }
 
     /**

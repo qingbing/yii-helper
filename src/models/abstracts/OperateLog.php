@@ -15,6 +15,18 @@ use YiiHelper\behaviors\UidBehavior;
 use YiiHelper\behaviors\NicknameBehavior;
 
 /**
+ * @property int $id 自增ID
+ * @property string $trace_id 客户端日志ID
+ * @property string $system_alias 系统别名
+ * @property string $type 操作类型-用字符串描述
+ * @property string $keyword 关键字，用于后期筛选
+ * @property string $message 操作消息
+ * @property string|null $data 操作的具体内容
+ * @property string $ip 登录IP
+ * @property int $uid 用户ID
+ * @property string $nickname 用户昵称
+ * @property string $created_at 创建时间
+ *
  * 操作日志抽象类
  * 1. 继承时需要定义日志表名
  * 2. 继承时需要实现日志支持类型:types()
@@ -35,6 +47,13 @@ abstract class OperateLog extends Model
     abstract public static function types();
 
     /**
+     * 返回日志所在系统
+     *
+     * @return string
+     */
+    abstract static protected function getSystemAlias(): string;
+
+    /**
      * 绑定 behavior
      *
      * @return array
@@ -52,16 +71,24 @@ abstract class OperateLog extends Model
     /**
      * {@inheritdoc}
      */
+    public static function tableName()
+    {
+        return 'pub_operate_log';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function rules()
     {
         return [
             [['data', 'created_at'], 'safe'],
             [['uid'], 'integer'],
-            [['type', 'trace_id'], 'string', 'max' => 32],
+            [['trace_id', 'type'], 'string', 'max' => 32],
+            [['system_alias', 'nickname'], 'string', 'max' => 50],
             [['keyword'], 'string', 'max' => 100],
             [['message'], 'string', 'max' => 255],
             [['ip'], 'string', 'max' => 15],
-            [['nickname'], 'string', 'max' => 50],
         ];
     }
 
@@ -71,16 +98,17 @@ abstract class OperateLog extends Model
     public function attributeLabels()
     {
         return [
-            'id'         => 'ID',
-            'trace_id'   => 'Trace Id',
-            'type'       => 'Type',
-            'keyword'    => 'Keyword',
-            'message'    => 'Message',
-            'data'       => 'Data',
-            'ip'         => 'Ip',
-            'uid'        => 'Uid',
-            'nickname'   => 'Nickname',
-            'created_at' => 'Created At',
+            'id'           => '自增ID',
+            'trace_id'     => '客户端日志ID',
+            'system_alias' => '系统别名',
+            'type'         => '操作类型-用字符串描述',
+            'keyword'      => '关键字，用于后期筛选',
+            'message'      => '操作消息',
+            'data'         => '操作的具体内容',
+            'ip'           => '登录IP',
+            'uid'          => '用户ID',
+            'nickname'     => '用户昵称',
+            'created_at'   => '创建时间',
         ];
     }
 
@@ -96,10 +124,11 @@ abstract class OperateLog extends Model
     public static function add(string $type, $data, string $keyword = '', string $message = '')
     {
         $data = [
-            'type'    => $type, // 操作类型-用字符串描述
-            'keyword' => $keyword, // 关键字，用于后期筛选
-            'message' => $message, // 操作消息
-            'data'    => $data, // 操作的具体内容
+            'system_alias' => static::getSystemAlias(),
+            'type'         => $type, // 操作类型-用字符串描述
+            'keyword'      => $keyword, // 关键字，用于后期筛选
+            'message'      => $message, // 操作消息
+            'data'         => $data, // 操作的具体内容
         ];
 
         $model = new static();
