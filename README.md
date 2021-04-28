@@ -2,6 +2,9 @@
 ## 版本控制
 - 1.0.3
     - 调整控制器中$this->validateParams在验证的同时获取验证规则字段中的值
+- 1.0.?
+    - 添加一些常规的数据类型验证（contact/fax/idCard/mobile/phone/password/zipCode等）
+
 
 ## 描述
 yii 公用的一些基础类库
@@ -105,10 +108,17 @@ yii 公用的一些基础类库
 
 
 ### 片段
+1. [yii-validator扩展验证数据是否是联系方式(手机或座机) : ContactValidator](doc/validators/ContactValidator.md)
+1. [yii-validator扩展验证数据是否是传真号码 : FaxValidator](doc/validators/FaxValidator.md)
+1. [yii-validator扩展验证数据是否是身份证号码 : IdCardValidator](doc/validators/IdCardValidator.md)
 1. [yii-validator扩展验证数据类型为json字符串 : JsonValidator](doc/validators/JsonValidator.md)
 1. [yii-validator扩展验证数据是否是手机号码 : MobileValidator](doc/validators/MobileValidator.md)
 1. [yii-validator扩展验证数据是否是姓名 : NameValidator](doc/validators/NameValidator.md)
+1. [yii-validator扩展验证数据是否是密码格式 : PasswordValidator](doc/validators/PasswordValidator.md)
+1. [yii-validator扩展验证数据是否是座机号码 : PhoneValidator](doc/validators/PhoneValidator.md)
+1. [yii-validator扩展验证数据是否是qq号码 : QqValidator](doc/validators/QqValidator.md)
 1. [yii-validator扩展验证数据是否是用户名格式 : UsernameValidator](doc/validators/UsernameValidator.md)
+1. [yii-validator扩展验证数据是否是用户名格式 : ZipCodeValidator](doc/validators/ZipCodeValidator.md)
 
 
 # ====== 组件编号 102 ======
