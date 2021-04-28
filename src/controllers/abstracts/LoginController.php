@@ -52,27 +52,20 @@ abstract class LoginController extends RestController
      */
     public function actionSignIn()
     {
-        // 校验规则
-        $rules = [
-            [['account', 'password'], 'required'],
-        ];
-        $type  = $this->getParam('type', 'email');
+        // 登录类型获取
+        $type = $this->getParam('type', 'email');
         if (!isset($this->accountRules[$type]) || !in_array($type, Yii::$app->getUser()->loginTypes)) {
             throw new BusinessException('不支持的登录方式');
         }
-        $rules[] = $this->accountRules[$type];
-        // 参数校验
-        $this->validateParams($rules, [
-            'type'     => '登录类型',
-            'account'  => '登录账户',
-            'password' => '登录密码',
-        ]);
-        // 参数获取
-        $params = [
-            'type'     => $type,
-            'account'  => $this->getParam('account'),
-            'password' => $this->getParam('password'),
+        // 校验规则组装
+        $rules = [
+            ['account', 'required', 'label' => '登录账户'],
+            ['password', 'required', 'label' => '登录密码'],
+            ['type', 'safe', 'label' => '登录类型'],
         ];
+        array_push($rules, $this->accountRules[$type]);
+        // 参数校验并获取规则字段
+        $params = $this->validateParams($rules);
         // 数据处理
         $res = $this->service->signIn($params);
         //结果返回渲染
@@ -91,5 +84,32 @@ abstract class LoginController extends RestController
         $res = $this->service->signOut();
         //结果返回渲染
         return $this->success($res, '退出成功');
+    }
+
+    /**
+     * 判断是否用户登录
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function actionIsLogin()
+    {
+        // 数据获取
+        $isLogin = !Yii::$app->getUser()->getIsGuest();
+        //结果返回渲染
+        return $this->success($isLogin, 'ok');
+    }
+
+    /**
+     * 支持的登录类型
+     * @return array
+     * @throws Exception
+     */
+    public function actionGetSupportTypes()
+    {
+        // 数据获取
+        $res = $this->service->getSupportTypes();
+        //结果返回渲染
+        return $this->success($res, 'ok');
     }
 }

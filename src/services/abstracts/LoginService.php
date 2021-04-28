@@ -55,6 +55,13 @@ abstract class LoginService extends Service
     abstract public function getUser($uid): User;
 
     /**
+     * 获取支持的登录类型
+     *
+     * @return array
+     */
+    abstract public function getSupportTypes(): array;
+
+    /**
      * 账户登录
      *
      * @param array $params

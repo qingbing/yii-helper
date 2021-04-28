@@ -8,6 +8,7 @@
 namespace YiiHelper\traits;
 
 
+use yii\base\InvalidConfigException;
 use YiiHelper\helpers\DynamicModel;
 use Zf\Helper\Exceptions\BusinessException;
 
@@ -20,43 +21,49 @@ use Zf\Helper\Exceptions\BusinessException;
 trait TValidator
 {
     /**
-     * 将参数放入验证规则进行规则验证
+     * 将参数放入验证规则进行规则验证，并返回规则字段的值
      *
      * @param array $rules
-     * @return array
+     * @param array|null $data
+     * @return array|bool
      * @throws BusinessException
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
-    protected function validateParams($rules = [], $labels = [])
+    protected function validateParams($rules = [], ?array $data = null)
     {
         // 数据获取
         $request = \Yii::$app->getRequest();
-        $data    = array_merge($request->getQueryParams(), $request->getBodyParams());
+        if (null === $data) {
+            $data = array_merge($request->getQueryParams(), $request->getBodyParams());
+        }
         if (empty($rules)) {
-            return $data;
+            return [];
         }
         // 验证并返回数据
-        if ($this->validate($data, $rules, $labels)) {
-            return $data;
+        $model = DynamicModel::validateData($data, $rules);
+        if ($model->hasErrors()) {
+            // 验证失败
+            $error = $model->getErrorSummary(false);
+            throw new BusinessException(reset($error), 10000);
         }
+        return $model->values;
     }
 
     /**
-     * 动态验证数据
+     * 通过规则验证数据，返回是否通过
      *
      * @param array $data
      * @param array $rules
-     * @param array $labels
      * @return bool
      * @throws BusinessException
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
-    protected function validate(array $data, $rules = [], $labels = [])
+    protected function validate(array $data, $rules = [])
     {
         if (empty($rules)) {
             return true;
         }
-        $model = DynamicModel::validateData($data, $rules, $labels);
+        $model = DynamicModel::validateData($data, $rules);
         if ($model->hasErrors()) {
             // 验证失败
             $error = $model->getErrorSummary(false);

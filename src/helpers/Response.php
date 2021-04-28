@@ -66,7 +66,7 @@ class Response extends Singleton
             'time' => Format::microDatetime(),
             'code' => $this->_code,
             'msg'  => $this->_msg,
-            'res'  => $data,
+            'data'  => $data,
         ];
     }
 

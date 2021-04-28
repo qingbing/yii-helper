@@ -22,37 +22,78 @@ use yii\validators\Validator;
 class DynamicModel extends \yii\base\DynamicModel
 {
     /**
+     * @var array 保存验证规则字段的值
+     */
+    public $values = [];
+
+    /**
      * 根据动态给定规则验证数据
      *
      * @param array $data
      * @param array $rules
-     * @param array $labels
-     * @return \yii\base\DynamicModel
+     * @return $this
      * @throws InvalidConfigException
      */
-    public static function validateData(array $data, $rules = [], array $labels = [])
+    public static function validateData(array $data, $rules = [])
     {
-        if (0 === count($labels)) {
-            return parent::validateData($data, $rules);
-        }
-        /* @var $model \yii\base\DynamicModel */
-        $model = new static($data);
-        $model->setAttributeLabels($labels);
+        $model  = new static($data);
+        $values = $labels = [];
         if (!empty($rules)) {
             $validators = $model->getValidators();
             foreach ($rules as $rule) {
                 if ($rule instanceof Validator) {
                     $validators->append($rule);
                 } elseif (is_array($rule) && isset($rule[0], $rule[1])) { // attributes, validator type
-                    $validator = Validator::createValidator($rule[1], $model, (array)$rule[0], array_slice($rule, 2));
+                    $fields = (array)$rule[0];
+                    self::getLabelValue($data, $fields, $rule, $values, $labels);
+                    $validator = Validator::createValidator($rule[1], $model, $fields, array_slice($rule, 2));
                     $validators->append($validator);
                 } else {
                     throw new InvalidConfigException('Invalid validation rule: a rule must specify both attribute names and validator type.');
                 }
             }
         }
+        $model->setAttributeLabels($labels);
         $model->validate();
+        $model->values = $values;
         return $model;
+    }
+
+    /**
+     * 获取规则中的label，提取数据中的规则字段值，若无，则返回规则中的default或null
+     *
+     * @param array $data
+     * @param array $names
+     * @param array $rule
+     * @param array $values
+     * @param array $labels
+     */
+    protected static function getLabelValue(array $data, array $names, array &$rule, array &$values, array &$labels)
+    {
+        foreach ($names as $name) {
+            // label 获取
+            if (isset($rule['label'])) {
+                $labels[$name] = $rule['label'];
+                unset($rule['label']);
+            }
+            // defaultValue 获取
+            if (isset($rule['default'])) {
+                if (false !== strpos($name, '.')) {
+                    list($prefix, $key) = explode('.', $name, 2);
+                    $values[$prefix][$key] = isset($data[$prefix][$key]) ? $data[$prefix][$key] : $rule['default'];
+                } else {
+                    $values[$name] = isset($data[$name]) ? $data[$name] : $rule['default'];
+                }
+                unset($rule['default']);
+            } else {
+                if (false !== strpos($name, '.')) {
+                    list($prefix, $key) = explode('.', $name, 2);
+                    $values[$prefix][$key] = isset($data[$prefix][$key]) ? $data[$prefix][$key] : null;
+                } else {
+                    $values[$name] = isset($data[$name]) ? $data[$name] : null;
+                }
+            }
+        }
     }
 
     /**

@@ -33,16 +33,14 @@ abstract class UserAccount extends Model
      * 支持的登录类型
      *
      * @return array
+     *  return [
+     *      self::TYPE_USERNAME => '用户名',
+     *      self::TYPE_EMAIL    => '邮箱',
+     *      self::TYPE_MOBILE   => '手机号',
+     *      self::TYPE_NAME     => '姓名',
+     *  ];
      */
-    public static function types()
-    {
-        return [
-            self::TYPE_USERNAME => '用户名',
-            self::TYPE_EMAIL    => '邮箱',
-            self::TYPE_MOBILE   => '手机号',
-            self::TYPE_NAME     => '姓名',
-        ];
-    }
+    abstract public static function types(): array;
 
     /**
      * {@inheritdoc}

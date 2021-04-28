@@ -10,32 +10,23 @@
 
 ## test 代码
 ```php
-$data   = [
+$data  = [
     'people' => [
-        'name' => "user",
-        'sex'  => "na",
+        'name' => "ur",
+        'sex'  => "nan",
     ],
     'id'     => 5,
 ];
-$rules  = [
+$rules = [
     [['people.name', 'id'], 'required'],
-    ['people.name', 'string', 'max' => 2],
-    ['people.sex', 'in', 'range' => ['nan', 'nv']],
+    ['people.name', 'string', 'label' => '姓名', 'max' => 2],
+    ['people.sex', 'in', 'label' => '性别', 'default' => 'nv', 'range' => ['nan', 'nv']],
     ['id', 'integer'],
 ];
-$labels    = [
-    'people' => [
-        'name' => "姓名",
-        'sex'  => "性别",
-    ]
-];
-// 或者,推荐
-$labels = [
-    'people.name' => "姓名",
-    'people.sex'  => "性别",
-];
-$validator = DynamicModel::validateData($data, $rules, $labels);
-if ($validator->validate()) {
+$validator = DynamicModel::validateData($data, $rules);
+if ($validateData = $validator->validate()) {
+    var_dump($validator->values);
+    var_dump($validateData);
     var_dump(222);
 } else {
     var_dump(111);
@@ -51,6 +42,21 @@ if ($validator->validate()) {
 ## test 结果
 
 ```text
+array(2) {
+  ["people"]=>
+  array(2) {
+    ["name"]=>
+    string(2) "ur"
+    ["sex"]=>
+    string(3) "nan"
+  }
+  ["id"]=>
+  int(5)
+}
+bool(true)
+int(222)
+
+# 其它提示信息参考
 int(111)
 string(14) "people.sex : 1"
 string(15) "people.name : 1"
