@@ -4,8 +4,10 @@ namespace YiiHelper\models\abstracts;
 
 use Yii;
 use yii\base\NotSupportedException;
+use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use YiiHelper\abstracts\Model;
+use YiiHelper\behaviors\DefaultBehavior;
 
 /**
  * This is the model class for table "pro_user".
@@ -92,6 +94,33 @@ abstract class User extends Model implements IdentityInterface
             'register_ip'     => '注册IP',
             'register_at'     => '注册时间',
             'updated_at'      => '更新时间',
+        ];
+    }
+
+    /**
+     * 绑定 behavior
+     *
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class'      => DefaultBehavior::class,
+                'type'       => DefaultBehavior::TYPE_DATE,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['birthday'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['birthday'],
+                ],
+            ],
+            [
+                'class'      => DefaultBehavior::class,
+                'type'       => DefaultBehavior::TYPE_DATETIME,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['expire_begin_at', 'expire_end_at', 'last_login_at',],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['expire_begin_at', 'expire_end_at', 'last_login_at',],
+                ],
+            ],
         ];
     }
 

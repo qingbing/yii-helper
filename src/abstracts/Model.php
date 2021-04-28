@@ -20,4 +20,14 @@ abstract class Model extends ActiveRecord
 {
     // 使用 保存片段
     use TSave;
+
+    /**
+     * 获取模型属性标签
+     *
+     * @return array
+     */
+    public static function getAttributeLabels()
+    {
+        return (new static())->attributeLabels();
+    }
 }

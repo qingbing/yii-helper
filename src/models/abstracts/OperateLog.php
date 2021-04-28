@@ -99,12 +99,12 @@ abstract class OperateLog extends Model
     {
         return [
             'id'           => '自增ID',
-            'trace_id'     => '客户端日志ID',
+            'trace_id'     => '日志ID',
             'system_alias' => '系统别名',
-            'type'         => '操作类型-用字符串描述',
-            'keyword'      => '关键字，用于后期筛选',
+            'type'         => '操作类型',
+            'keyword'      => '关键字',
             'message'      => '操作消息',
-            'data'         => '操作的具体内容',
+            'data'         => '操作内容',
             'ip'           => '登录IP',
             'uid'          => '用户ID',
             'nickname'     => '用户昵称',

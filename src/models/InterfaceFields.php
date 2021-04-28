@@ -59,16 +59,16 @@ class InterfaceFields extends Model
     {
         return [
             'id'              => '自增ID',
-            'interface_alias' => '接口别名：systemAlias+uri_path',
-            'parent_alias'    => '上级字段别名:interfaceFieldsAlias',
+            'interface_alias' => '接口别名',
+            'parent_alias'    => '上级字段别名',
             'field'           => '字段名',
-            'alias'           => '字段别名:interfaceAlias+parentAlias+field',
+            'alias'           => '字段别名',
             'name'            => '字段意义',
-            'type'            => '字段类型[input,output]',
-            'data_area'       => '字段区域[header,file,get,post]',
-            'data_type'       => '数据类型[integer|float|boolean|string|object|array|items]',
+            'type'            => '字段类型',
+            'data_area'       => '字段区域',
+            'data_type'       => '数据类型',
             'description'     => '描述',
-            'is_required'     => '是否必填[0:否; 1:是]',
+            'is_required'     => '是否必填',
             'created_at'      => '创建时间',
             'updated_at'      => '更新时间',
         ];

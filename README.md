@@ -4,6 +4,7 @@
     - 调整控制器中$this->validateParams在验证的同时获取验证规则字段中的值
 - 1.0.?
     - 添加一些常规的数据类型验证（contact/fax/idCard/mobile/phone/password/zipCode等）
+    - 增加了一个默认值行为 DefaultBehavior
 
 
 ## 描述
@@ -35,6 +36,7 @@ yii 公用的一些基础类库
 
 
 ### 封装行为
+1. [默认值填充 : DefaultBehavior](doc/behaviors/DefaultBehavior.md)
 1. [模型中客户端IP自动填充行为 : IpBehavior](doc/behaviors/IpBehavior.md)
 1. [模型中登录用户昵称自动填充行为 : NicknameBehavior](doc/behaviors/NicknameBehavior.md)
 1. [模型中客户端日志ID自动填充行为 : TraceIdBehavior](doc/behaviors/TraceIdBehavior.md)
