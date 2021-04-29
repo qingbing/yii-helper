@@ -88,7 +88,7 @@ abstract class UserAccount extends Model
      * @return string
      * @throws \yii\base\Exception
      */
-    protected function generatePassword(string $pass)
+    public function generatePassword(string $pass)
     {
         return Yii::$app->getSecurity()->generatePasswordHash($pass);
     }
