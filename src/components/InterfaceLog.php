@@ -199,7 +199,6 @@ class InterfaceLog extends Component
 
         $this->_logging = true;
         // 系统和接口信息都有，记录日志
-        $interfaceInfo  = $interfaceInfo['info'];
         $this->logModel = new InterfaceLogs();
         $this->logModel->setAttributes([
             'trace_id'     => ReqHelper::getTraceId(),
@@ -210,7 +209,13 @@ class InterfaceLog extends Component
             'is_intercept' => 0,
             'is_success'   => 0,
         ]);
-        $this->logModel->save();
+        if (!$this->logModel->save()) {
+            $this->_logging = false;
+            Yii::error([
+                __METHOD__,
+                "errors" => $this->logModel->getErrors(),
+            ], "custom.error");
+        }
     }
 
     /**
