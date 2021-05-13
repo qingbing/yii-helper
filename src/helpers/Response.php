@@ -63,10 +63,11 @@ class Response extends Singleton
     public function output($data = null)
     {
         return [
-            'time' => Format::microDatetime(),
-            'code' => $this->_code,
-            'msg'  => $this->_msg,
-            'data'  => $data,
+            'time'     => Format::microDatetime(),
+            'code'     => $this->_code,
+            'msg'      => $this->_msg,
+            'data'     => $data,
+            'tract_id' => ReqHelper::getTraceId()
         ];
     }
 
