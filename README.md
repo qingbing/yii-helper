@@ -5,6 +5,9 @@
 - 1.0.?
     - 添加一些常规的数据类型验证（contact/fax/idCard/mobile/phone/password/zipCode等）
     - 增加了一个默认值行为 DefaultBehavior
+    - 添加一个扩展 "yiisoft/yii2-queue": "^2.3"
+    - 添加一个辅助类 ： AppHelper
+    - 删除了类 \YiiHelper\extend\EventHandler::class，其内容由各个组件通过事件的形式来代替完成
 
 
 ## 描述
@@ -58,6 +61,7 @@ yii 公用的一些基础类库
 
 
 ### 助手类器
+1. [Yii-App 辅助类 : AppHelper](doc/helpers/AppHelper.md)
 1. [动态数据验证模型 : DynamicModel](doc/helpers/DynamicModel.md)
 1. [响应类 : Response](doc/helpers/Response.md)
 1. [请求助手 : Req](doc/helpers/Req.md)
@@ -96,7 +100,7 @@ yii 公用的一些基础类库
 
 ### yii扩展类
 1. [yii扩展类 : Application](doc/extend/Application.md)
-1. [应用事件句柄 : EventHandler](doc/extend/EventHandler.md)
+1. [文件日志持久化 : FileTarget](doc/extend/FileTarget.md)
 
 
 ### 工具类

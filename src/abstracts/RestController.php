@@ -8,10 +8,13 @@
 namespace YiiHelper\abstracts;
 
 use Exception;
+use yii\base\Event;
 use yii\helpers\ArrayHelper;
 use yii\rest\Controller;
+use yii\web\Response;
 use YiiHelper\traits\TResponse;
 use YiiHelper\traits\TValidator;
+use Zf\Helper\ReqHelper;
 
 /**
  * web 基类
@@ -24,6 +27,42 @@ abstract class RestController extends Controller
     use TResponse;
     // 使用参数验证片段
     use TValidator;
+    /**
+     * @var bool 采用默认的响应格式
+     */
+    protected $useDefaultResponse = true;
+
+    /**
+     * 控制器初始化后执行
+     */
+    public function init()
+    {
+        parent::init();
+        if ($this->useDefaultResponse) {
+            // 在发送后端数据响应前规范响应格式
+            \Yii::$app->getResponse()->on(Response::EVENT_BEFORE_SEND, function (Event $event) {
+                $response = $event->sender;
+                /* @var Response $response */
+                if (!in_array($response->getStatusCode(), [200, 302])) {
+                    // error
+                    $response->format = Response::FORMAT_JSON;
+                } else if (is_array($response->data)) {
+                    $response->format = Response::FORMAT_JSON;
+                } else if (is_string($response->data)) {
+                    $response->format = Response::FORMAT_RAW;
+                } else if ($response->format !== Response::FORMAT_HTML) {
+                    $response->format = Response::FORMAT_JSON;
+                    $response->data   = \YiiHelper\helpers\Response::getInstance()
+                        ->setMsg($response->statusText)
+                        ->setCode(0)
+                        ->output($response->data);
+                }
+                // 在响应中添加 trace-id
+                $response->getHeaders()
+                    ->add('x-trace-id', ReqHelper::getTraceId());
+            });
+        }
+    }
 
     /**
      * 获取参数

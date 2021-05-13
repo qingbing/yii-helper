@@ -1,4 +1,7 @@
 # 组件 InterfaceLog ： 接口及接口日志组件
+- 注意事项
+    - 该组件配置使用即可
+    - 如果使用该组件，该组件务必加入应用启动，即：bootstrap
 - 对外提供属性
     - acceptNewInterface ： 是否开启接口记录，默认 false
     - openLog ： 是否开启接口日志，默认 false
@@ -15,8 +18,10 @@
 
 # coding 使用
 ## 1. 配置
+该组件必须加入
 
 ```php
+'bootstrap'        => ['interfaceLog'],
 'components'       => [
     'interfaceLog' => [
         'class'              => InterfaceLog::class,

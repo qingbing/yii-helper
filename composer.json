@@ -16,10 +16,11 @@
     }
   ],
   "require": {
+    "myweishanli/yii2-ip2location": "~1.0.0",
     "qingbing/zf-helper": ">=1.0, <2.0",
     "yiisoft/yii2": "~2.0.14",
-    "myweishanli/yii2-ip2location": "~1.0.0",
-    "yiisoft/yii2-httpclient": "^2.0"
+    "yiisoft/yii2-httpclient": "^2.0",
+    "yiisoft/yii2-queue": "^2.3"
   },
   "autoload": {
     "psr-4": {

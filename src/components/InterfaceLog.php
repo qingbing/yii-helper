@@ -11,6 +11,7 @@ namespace YiiHelper\components;
 use Throwable;
 use Yii;
 use yii\base\Component;
+use yii\base\Event;
 use yii\base\InvalidConfigException;
 use yii\web\Application;
 use yii\web\HeaderCollection;
@@ -95,8 +96,13 @@ class InterfaceLog extends Component
      */
     public function init()
     {
-        $this->request = Yii::$app->getRequest();
-        $this->releasePath();
+        if (!Yii::$app->getRequest()->getIsConsoleRequest()) {
+            // 接口记录只在 web 应用上有效
+            $this->request = Yii::$app->getRequest();
+            $this->releasePath();
+            \Yii::$app->on(Application::EVENT_BEFORE_REQUEST, [$this, "beforeRequest"]);
+            \Yii::$app->getResponse()->on(Response::EVENT_AFTER_SEND, [$this, "afterResponseSend"]);
+        }
     }
 
     /**
@@ -163,10 +169,8 @@ class InterfaceLog extends Component
 
     /**
      * 请求开始前调用
-     *
-     * @param Application $application
      */
-    public function beforeRequest(Application $application)
+    public function beforeRequest()
     {
         Timer::begin(self::TIMER_KEY_INTERFACE);
         // 参数记录，有两个用途
@@ -229,11 +233,13 @@ class InterfaceLog extends Component
     /**
      * 请求结束后调用
      *
-     * @param Response $response
+     * @param Event $event
      * @throws Throwable
      */
-    public function afterResponseSend(Response $response)
+    public function afterResponseSend(Event $event)
     {
+        $response = $event->sender;
+        /* @var $response Response */
         // 记录接口新消息
         $this->recordInterface($response);
         // 更新接口结果集
