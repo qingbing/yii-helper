@@ -58,6 +58,6 @@ class ClearCache extends Action
             }
         }
         @closedir($dp);
-        return $this->success(true);
+        return $this->success(true, '缓存清理成功');
     }
 }

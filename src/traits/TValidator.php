@@ -8,6 +8,7 @@
 namespace YiiHelper\traits;
 
 
+use function Webmozart\Assert\Tests\StaticAnalysis\false;
 use yii\base\InvalidConfigException;
 use YiiHelper\helpers\DynamicModel;
 use Zf\Helper\Exceptions\BusinessException;
@@ -25,11 +26,12 @@ trait TValidator
      *
      * @param array $rules
      * @param array|null $data
+     * @param bool $withPageRule 是否含有分页参数
      * @return array|bool
      * @throws BusinessException
      * @throws InvalidConfigException
      */
-    protected function validateParams($rules = [], ?array $data = null)
+    protected function validateParams($rules = [], ?array $data = null, $withPageRule = false)
     {
         // 数据获取
         $request = \Yii::$app->getRequest();
@@ -39,6 +41,10 @@ trait TValidator
         if (empty($rules)) {
             return [];
         }
+        if ($withPageRule) {
+            // 统一规范分页信息
+            $rules = array_merge($rules, $this->pageRules());
+        }
         // 验证并返回数据
         $model = DynamicModel::validateData($data, $rules);
         if ($model->hasErrors()) {
@@ -46,7 +52,13 @@ trait TValidator
             $error = $model->getErrorSummary(false);
             throw new BusinessException(reset($error), 10000);
         }
-        return $model->values;
+        $values = $model->values;
+        if ($withPageRule) {
+            // 统一规范分页信息
+            $values['pageNo']   = $values['pageNo'] ?: 1;
+            $values['pageSize'] = $values['pageSize'] ?: 10;
+        }
+        return $values;
     }
 
     /**

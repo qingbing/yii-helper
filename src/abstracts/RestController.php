@@ -14,6 +14,7 @@ use yii\rest\Controller;
 use yii\web\Response;
 use YiiHelper\traits\TResponse;
 use YiiHelper\traits\TValidator;
+use Zf\Helper\Exceptions\CustomException;
 use Zf\Helper\ReqHelper;
 
 /**
@@ -23,6 +24,19 @@ use Zf\Helper\ReqHelper;
  */
 abstract class RestController extends Controller
 {
+    /**
+     * @var mixed 控制器服务器类
+     */
+    protected $service;
+    /**
+     * @var string 控制器服务类名
+     */
+    protected $serviceClass;
+    /**
+     * @var string 控制器服务类接口
+     */
+    protected $serviceInterface;
+
     // 使用响应片段
     use TResponse;
     // 使用参数验证片段
@@ -34,6 +48,9 @@ abstract class RestController extends Controller
 
     /**
      * 控制器初始化后执行
+     *
+     * @throws CustomException
+     * @throws \yii\base\InvalidConfigException
      */
     public function init()
     {
@@ -61,6 +78,18 @@ abstract class RestController extends Controller
                 $response->getHeaders()
                     ->add('x-trace-id', ReqHelper::getTraceId());
             });
+        }
+        if (null !== $this->serviceClass) {
+            $this->service = \Yii::createObject($this->serviceClass);
+            if (null !== $this->serviceInterface && !$this->service instanceof $this->serviceInterface) {
+                $errMsg = replace('{controller}.serviceClass={serviceClass} 必须继承 {interfaceName}', [
+                    '{serviceClass}'  => $this->serviceClass,
+                    '{controller}'    => get_class($this),
+                    '{interfaceName}' => $this->serviceInterface,
+                ]);
+                \Yii::error($errMsg, "custom.error");
+                throw new CustomException($errMsg);
+            }
         }
     }
 
@@ -100,20 +129,12 @@ abstract class RestController extends Controller
      * @return array
      * @throws Exception
      */
-    protected function pageParams()
+    protected function pageRules()
     {
-        // 参数校验
-        $this->validateParams([
-            ['pageNo', 'integer', 'min' => 1],
-            ['pageSize', 'integer', 'min' => 1],
-        ], [
-            'pageNo'   => '页码',
-            'pageSize' => '分页条数',
-        ]);
-        // 参数获取并返回
+        // 返回分页参数校验规则
         return [
-            'pageNo'   => $this->getParam('pageNo', 1),
-            'pageSize' => $this->getParam('pageSize', 10),
+            ['pageNo', 'integer', 'label' => '页码', 'default' => 1, 'min' => 1],
+            ['pageSize', 'integer', 'label' => '分页条数', 'default' => 10, 'min' => 1],
         ];
     }
 }

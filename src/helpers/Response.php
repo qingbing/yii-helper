@@ -35,7 +35,7 @@ class Response extends Singleton
      * @param int $code
      * @return $this
      */
-    public function setCode(int $code)
+    public function setCode($code)
     {
         $this->_code = $code;
         return $this;

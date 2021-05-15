@@ -9,6 +9,7 @@ namespace YiiHelper\abstracts;
 
 
 use yii\base\BaseObject;
+use YiiHelper\traits\TQueryWhere;
 
 /**
  * 服务基类
@@ -18,5 +19,8 @@ use yii\base\BaseObject;
  */
 abstract class Service extends BaseObject
 {
-
+    /**
+     * Query 条件查询
+     */
+    use TQueryWhere;
 }

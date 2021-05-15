@@ -60,7 +60,7 @@ class Pager extends Factory
      * @param int $pageSize
      * @return array
      */
-    public function pagination(ActiveQuery $query, $pageNo = null, $pageSize = null)
+    public function pagination(ActiveQuery $query, $pageNo = 1, $pageSize = 10)
     {
         if (null !== $this->_totalCount) {
             $totalCount = $this->_totalCount;
