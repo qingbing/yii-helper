@@ -5,13 +5,13 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\services\login\abstracts;
+namespace YiiHelper\features\login\services\loginType\abstracts;
 
 
 use Yii;
 use yii\base\BaseObject;
+use YiiHelper\features\login\services\LoginService;
 use YiiHelper\helpers\Req;
-use YiiHelper\services\abstracts\LoginService;
 use Zf\Helper\Business\IpHelper;
 use Zf\Helper\Exceptions\BusinessException;
 use Zf\Helper\Format;

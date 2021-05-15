@@ -5,27 +5,28 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\services\abstracts;
+namespace YiiHelper\features\login\services;
 
 
 use Yii;
 use YiiHelper\abstracts\Service;
+use YiiHelper\features\login\services\interfaces\ILoginService;
+use YiiHelper\features\login\services\loginType\abstracts\LoginBase;
+use YiiHelper\features\login\services\loginType\LoginByEmail;
+use YiiHelper\features\login\services\loginType\LoginByMobile;
+use YiiHelper\features\login\services\loginType\LoginByName;
+use YiiHelper\features\login\services\loginType\LoginByUsername;
 use YiiHelper\models\abstracts\User;
 use YiiHelper\models\abstracts\UserAccount;
-use YiiHelper\services\login\abstracts\LoginBase;
-use YiiHelper\services\login\LoginByEmail;
-use YiiHelper\services\login\LoginByMobile;
-use YiiHelper\services\login\LoginByName;
-use YiiHelper\services\login\LoginByUsername;
 use Zf\Helper\Exceptions\BusinessException;
 
 /**
- * 服务类 ： 登录
+ * 服务类 ： 用户登录
  *
  * Class LoginService
- * @package YiiHelper\services
+ * @package YiiHelper\features\login\services
  */
-abstract class LoginService extends Service
+abstract class LoginService extends Service implements ILoginService
 {
     /**
      * @var array 登录类型服务配置
@@ -68,7 +69,7 @@ abstract class LoginService extends Service
      * @return bool
      * @throws BusinessException
      */
-    public function signIn(array $params)
+    public function signIn(array $params): bool
     {
         $params['service'] = $this;
         if (!isset($this->serviceMap[$params['type']])) {
@@ -88,11 +89,21 @@ abstract class LoginService extends Service
      *
      * @return bool
      */
-    public function signOut()
+    public function signOut(): bool
     {
         if (!Yii::$app->getUser()->getIsGuest()) {
             Yii::$app->getUser()->logout();
         }
         return true;
+    }
+
+    /**
+     * 判断是否用户登录
+     *
+     * @return bool
+     */
+    public function isLogin(): bool
+    {
+        return !Yii::$app->getUser()->getIsGuest();
     }
 }

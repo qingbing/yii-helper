@@ -25,17 +25,17 @@ use Zf\Helper\ReqHelper;
 abstract class RestController extends Controller
 {
     /**
-     * @var mixed 控制器服务器类
+     * @var string 控制器服务类接口
      */
-    protected $service;
+    protected $serviceInterface;
     /**
      * @var string 控制器服务类名
      */
     protected $serviceClass;
     /**
-     * @var string 控制器服务类接口
+     * @var mixed 控制器服务器类
      */
-    protected $serviceInterface;
+    protected $service;
 
     // 使用响应片段
     use TResponse;

@@ -5,10 +5,10 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\services\login;
+namespace YiiHelper\features\login\services\loginType;
 
 
-use YiiHelper\services\login\abstracts\LoginBase;
+use YiiHelper\features\login\services\loginType\abstracts\LoginBase;
 
 /**
  * 通过用户名登录

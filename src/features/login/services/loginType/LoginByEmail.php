@@ -5,18 +5,18 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\services\login;
+namespace YiiHelper\features\login\services\loginType;
 
 
-use YiiHelper\services\login\abstracts\LoginBase;
+use YiiHelper\features\login\services\loginType\abstracts\LoginBase;
 
 /**
- * 通过姓名登录
+ * 通过邮箱登录
  *
- * Class LoginByName
+ * Class LoginByEmail
  * @package YiiHelper\services\login
  */
-class LoginByName extends LoginBase
+class LoginByEmail extends LoginBase
 {
     /**
      * 获取登录类型
@@ -25,6 +25,6 @@ class LoginByName extends LoginBase
      */
     public function getType(): string
     {
-        return 'name';
+        return 'email';
     }
 }

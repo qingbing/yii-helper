@@ -5,29 +5,42 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\controllers\abstracts;
+namespace YiiHelper\features\login\controllers;
 
 
 use Exception;
 use Yii;
 use yii\validators\EmailValidator;
 use YiiHelper\abstracts\RestController;
+use YiiHelper\features\login\services\interfaces\ILoginService;
+use YiiHelper\features\login\services\LoginService;
 use YiiHelper\models\abstracts\UserAccount;
-use YiiHelper\services\abstracts\LoginService;
 use YiiHelper\validators\MobileValidator;
 use YiiHelper\validators\NameValidator;
 use YiiHelper\validators\UsernameValidator;
 use Zf\Helper\Exceptions\BusinessException;
 
 /**
- * 用户登录相关接口
+ * 控制器 ： 用户登录
  *
  * Class LoginController
  * @package YiiHelper\controllers
+ *
+ * @property-read LoginService $service
  */
-abstract class LoginController extends RestController
+class LoginController extends RestController
 {
     /**
+     * @var string 控制器服务类接口
+     */
+    protected $serviceInterface = ILoginService::class;
+    /**
+     * @var string 控制器服务类名
+     */
+    protected $serviceClass = LoginService::class;
+    /**
+     * @todo 子类可覆盖
+     *
      * @var array 开通登录的方式
      */
     protected $accountRules = [
@@ -38,16 +51,9 @@ abstract class LoginController extends RestController
     ];
 
     /**
-     * @todo 需要子类在构建中实例化
-     * @var LoginService
-     */
-    protected $service;
-
-    /**
      * 账户登录
      *
      * @return array
-     * @throws BusinessException
      * @throws Exception
      */
     public function actionSignIn()
@@ -95,13 +101,14 @@ abstract class LoginController extends RestController
     public function actionIsLogin()
     {
         // 数据获取
-        $isLogin = !Yii::$app->getUser()->getIsGuest();
+        $res = $this->service->isLogin();
         //结果返回渲染
-        return $this->success($isLogin, 'ok');
+        return $this->success($res, 'ok');
     }
 
     /**
      * 支持的登录类型
+     *
      * @return array
      * @throws Exception
      */
