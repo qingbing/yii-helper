@@ -69,9 +69,9 @@ CREATE TABLE `pub_route_log_config` (
 
 
 -- ----------------------------
---  Table structure for `pub_route_log`
+--  Table structure for `pub_route_access_logs`
 -- ----------------------------
-CREATE TABLE `pub_route_log` (
+CREATE TABLE `pub_route_access_logs` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `route_log_config_id` bigint(20) unsigned NOT NULL COMMENT '系统路由配置ID',
   `trace_id` varchar(32) NOT NULL DEFAULT '' COMMENT '客户端日志ID',

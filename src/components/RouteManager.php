@@ -16,7 +16,7 @@ use yii\db\Exception;
 use yii\web\Application;
 use yii\web\Response;
 use YiiHelper\helpers\AppHelper;
-use YiiHelper\models\routeLog\RouteLog;
+use YiiHelper\models\routeLog\RouteAccessLog;
 use YiiHelper\models\routeLog\RouteLogConfig;
 use YiiHelper\models\routeLog\RouteRecord;
 use Zf\Helper\Exceptions\CustomException;
@@ -250,7 +250,7 @@ class RouteManager extends Component
                 $attributes['keyword'] = $this->getKeyword($input, $config->key_fields);
             }
         }
-        $log = new RouteLog();
+        $log = new RouteAccessLog();
         $log->setAttributes($attributes);
         $log->save();
     }

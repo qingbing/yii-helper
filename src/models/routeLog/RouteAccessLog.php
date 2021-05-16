@@ -23,14 +23,14 @@ use YiiHelper\behaviors\UidBehavior;
  * @property int $uid 用户ID
  * @property string $created_at 创建时间
  */
-class RouteLog extends Model
+class RouteAccessLog extends Model
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'pub_route_log';
+        return 'pub_route_access_logs';
     }
 
     /**
