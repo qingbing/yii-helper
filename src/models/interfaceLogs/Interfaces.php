@@ -1,6 +1,6 @@
 <?php
 
-namespace YiiHelper\models;
+namespace YiiHelper\models\interfaceLogs;
 
 use YiiHelper\abstracts\Model;
 

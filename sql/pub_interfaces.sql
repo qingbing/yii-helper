@@ -76,9 +76,9 @@ CREATE TABLE `pub_interface_fields` (
 
 
 -- ----------------------------
---  Table structure for `pub_interface_logs`
+--  Table structure for `pub_interface_access_logs`
 -- ----------------------------
-CREATE TABLE `pub_interface_logs` (
+CREATE TABLE `pub_interface_access_logs` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `trace_id` varchar(32) NOT NULL DEFAULT '' COMMENT '客户端日志ID',
   `interface_id` bigint(20) unsigned NOT NULL COMMENT '接口ID',

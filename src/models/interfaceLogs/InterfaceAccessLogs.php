@@ -1,6 +1,6 @@
 <?php
 
-namespace YiiHelper\models;
+namespace YiiHelper\models\interfaceLogs;
 
 use YiiHelper\abstracts\Model;
 
@@ -25,14 +25,14 @@ use YiiHelper\abstracts\Model;
  *
  * 接口日志
  */
-class InterfaceLogs extends Model
+class InterfaceAccessLogs extends Model
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'pub_interface_logs';
+        return 'pub_interface_access_logs';
     }
 
     /**
