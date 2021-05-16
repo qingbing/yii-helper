@@ -5,54 +5,52 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\features\tableHeader\services;
+namespace YiiHelper\features\replaceSetting\services;
 
 
 use YiiHelper\abstracts\Service;
-use YiiHelper\features\tableHeader\services\interfaces\IHeaderService;
+use YiiHelper\features\replaceSetting\services\interfaces\IReplaceSettingService;
 use YiiHelper\helpers\Pager;
-use YiiHelper\models\TableHeader;
+use YiiHelper\models\ReplaceSetting;
 use Zf\Helper\Exceptions\BusinessException;
 
 /**
- * 逻辑类 ： 表头管理
+ * 服务类 ： 替换配置
  *
- * Class HeaderService
- * @package YiiHelper\features\tableHeader\services
+ * Class ReplaceSettingService
+ * @package YiiHelper\features\replaceSetting\services
  */
-class HeaderService extends Service implements IHeaderService
+class ReplaceSettingService extends Service implements IReplaceSettingService
 {
     /**
-     * 表头列表
+     * 替换配置列表
      *
      * @param array|null $params
      * @return array
      */
     public function list(array $params = []): array
     {
-        $query = TableHeader::find()
+        $query = ReplaceSetting::find()
             ->orderBy('sort_order ASC');
         $this->attributeWhere($query, $params, 'is_open');
-        $this->likeWhere($query, $params, ['key', 'name']);
+        $this->likeWhere($query, $params, ['code', 'name']);
         return Pager::getInstance()->pagination($query, $params['pageNo'], $params['pageSize']);
     }
 
     /**
-     * 添加表头
+     * 添加替换配置
      *
      * @param array $params
      * @return bool
-     * @throws \yii\db\Exception
+     * @throws BusinessException
      */
     public function add(array $params): bool
     {
-        $model = new TableHeader();
-        $model->setAttributes($params);
-        return $model->saveOrException();
+        throw new BusinessException("不支持的操作");
     }
 
     /**
-     * 编辑表头
+     * 编辑替换配置
      *
      * @param array $params
      * @return bool
@@ -62,31 +60,28 @@ class HeaderService extends Service implements IHeaderService
     public function edit(array $params): bool
     {
         $model = $this->getModel($params);
-        unset($params['key']);
+        unset($params['code']);
         $model->setAttributes($params);
         return $model->saveOrException();
     }
 
     /**
-     * 删除表头
+     * 删除替换配置
      *
      * @param array $params
      * @return bool
      * @throws BusinessException
-     * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
      */
     public function del(array $params): bool
     {
-        $model = $this->getModel($params);
-        return $model->delete();
+        throw new BusinessException("不支持的操作");
     }
 
     /**
-     * 查看表头详情
+     * 查看详情
      *
      * @param array $params
-     * @return mixed|TableHeader
+     * @return mixed|ReplaceSetting
      * @throws BusinessException
      */
     public function view(array $params)
@@ -95,17 +90,17 @@ class HeaderService extends Service implements IHeaderService
     }
 
     /**
-     * 获取当前操作表头
+     * 获取当前操作替换配置
      *
-     * @param array $params
-     * @return TableHeader
+     * @param $params
+     * @return ReplaceSetting
      * @throws BusinessException
      */
-    protected function getModel(array $params): TableHeader
+    protected function getModel(array $params): ReplaceSetting
     {
-        $key   = $params['key'] ?? null;
-        $model = TableHeader::findOne([
-            'key' => $key
+        $code  = $params['code'] ?? null;
+        $model = ReplaceSetting::findOne([
+            'code' => $code
         ]);
         if (null === $model) {
             throw new BusinessException("表头不存在");

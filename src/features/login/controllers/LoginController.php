@@ -26,7 +26,7 @@ use Zf\Helper\Exceptions\BusinessException;
  * Class LoginController
  * @package YiiHelper\controllers
  *
- * @property-read LoginService $service
+ * @property-read ILoginService $service
  */
 class LoginController extends RestController
 {

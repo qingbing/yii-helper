@@ -5,7 +5,7 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\services\actions;
+namespace YiiHelper\actions;
 
 
 use yii\base\Action;

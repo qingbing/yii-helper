@@ -35,7 +35,7 @@ trait TResponse
      * @return array
      * @throws \Exception
      */
-    public function success($data = null, ?string $msg = 'ok')
+    public function success($data = null, ?string $msg = '操作成功')
     {
         return $this->getResponse()->success($data, $msg);
     }
@@ -49,7 +49,7 @@ trait TResponse
      * @return array
      * @throws \Exception
      */
-    public function fail(int $code = -1, ?string $msg = 'ok', $data = null)
+    public function fail(int $code = -1, ?string $msg = '操作失败', $data = null)
     {
         return $this->getResponse()->fail($code, $msg, $data);
     }

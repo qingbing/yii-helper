@@ -20,7 +20,7 @@ use Zf\Helper\Traits\Models\TLabelYesNo;
  * Class HeaderController
  * @package YiiHelper\features\tableHeader\controllers
  *
- * @property IHeaderService $service
+ * @property-read IHeaderService $service
  */
 class HeaderController extends RestController
 {
