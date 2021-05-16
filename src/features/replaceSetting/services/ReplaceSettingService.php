@@ -98,9 +98,8 @@ class ReplaceSettingService extends Service implements IReplaceSettingService
      */
     protected function getModel(array $params): ReplaceSetting
     {
-        $code  = $params['code'] ?? null;
         $model = ReplaceSetting::findOne([
-            'code' => $code
+            'code' => $params['code'] ?? null
         ]);
         if (null === $model) {
             throw new BusinessException("表头不存在");

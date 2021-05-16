@@ -45,7 +45,7 @@ class HeaderController extends RestController
         // 业务处理
         $res = $this->service->list($params);
         // 渲染结果
-        return $this->success($res);
+        return $this->success($res, '表头列表');
     }
 
     /**
@@ -97,7 +97,7 @@ class HeaderController extends RestController
         // 业务处理
         $res = $this->service->edit($params);
         // 渲染结果
-        return $this->success($res);
+        return $this->success($res, '编辑表头成功');
     }
 
     /**
@@ -116,7 +116,7 @@ class HeaderController extends RestController
         // 业务处理
         $res = $this->service->del($params);
         // 渲染结果
-        return $this->success($res, '表头删除成功');
+        return $this->success($res, '删除表头成功');
     }
 
     /**

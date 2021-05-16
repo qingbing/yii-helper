@@ -11,6 +11,7 @@ use YiiHelper\abstracts\Model;
  * @property string $system_alias 系统别名
  * @property string $route URL路由
  * @property string $route_type 路由分类：界面设定
+ * @property int $sort_order 排序
  * @property int $is_operate 是否操作类[0:否; 1:是]
  * @property string $description 路由描述
  * @property int $access_times 访问次数
@@ -33,7 +34,7 @@ class RouteRecord extends Model
     public function rules()
     {
         return [
-            [['is_operate', 'access_times'], 'integer'],
+            [['sort_order', 'is_operate', 'access_times'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['system_alias'], 'string', 'max' => 50],
             [['route'], 'string', 'max' => 160],
@@ -49,15 +50,16 @@ class RouteRecord extends Model
     public function attributeLabels()
     {
         return [
-            'id' => '自增ID',
+            'id'           => '自增ID',
             'system_alias' => '系统别名',
-            'route' => 'URL路由',
-            'route_type' => '路由分类：界面设定',
-            'is_operate' => '是否操作类[0:否; 1:是]',
-            'description' => '路由描述',
+            'route'        => 'URL路由',
+            'route_type'   => '路由分类：界面设定',
+            'sort_order'   => '排序',
+            'is_operate'   => '是否操作类[0:否; 1:是]',
+            'description'  => '路由描述',
             'access_times' => '访问次数',
-            'created_at' => '创建时间',
-            'updated_at' => '更新时间',
+            'created_at'   => '创建时间',
+            'updated_at'   => '更新时间',
         ];
     }
 }

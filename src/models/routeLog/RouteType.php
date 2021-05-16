@@ -11,6 +11,7 @@ use YiiHelper\abstracts\Model;
  * @property string $system_alias 系统别名
  * @property string $route_type 路由分类
  * @property string $type_name 类型名称
+ * @property int $sort_order 排序
  * @property string $description 路由描述
  * @property string $created_at 创建时间
  * @property string $updated_at 更新时间
@@ -31,6 +32,7 @@ class RouteType extends Model
     public function rules()
     {
         return [
+            [['sort_order'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['system_alias'], 'string', 'max' => 50],
             [['route_type'], 'string', 'max' => 32],
@@ -46,13 +48,14 @@ class RouteType extends Model
     public function attributeLabels()
     {
         return [
-            'id' => '自增ID',
+            'id'           => '自增ID',
             'system_alias' => '系统别名',
-            'route_type' => '路由分类',
-            'type_name' => '类型名称',
-            'description' => '路由描述',
-            'created_at' => '创建时间',
-            'updated_at' => '更新时间',
+            'route_type'   => '路由分类',
+            'type_name'    => '类型名称',
+            'sort_order'   => '排序',
+            'description'  => '路由描述',
+            'created_at'   => '创建时间',
+            'updated_at'   => '更新时间',
         ];
     }
 }

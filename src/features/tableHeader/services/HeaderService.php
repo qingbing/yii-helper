@@ -103,9 +103,8 @@ class HeaderService extends Service implements IHeaderService
      */
     protected function getModel(array $params): Header
     {
-        $key   = $params['key'] ?? null;
         $model = Header::findOne([
-            'key' => $key
+            'key' => $params['key'] ?? null
         ]);
         if (null === $model) {
             throw new BusinessException("表头不存在");
