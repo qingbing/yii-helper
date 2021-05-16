@@ -1,6 +1,6 @@
 <?php
 
-namespace YiiHelper\models;
+namespace YiiHelper\models\tableHeader;
 
 use YiiHelper\abstracts\Model;
 
@@ -29,7 +29,7 @@ use YiiHelper\abstracts\Model;
  * @property string $created_at 创建时间
  * @property string $updated_at 更新时间
  */
-class TableHeaderOption extends Model
+class HeaderOption extends Model
 {
     /**
      * {@inheritdoc}

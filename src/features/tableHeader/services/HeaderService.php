@@ -11,7 +11,7 @@ namespace YiiHelper\features\tableHeader\services;
 use YiiHelper\abstracts\Service;
 use YiiHelper\features\tableHeader\services\interfaces\IHeaderService;
 use YiiHelper\helpers\Pager;
-use YiiHelper\models\TableHeader;
+use YiiHelper\models\tableHeader\Header;
 use Zf\Helper\Exceptions\BusinessException;
 
 /**
@@ -30,7 +30,7 @@ class HeaderService extends Service implements IHeaderService
      */
     public function list(array $params = []): array
     {
-        $query = TableHeader::find()
+        $query = Header::find()
             ->orderBy('sort_order ASC');
         $this->attributeWhere($query, $params, 'is_open');
         $this->likeWhere($query, $params, ['key', 'name']);
@@ -46,7 +46,7 @@ class HeaderService extends Service implements IHeaderService
      */
     public function add(array $params): bool
     {
-        $model = new TableHeader();
+        $model = new Header();
         $model->setAttributes($params);
         return $model->saveOrException();
     }
@@ -86,7 +86,7 @@ class HeaderService extends Service implements IHeaderService
      * 查看表头详情
      *
      * @param array $params
-     * @return mixed|TableHeader
+     * @return mixed|Header
      * @throws BusinessException
      */
     public function view(array $params)
@@ -98,13 +98,13 @@ class HeaderService extends Service implements IHeaderService
      * 获取当前操作表头
      *
      * @param array $params
-     * @return TableHeader
+     * @return Header
      * @throws BusinessException
      */
-    protected function getModel(array $params): TableHeader
+    protected function getModel(array $params): Header
     {
         $key   = $params['key'] ?? null;
-        $model = TableHeader::findOne([
+        $model = Header::findOne([
             'key' => $key
         ]);
         if (null === $model) {

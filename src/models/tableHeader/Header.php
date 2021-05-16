@@ -1,6 +1,6 @@
 <?php
 
-namespace YiiHelper\models;
+namespace YiiHelper\models\tableHeader;
 
 use YiiHelper\abstracts\Model;
 
@@ -13,7 +13,7 @@ use YiiHelper\abstracts\Model;
  * @property int $sort_order 排序
  * @property int $is_open 是否开放表头，否时管理员不可操作（不可见）
  */
-class TableHeader extends Model
+class Header extends Model
 {
     /**
      * {@inheritdoc}

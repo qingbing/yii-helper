@@ -9,9 +9,9 @@ namespace YiiHelper\features\tableHeader\controllers;
 
 
 use YiiHelper\abstracts\RestController;
-use YiiHelper\features\tableHeader\models\Header;
 use YiiHelper\features\tableHeader\services\HeaderService;
 use YiiHelper\features\tableHeader\services\interfaces\IHeaderService;
+use YiiHelper\models\tableHeader\Header;
 use Zf\Helper\Traits\Models\TLabelYesNo;
 
 /**
