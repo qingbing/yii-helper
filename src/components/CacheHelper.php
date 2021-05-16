@@ -82,7 +82,7 @@ class CacheHelper extends Component
             if ($this->openCache) {
                 return $this->cache->get($key);
             }
-        } else if ($this->openCache) {
+        } elseif ($this->openCache) {
             // 打开缓存的回写式
             if (false === ($output = $this->cache->get($key))) {
                 // 重新获取数据并设置缓存

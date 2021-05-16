@@ -19,6 +19,16 @@ use Yii;
 class AppHelper
 {
     /**
+     * 返回当前应用
+     *
+     * @return \yii\console\Application|\yii\web\Application|\YiiHelper\extend\Application
+     */
+    public static function app()
+    {
+        return Yii::$app;
+    }
+
+    /**
      * 判断使用的是否是yii的基础版
      *
      * @param string $vendorName
@@ -28,6 +38,16 @@ class AppHelper
     {
         $basePath = self::getBasePath();
         return is_dir("{$basePath}/{$vendorName}");
+    }
+
+    /**
+     * 判断是否时控制台应用
+     *
+     * @return bool
+     */
+    public static function getIsConsole()
+    {
+        return Yii::$app->getRequest()->getIsConsoleRequest();
     }
 
     /**

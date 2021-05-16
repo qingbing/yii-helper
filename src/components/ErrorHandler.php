@@ -51,7 +51,7 @@ class ErrorHandler extends \yii\web\ErrorHandler
         // 设置 http 状态返回码
         if ($exception instanceof HttpException) {
             $response->setStatusCode($exception->statusCode);
-        } else if ($isCustomException) {
+        } elseif ($isCustomException) {
             $response->setStatusCode(200);
         } else {
             $response->setStatusCode(500);

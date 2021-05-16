@@ -71,7 +71,7 @@ class DefaultBehavior extends AttributeBehavior
         if (null === $this->value) {
             if (self::TYPE_DATE === $this->type) {
                 return "1000-01-01";
-            } else if (self::TYPE_DATETIME === $this->type) {
+            } elseif (self::TYPE_DATETIME === $this->type) {
                 return "1000-01-01 01:01:01";
             } else {
                 return '';

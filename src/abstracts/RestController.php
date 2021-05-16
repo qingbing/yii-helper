@@ -63,11 +63,11 @@ abstract class RestController extends Controller
                 if (!in_array($response->getStatusCode(), [200, 302])) {
                     // error
                     $response->format = Response::FORMAT_JSON;
-                } else if (is_array($response->data)) {
+                } elseif (is_array($response->data)) {
                     $response->format = Response::FORMAT_JSON;
-                } else if (is_string($response->data)) {
+                } elseif (is_string($response->data)) {
                     $response->format = Response::FORMAT_RAW;
-                } else if ($response->format !== Response::FORMAT_HTML) {
+                } elseif ($response->format !== Response::FORMAT_HTML) {
                     $response->format = Response::FORMAT_JSON;
                     $response->data   = \YiiHelper\helpers\Response::getInstance()
                         ->setMsg($response->statusText)

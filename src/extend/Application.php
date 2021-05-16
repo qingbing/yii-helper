@@ -9,6 +9,9 @@ namespace YiiHelper\extend;
 
 
 use yii\base\InvalidRouteException;
+use YiiHelper\components\CacheHelper;
+use YiiHelper\components\InterfaceLog;
+use YiiHelper\components\RouteManager;
 use Zf\Helper\DataStore;
 
 /**
@@ -16,6 +19,10 @@ use Zf\Helper\DataStore;
  *
  * Class Application
  * @package YiiHelper\extend
+ *
+ * @property-read RouteManager $routeManager
+ * @property-read InterfaceLog $interfaceLog
+ * @property-read CacheHelper $cacheHelper
  */
 class Application extends \yii\web\Application
 {

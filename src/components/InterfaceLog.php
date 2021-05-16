@@ -197,7 +197,7 @@ class InterfaceLog extends Component
         // 系统或接口不存在，不记录日志
         if (empty($systemInfo) || empty($interfaceInfo) || 2 == $interfaceInfo['log_type']) {
             return;
-        } else if (0 == $interfaceInfo['log_type'] && !$this->openLog) {
+        } elseif (0 == $interfaceInfo['log_type'] && !$this->openLog) {
             return;
         }
 

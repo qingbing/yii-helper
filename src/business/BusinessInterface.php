@@ -287,7 +287,7 @@ class BusinessInterface
             foreach ($data as $field => $datum) {
                 $item['sub'][$field] = self::_releaseParams($datum, $field);
             }
-        } else if (is_array($data) && count($data) > 0) {
+        } elseif (is_array($data) && count($data) > 0) {
             if (is_object($data[0])) {
                 $item['type'] = 'items';
                 // 子数组合并field，值以最后次出现的为准

@@ -48,7 +48,7 @@ class ReplaceSettingController extends RestController
         // 业务处理
         $res = $this->service->list($params);
         // 渲染结果
-        return $this->success($res);
+        return $this->success($res, '替换配置列表');
     }
 
     /**
