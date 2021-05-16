@@ -5,7 +5,7 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\models;
+namespace YiiHelper\models\replaceSetting;
 
 
 use YiiHelper\abstracts\Model;

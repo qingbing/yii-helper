@@ -11,7 +11,7 @@ namespace YiiHelper\features\replaceSetting\services;
 use YiiHelper\abstracts\Service;
 use YiiHelper\features\replaceSetting\services\interfaces\IReplaceSettingService;
 use YiiHelper\helpers\Pager;
-use YiiHelper\models\ReplaceSetting;
+use YiiHelper\models\replaceSetting\ReplaceSetting;
 use Zf\Helper\Exceptions\BusinessException;
 
 /**

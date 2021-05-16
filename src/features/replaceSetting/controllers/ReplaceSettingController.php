@@ -12,9 +12,8 @@ use Exception;
 use YiiHelper\abstracts\RestController;
 use YiiHelper\features\replaceSetting\services\interfaces\IReplaceSettingService;
 use YiiHelper\features\replaceSetting\services\ReplaceSettingService;
-use YiiHelper\models\ReplaceSetting;
+use YiiHelper\models\replaceSetting\ReplaceSetting;
 use YiiHelper\validators\JsonValidator;
-use Zf\Helper\Traits\Models\TLabelEnable;
 use Zf\Helper\Traits\Models\TLabelYesNo;
 
 /**

@@ -9,7 +9,7 @@ namespace YiiHelper\tools;
 
 
 use yii\db\Query;
-use YiiHelper\models\ReplaceSetting as ReplaceSettingAlias;
+use YiiHelper\models\ReplaceSetting\ReplaceSetting as ReplaceSettingAlias;
 use Zf\Helper\Exceptions\BusinessException;
 
 class ReplaceSetting
