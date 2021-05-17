@@ -281,17 +281,15 @@ class RouteManager extends Component
             } else {
                 $_fields = explode_data($field, '.');
                 $_input  = $input;
-                $_has    = false;
                 while (count($_fields) > 0) {
                     $_field = array_shift($_fields);
                     if (isset($_input[$_field])) {
-                        $_has   = true;
                         $_input = $_input[$_field];
                     } else {
                         break;
                     }
                 }
-                $keywords[$field] = $_has ? $_input : '';
+                $keywords[$field] = count($_fields) > 0 ? '' : $_input;
             }
         }
         foreach ($keywords as $field => $keyword) {
