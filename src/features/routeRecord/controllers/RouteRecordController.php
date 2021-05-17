@@ -146,4 +146,28 @@ class RouteRecordController extends RestController
         // 渲染结果
         return $this->success($res, '路由详情');
     }
+
+    /**
+     * 编辑路由日志配置
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function actionEditLogConfig()
+    {
+        // 参数验证和获取
+        $params = $this->validateParams([
+            [['id', 'is_logging'], 'required'],
+            [
+                'id', 'exist', 'label' => '类型ID', 'targetClass' => RouteRecord::class, 'targetAttribute' => 'id'
+            ],
+            ['is_logging', 'in', 'label' => '是否记录', 'default' => 0, 'range' => array_keys(TLabelYesNo::yesNoLabels())],
+            ['message', 'string', 'label' => '操作提示', 'default' => ''],
+            ['key_fields', 'string', 'label' => '关键字标志', 'default' => ''],
+        ]);
+        // 业务处理
+        $res = $this->service->editLogConfig($params);
+        // 渲染结果
+        return $this->success($res, '编辑路由日志配置成功');
+    }
 }

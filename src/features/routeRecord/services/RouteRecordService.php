@@ -11,6 +11,7 @@ namespace YiiHelper\features\routeRecord\services;
 use YiiHelper\abstracts\Service;
 use YiiHelper\features\routeRecord\services\interfaces\IRouteRecordService;
 use YiiHelper\helpers\Pager;
+use YiiHelper\models\routeLog\RouteLogConfig;
 use YiiHelper\models\routeLog\RouteRecord;
 use YiiHelper\models\routeLog\RouteType;
 use Zf\Helper\Exceptions\BusinessException;
@@ -130,5 +131,30 @@ class RouteRecordService extends Service implements IRouteRecordService
             throw new BusinessException("路由不存在");
         }
         return $model;
+    }
+
+    /**
+     * 编辑路由日志配置
+     *
+     * @param array $params
+     * @return bool
+     * @throws BusinessException
+     * @throws \yii\db\Exception
+     */
+    public function editLogConfig(array $params): bool
+    {
+        $model  = $this->getModel($params);
+        $config = $model->logConfig;
+        if (null === $config) {
+            $config               = new RouteLogConfig();
+            $config->system_alias = $model->system_alias;
+            $config->route        = $model->route;
+        }
+        $config->setAttributes([
+            'is_logging' => $params['is_logging'],
+            'message'    => $params['message'],
+            'key_fields' => $params['key_fields'],
+        ]);
+        return $config->saveOrException();
     }
 }

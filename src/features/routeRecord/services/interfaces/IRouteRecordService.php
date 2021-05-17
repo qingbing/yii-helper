@@ -25,4 +25,12 @@ interface IRouteRecordService extends ICurdService
      * @return array
      */
     public function getRouteTypes(array $params): array;
+
+    /**
+     * 编辑路由日志配置
+     *
+     * @param array $params
+     * @return bool
+     */
+    public function editLogConfig(array $params): bool;
 }
