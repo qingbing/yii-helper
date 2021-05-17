@@ -36,12 +36,8 @@ class RouteTypeController extends RestController
      */
     public function actionSystemType()
     {
-        // 参数验证和获取
-        $params = $this->validateParams([
-            ['keyword', 'string', 'label' => '关键字'],
-        ]);
         // 业务处理
-        $res = $this->service->getSystemType($params);
+        $res = $this->service->getSystemType();
         // 渲染结果
         return $this->success($res, '系统');
     }

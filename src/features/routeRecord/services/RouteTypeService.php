@@ -26,25 +26,18 @@ class RouteTypeService extends Service implements IRouteTypeService
     /**
      * 获取系统
      *
-     * @param array $params
      * @return array
      */
-    public function getSystemType(array $params): array
+    public function getSystemType(): array
     {
         $query = InterfaceSystem::find()
             ->select(['alias', 'name'])
             ->orderBy('sort_order DESC');
-        if (!empty($params['keyword'])) {
-            $query->andWhere(['like', 'name', $params['keyword']]);
-        }
-        $res = $query->asArray()
+        $res   = $query->asArray()
             ->all();
-        $R   = [];
+        $R     = [];
         foreach ($res as $re) {
-            array_push($R, [
-                'name'  => $re['name'],
-                'value' => $re['alias'],
-            ]);
+            $R[$re['alias']] = $re['name'];
         }
         return $R;
     }

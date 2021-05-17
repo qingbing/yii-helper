@@ -21,8 +21,7 @@ interface IRouteTypeService extends ICurdService
     /**
      * 获取系统
      *
-     * @param array $params
      * @return array
      */
-    public function getSystemType(array $params = []): array;
+    public function getSystemType(): array;
 }
