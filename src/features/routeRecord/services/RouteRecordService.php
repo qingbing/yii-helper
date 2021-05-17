@@ -8,6 +8,8 @@
 namespace YiiHelper\features\routeRecord\services;
 
 
+use yii\db\Expression;
+use yii\db\Query;
 use YiiHelper\abstracts\Service;
 use YiiHelper\features\routeRecord\services\interfaces\IRouteRecordService;
 use YiiHelper\helpers\Pager;
@@ -53,10 +55,29 @@ class RouteRecordService extends Service implements IRouteRecordService
      */
     public function list(array $params = []): array
     {
-        $query = RouteRecord::find()
-            ->orderBy('sort_order ASC');
-        $this->attributeWhere($query, $params, ['system_alias', 'route_type', 'is_operate']);
-        $this->likeWhere($query, $params, 'route');
+        $query = (new Query())
+            ->from(RouteRecord::tableName() . ' AS r')
+            ->select([
+                'r.*',
+                new Expression("IFNULL(lc.is_logging,0) AS is_logging")
+            ])
+            ->leftJoin(RouteLogConfig::tableName() . ' AS lc', 'lc.system_alias=r.system_alias AND lc.route=r.route')
+            ->andFilterWhere(['=', 'r.system_alias', $params['system_alias']])
+            ->andFilterWhere(['=', 'r.route_type', $params['route_type']])
+            ->andFilterWhere(['=', 'r.is_operate', $params['is_operate']])
+            ->andFilterWhere(['like', 'r.route', $params['route']])
+            ->orderBy('r.sort_order ASC');
+        if ('' !== $params['is_logging']) {
+            if (1 == $params['is_logging']) {
+                $query->andWhere(['=', 'lc.is_logging', $params['is_logging']]);
+            } else {
+                $query->andWhere([
+                    'or',
+                    ['=', 'lc.is_logging', 0],
+                    'lc.is_logging IS NULL',
+                ]);
+            }
+        }
         return Pager::getInstance()->pagination($query, $params['pageNo'], $params['pageSize']);
     }
 

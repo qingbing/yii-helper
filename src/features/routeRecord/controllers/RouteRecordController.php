@@ -68,6 +68,7 @@ class RouteRecordController extends RestController
             ['route_type', 'string', 'label' => '路由分类'],
             ['route', 'string', 'label' => '路由'],
             ['is_operate', 'in', 'label' => '是否操作', 'range' => array_keys(TLabelYesNo::yesNoLabels())],
+            ['is_logging', 'in', 'label' => '记录日志', 'default' => '', 'range' => array_keys(TLabelYesNo::yesNoLabels())],
         ], null, true);
         // 业务处理
         $res = $this->service->list($params);

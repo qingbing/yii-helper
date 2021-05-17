@@ -9,6 +9,7 @@ namespace YiiHelper\helpers;
 
 
 use yii\db\ActiveQuery;
+use yii\db\Query;
 use Zf\Helper\Abstracts\Factory;
 
 /**
@@ -55,12 +56,12 @@ class Pager extends Factory
     /**
      * 数据分页查询
      *
-     * @param ActiveQuery $query
+     * @param Query $query
      * @param int $pageNo
      * @param int $pageSize
      * @return array
      */
-    public function pagination(ActiveQuery $query, $pageNo = 1, $pageSize = 10)
+    public function pagination(Query $query, $pageNo = 1, $pageSize = 10)
     {
         if (null !== $this->_totalCount) {
             $totalCount = $this->_totalCount;
@@ -71,7 +72,12 @@ class Pager extends Factory
                 ->limit(1)
                 ->orderBy('');
 
-            $re         = $queryCount->asArray()->one();
+            if ($query instanceof ActiveQuery) {
+                /* @var ActiveQuery $queryCount */
+                $re = $queryCount->asArray()->one();
+            } else {
+                $re = $queryCount->one();
+            }
             $totalCount = $re['count'];
         }
         if ($totalCount > 0) {
@@ -81,7 +87,11 @@ class Pager extends Factory
             // 数据查询
             $query->limit($pageSize);
             $query->offset($pageNo < 1 ? 0 : ($pageNo - 1) * $pageSize);
-            $data = $this->_asArray ? $query->asArray()->all() : $query->all();
+            if ($query instanceof ActiveQuery && $this->_asArray) {
+                $data = $query->asArray()->all();
+            } else {
+                $data = $query->all();
+            }
         } else {
             $data = [];
         }
