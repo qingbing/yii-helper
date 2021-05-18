@@ -7,13 +7,15 @@
 
 namespace YiiHelper\features\routeRecord\services\interfaces;
 
+use YiiHelper\services\interfaces\IService;
+
 /**
  * 接口 ： 路由日志
  *
  * Interface IRouteLogService
  * @package YiiHelper\features\routeRecord\services\interfaces
  */
-interface IRouteLogService
+interface IRouteLogService extends IService
 {
     /**
      * 路由日志列表

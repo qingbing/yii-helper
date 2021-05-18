@@ -88,4 +88,35 @@ class RouteType extends Model
         }
         return parent::beforeDelete();
     }
+
+    /**
+     * 获取所有启用中的系统
+     *
+     * @param string $systemAlias
+     * @param bool $isOption 是否选项卡
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function all(string $systemAlias, bool $isOption = true)
+    {
+        $res     = self::find()
+            ->select(['route_type', 'type_name'])
+            ->andWhere(['=', 'system_alias', $systemAlias])
+            ->orderBy('sort_order DESC, id ASC')
+            ->asArray()
+            ->all();
+        $options = [];
+        if (!$isOption) {
+            foreach ($res as $re) {
+                array_push($options, [
+                    'key'   => $re['route_type'],
+                    'value' => $re['type_name'],
+                ]);
+            }
+        } else {
+            foreach ($res as $re) {
+                $options[$re['route_type']] = $re['type_name'];
+            }
+        }
+        return $options;
+    }
 }

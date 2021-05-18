@@ -74,4 +74,34 @@ class System extends Model
             'updated_at'      => '更新时间',
         ];
     }
+
+    /**
+     * 获取所有启用中的系统
+     *
+     * @param bool $isOption 是否选项卡
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function all(bool $isOption = true)
+    {
+        $res     = self::find()
+            ->select(['alias', 'name'])
+            ->andWhere(['=', 'is_enable', 1])
+            ->orderBy('sort_order DESC, id ASC')
+            ->asArray()
+            ->all();
+        $options = [];
+        if (!$isOption) {
+            foreach ($res as $re) {
+                array_push($options, [
+                    'key'   => $re['alias'],
+                    'value' => $re['name'],
+                ]);
+            }
+        } else {
+            foreach ($res as $re) {
+                $options[$re['alias']] = $re['name'];
+            }
+        }
+        return $options;
+    }
 }

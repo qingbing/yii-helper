@@ -7,13 +7,15 @@
 
 namespace YiiHelper\features\login\services\interfaces;
 
+use YiiHelper\services\interfaces\IService;
+
 /**
  * 接口类 ： 用户登录
  *
  * Interface LoginService
  * @package YiiHelper\features\login\services\interfaces
  */
-interface ILoginService
+interface ILoginService extends IService
 {
     /**
      * 获取支持的登录类型
