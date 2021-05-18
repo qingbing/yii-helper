@@ -11,8 +11,8 @@ namespace YiiHelper\features\routeRecord\services;
 use YiiHelper\abstracts\Service;
 use YiiHelper\features\routeRecord\services\interfaces\IRouteTypeService;
 use YiiHelper\helpers\Pager;
-use YiiHelper\models\interfaceLogs\InterfaceSystem;
 use YiiHelper\models\routeLog\RouteType;
+use YiiHelper\models\System;
 use Zf\Helper\Exceptions\BusinessException;
 
 /**
@@ -30,7 +30,7 @@ class RouteTypeService extends Service implements IRouteTypeService
      */
     public function getSystemType(): array
     {
-        $query = InterfaceSystem::find()
+        $query = System::find()
             ->select(['alias', 'name'])
             ->orderBy('sort_order DESC');
         $res   = $query->asArray()
@@ -67,7 +67,7 @@ class RouteTypeService extends Service implements IRouteTypeService
     public function add(array $params): bool
     {
         $model = new RouteType();
-        $model->setAttributes($params);
+        $model->setFilterAttributes($params);
         return $model->saveOrException();
     }
 
@@ -83,7 +83,7 @@ class RouteTypeService extends Service implements IRouteTypeService
     {
         $model = $this->getModel($params);
         unset($params['id'], $params['system_alias']);
-        $model->setAttributes($params);
+        $model->setFilterAttributes($params);
         return $model->saveOrException();
     }
 

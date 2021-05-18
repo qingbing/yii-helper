@@ -103,7 +103,7 @@ class LoginController extends RestController
         // 数据获取
         $res = $this->service->isLogin();
         //结果返回渲染
-        return $this->success($res, 'ok');
+        return $this->success($res, '用户登录判断');
     }
 
     /**
@@ -117,6 +117,6 @@ class LoginController extends RestController
         // 数据获取
         $res = $this->service->getSupportTypes();
         //结果返回渲染
-        return $this->success($res, 'ok');
+        return $this->success($res, '支持的登录类型');
     }
 }

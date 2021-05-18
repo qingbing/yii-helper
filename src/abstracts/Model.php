@@ -22,6 +22,38 @@ abstract class Model extends ActiveRecord
     use TSave;
 
     /**
+     * 设置模型数据，过滤 null
+     *
+     * @param string $name
+     * @param mixed $value
+     */
+    public function setFilterAttribute(string $name, $value)
+    {
+        if (null !== $value) {
+            $this->setAttribute($name, $value);
+        }
+    }
+
+    /**
+     * 批量设置模型数据，过滤 null
+     *
+     * @param array $values
+     * @param bool $safeOnly
+     */
+    public function setFilterAttributes(array $values, $safeOnly = true)
+    {
+        $attributes = [];
+        foreach ($values as $attribute => $value) {
+            if (null !== $value) {
+                $attributes[$attribute] = $value;
+            }
+        }
+        if (count($attributes) > 0) {
+            $this->setAttributes($attributes, $safeOnly);
+        }
+    }
+
+    /**
      * 获取模型属性标签
      *
      * @return array

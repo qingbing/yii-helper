@@ -12,7 +12,7 @@ use Exception;
 use YiiHelper\abstracts\RestController;
 use YiiHelper\features\routeRecord\services\interfaces\IRouteRecordService;
 use YiiHelper\features\routeRecord\services\RouteRecordService;
-use YiiHelper\models\interfaceLogs\InterfaceSystem;
+use YiiHelper\models\System;
 use YiiHelper\models\routeLog\RouteRecord;
 use YiiHelper\models\routeLog\RouteType;
 use Zf\Helper\Traits\Models\TLabelYesNo;
@@ -44,7 +44,7 @@ class RouteRecordController extends RestController
             [
                 'system_alias', 'exist',
                 'label'           => '系统别名',
-                'targetClass'     => InterfaceSystem::class,
+                'targetClass'     => System::class,
                 'targetAttribute' => 'alias'
             ],
         ]);
@@ -68,7 +68,7 @@ class RouteRecordController extends RestController
             ['route_type', 'string', 'label' => '路由分类'],
             ['route', 'string', 'label' => '路由'],
             ['is_operate', 'in', 'label' => '是否操作', 'range' => array_keys(TLabelYesNo::yesNoLabels())],
-            ['is_logging', 'in', 'label' => '记录日志', 'default' => '', 'range' => array_keys(TLabelYesNo::yesNoLabels())],
+            ['is_logging', 'in', 'label' => '记录日志', 'range' => array_keys(TLabelYesNo::yesNoLabels())],
         ], null, true);
         // 业务处理
         $res = $this->service->list($params);
@@ -97,8 +97,8 @@ class RouteRecordController extends RestController
                 'targetAttribute' => 'route_type',
             ],
             ['description', 'string', 'label' => '类型描述'],
-            ['sort_order', 'integer', 'label' => '排序', 'default' => 1],
-            ['is_operate', 'in', 'label' => '是否操作', 'default' => 0, 'range' => array_keys(TLabelYesNo::yesNoLabels())],
+            ['sort_order', 'integer', 'label' => '排序'],
+            ['is_operate', 'in', 'label' => '是否操作', 'range' => array_keys(TLabelYesNo::yesNoLabels())],
         ]);
         // 业务处理
         $res = $this->service->edit($params);
@@ -162,9 +162,9 @@ class RouteRecordController extends RestController
             [
                 'id', 'exist', 'label' => '类型ID', 'targetClass' => RouteRecord::class, 'targetAttribute' => 'id'
             ],
-            ['is_logging', 'in', 'label' => '是否记录', 'default' => 0, 'range' => array_keys(TLabelYesNo::yesNoLabels())],
-            ['message', 'string', 'label' => '操作提示', 'default' => ''],
-            ['key_fields', 'string', 'label' => '关键字标志', 'default' => ''],
+            ['is_logging', 'in', 'label' => '是否记录', 'range' => array_keys(TLabelYesNo::yesNoLabels())],
+            ['message', 'string', 'label' => '操作提示'],
+            ['key_fields', 'string', 'label' => '关键字标志'],
         ]);
         // 业务处理
         $res = $this->service->editLogConfig($params);

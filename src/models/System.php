@@ -1,11 +1,11 @@
 <?php
 
-namespace YiiHelper\models\interfaceLogs;
+namespace YiiHelper\models;
 
 use YiiHelper\abstracts\Model;
 
 /**
- * This is the model class for table "pub_interface_system".
+ * This is the model class for table "pub_system".
  *
  * @property int $id 自增ID
  * @property string $alias 系统别名
@@ -24,14 +24,14 @@ use YiiHelper\abstracts\Model;
  *
  * 接口系统
  */
-class InterfaceSystem extends Model
+class System extends Model
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'pub_interface_system';
+        return 'pub_system';
     }
 
     /**

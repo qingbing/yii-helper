@@ -61,7 +61,7 @@ class ReplaceSettingService extends Service implements IReplaceSettingService
     {
         $model = $this->getModel($params);
         unset($params['code']);
-        $model->setAttributes($params);
+        $model->setFilterAttributes($params);
         return $model->saveOrException();
     }
 

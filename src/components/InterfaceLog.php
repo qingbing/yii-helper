@@ -22,7 +22,7 @@ use YiiHelper\helpers\Req;
 use YiiHelper\models\interfaceLogs\InterfaceFields;
 use YiiHelper\models\interfaceLogs\InterfaceAccessLogs;
 use YiiHelper\models\interfaceLogs\Interfaces;
-use YiiHelper\models\interfaceLogs\InterfaceSystem;
+use YiiHelper\models\System;
 use Zf\Helper\DataStore;
 use Zf\Helper\ReqHelper;
 use Zf\Helper\Timer;
@@ -70,7 +70,7 @@ class BusinessInterface
     public static function getSystem(string $systemAlias)
     {
         return AppHelper::app()->cacheHelper->get(self::getCacheKeyForSystem($systemAlias), function () use ($systemAlias) {
-            return InterfaceSystem::find()
+            return System::find()
                 ->andWhere(['=', 'alias', $systemAlias])
                 ->asArray()
                 ->one();

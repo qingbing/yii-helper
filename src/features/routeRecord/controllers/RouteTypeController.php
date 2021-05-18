@@ -12,8 +12,8 @@ use Exception;
 use YiiHelper\abstracts\RestController;
 use YiiHelper\features\routeRecord\services\interfaces\IRouteTypeService;
 use YiiHelper\features\routeRecord\services\RouteTypeService;
-use YiiHelper\models\interfaceLogs\InterfaceSystem;
 use YiiHelper\models\routeLog\RouteType;
+use YiiHelper\models\System;
 
 /**
  * 控制器 ： 路由类型
@@ -78,7 +78,7 @@ class RouteTypeController extends RestController
             [
                 'system_alias', 'exist',
                 'label'           => '系统别名',
-                'targetClass'     => InterfaceSystem::class,
+                'targetClass'     => System::class,
                 'targetAttribute' => 'alias'
             ],
             [
@@ -124,7 +124,7 @@ class RouteTypeController extends RestController
             [
                 'system_alias', 'exist',
                 'label'           => '系统别名',
-                'targetClass'     => InterfaceSystem::class,
+                'targetClass'     => System::class,
                 'targetAttribute' => 'alias'
             ],
             [

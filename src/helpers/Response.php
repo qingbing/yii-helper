@@ -67,7 +67,7 @@ class Response extends Singleton
             'code'     => $this->_code,
             'msg'      => $this->_msg,
             'data'     => $data,
-            'tract_id' => ReqHelper::getTraceId()
+            'trace_id' => ReqHelper::getTraceId()
         ];
     }
 

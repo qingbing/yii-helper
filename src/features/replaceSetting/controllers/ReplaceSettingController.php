@@ -64,9 +64,7 @@ class ReplaceSettingController extends RestController
             [['code', 'name', 'description', 'content'], 'string'],
             [['is_open', 'sort_order'], 'integer'],
             ['code', 'label' => '标识码', 'exist', 'targetClass' => ReplaceSetting::class, 'targetAttribute' => ['code', 'name']],
-            [
-                'name', 'unique', 'label' => '配置名称', 'targetClass' => ReplaceSetting::class, 'filter' => ['!=', 'code', $this->getParam('code')]
-            ],
+            ['name', 'unique', 'label' => '配置名称', 'targetClass' => ReplaceSetting::class, 'filter' => ['!=', 'code', $this->getParam('code')]],
             ['is_open', 'in', 'label' => '公开状态', 'range' => array_keys(TLabelYesNo::yesNoLabels())],
             ['replace_fields', JsonValidator::class, 'label' => '字段集'],
             ['sort_order', 'safe', 'label' => '排序'],

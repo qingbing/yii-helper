@@ -47,7 +47,7 @@ class HeaderService extends Service implements IHeaderService
     public function add(array $params): bool
     {
         $model = new Header();
-        $model->setAttributes($params);
+        $model->setFilterAttributes($params);
         return $model->saveOrException();
     }
 
@@ -63,7 +63,7 @@ class HeaderService extends Service implements IHeaderService
     {
         $model = $this->getModel($params);
         unset($params['key']);
-        $model->setAttributes($params);
+        $model->setFilterAttributes($params);
         return $model->saveOrException();
     }
 

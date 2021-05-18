@@ -105,7 +105,7 @@ class RouteRecordService extends Service implements IRouteRecordService
     {
         $model = $this->getModel($params);
         unset($params['id']);
-        $model->setAttributes($params);
+        $model->setFilterAttributes($params);
         return $model->saveOrException();
     }
 
@@ -171,7 +171,7 @@ class RouteRecordService extends Service implements IRouteRecordService
             $config->system_alias = $model->system_alias;
             $config->route        = $model->route;
         }
-        $config->setAttributes([
+        $config->setFilterAttributes([
             'is_logging' => $params['is_logging'],
             'message'    => $params['message'],
             'key_fields' => $params['key_fields'],
