@@ -31,30 +31,6 @@ class RouteRecordController extends RestController
     protected $serviceInterface = IRouteRecordService::class;
 
     /**
-     * 获取路由类型
-     *
-     * @return array
-     * @throws Exception
-     */
-    public function actionRouteType()
-    {
-        // 参数验证和获取
-        $params = $this->validateParams([
-            ['system_alias', 'required', 'label' => '系统别名'],
-            [
-                'system_alias', 'exist',
-                'label'           => '系统别名',
-                'targetClass'     => System::class,
-                'targetAttribute' => 'alias'
-            ],
-        ]);
-        // 业务处理
-        $res = $this->service->getRouteTypes($params);
-        // 渲染结果
-        return $this->success($res, '路由类型');
-    }
-
-    /**
      * 路由搜索列表
      *
      * @return array

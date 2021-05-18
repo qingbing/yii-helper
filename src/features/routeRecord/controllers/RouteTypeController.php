@@ -29,20 +29,6 @@ class RouteTypeController extends RestController
     protected $serviceInterface = IRouteTypeService::class;
 
     /**
-     * 获取系统
-     *
-     * @return array
-     * @throws Exception
-     */
-    public function actionSystemType()
-    {
-        // 业务处理
-        $res = $this->service->getSystemType();
-        // 渲染结果
-        return $this->success($res, '系统');
-    }
-
-    /**
      * 路由类型搜索列表
      *
      * @return array

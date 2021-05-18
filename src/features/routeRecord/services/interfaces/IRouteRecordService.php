@@ -19,14 +19,6 @@ use YiiHelper\services\interfaces\ICurdService;
 interface IRouteRecordService extends ICurdService
 {
     /**
-     * 获取路由类型列表
-     *
-     * @param array $params
-     * @return array
-     */
-    public function getRouteTypes(array $params): array;
-
-    /**
      * 编辑路由日志配置
      *
      * @param array $params

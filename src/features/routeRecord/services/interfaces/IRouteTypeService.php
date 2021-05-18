@@ -18,10 +18,4 @@ use YiiHelper\services\interfaces\ICurdService;
  */
 interface IRouteTypeService extends ICurdService
 {
-    /**
-     * 获取系统
-     *
-     * @return array
-     */
-    public function getSystemType(): array;
 }

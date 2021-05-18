@@ -24,25 +24,6 @@ use Zf\Helper\Exceptions\BusinessException;
 class RouteTypeService extends Service implements IRouteTypeService
 {
     /**
-     * 获取系统
-     *
-     * @return array
-     */
-    public function getSystemType(): array
-    {
-        $query = System::find()
-            ->select(['alias', 'name'])
-            ->orderBy('sort_order DESC');
-        $res   = $query->asArray()
-            ->all();
-        $R     = [];
-        foreach ($res as $re) {
-            $R[$re['alias']] = $re['name'];
-        }
-        return $R;
-    }
-
-    /**
      * 路由类型列表
      *
      * @param array|null $params

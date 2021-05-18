@@ -27,27 +27,6 @@ use Zf\Helper\Exceptions\BusinessException;
 class RouteRecordService extends Service implements IRouteRecordService
 {
     /**
-     * 获取路由类型列表
-     *
-     * @param array $params
-     * @return array
-     */
-    public function getRouteTypes(array $params): array
-    {
-        $res = RouteType::find()
-            ->select(['route_type', 'type_name'])
-            ->andWhere(['system_alias' => $params['system_alias']])
-            ->orderBy('sort_order DESC')
-            ->asArray()
-            ->all();
-        $R   = [];
-        foreach ($res as $re) {
-            $R[$re['route_type']] = $re['type_name'];
-        }
-        return $R;
-    }
-
-    /**
      * 路由记录列表
      *
      * @param array|null $params
