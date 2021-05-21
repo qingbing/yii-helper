@@ -2,14 +2,18 @@
 
 namespace YiiHelper\models\tableHeader;
 
+use yii\db\ActiveRecord;
 use YiiHelper\abstracts\Model;
+use YiiHelper\behaviors\IpBehavior;
+use YiiHelper\behaviors\TraceIdBehavior;
+use YiiHelper\behaviors\UidBehavior;
 
 /**
  * This is the model class for table "pub_header_option".
  *
  * @property int $id 自增ID
  * @property string $header_key 所属表头分类（来自header）
- * @property string $name 字段名
+ * @property string $field 字段名
  * @property string $label 显示名
  * @property string $width 固定宽度
  * @property string $fixed 列固定:[left,right,""]
@@ -31,6 +35,42 @@ use YiiHelper\abstracts\Model;
  */
 class HeaderOption extends Model
 {
+    const FIXED_NONE  = 'none';
+    const FIXED_LEFT  = 'left';
+    const FIXED_RIGHT = 'right';
+
+    /**
+     * 固定方位
+     *
+     * @return array
+     */
+    public static function fixedTypes(): array
+    {
+        return [
+            self::FIXED_NONE  => '无',
+            self::FIXED_LEFT  => '固定在左',
+            self::FIXED_RIGHT => '固定在右',
+        ];
+    }
+
+    const ALIGN_LEFT   = 'left';
+    const ALIGN_CENTER = 'center';
+    const ALIGN_RIGHT  = 'right';
+
+    /**
+     * 列对齐方式
+     *
+     * @return array
+     */
+    public static function alignTypes()
+    {
+        return [
+            self::ALIGN_LEFT   => '左对齐',
+            self::ALIGN_CENTER => '居中对齐',
+            self::ALIGN_RIGHT  => '右对齐',
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -45,16 +85,16 @@ class HeaderOption extends Model
     public function rules()
     {
         return [
-            [['header_key', 'name', 'label'], 'required'],
+            [['header_key', 'field', 'label'], 'required'],
             [['is_tooltip', 'is_resizable', 'sort_order', 'is_required', 'is_default', 'is_enable', 'operate_uid'], 'integer'],
             [['params', 'created_at', 'updated_at'], 'safe'],
             [['header_key', 'default'], 'string', 'max' => 100],
-            [['name', 'component'], 'string', 'max' => 60],
+            [['field', 'component'], 'string', 'max' => 60],
             [['label'], 'string', 'max' => 50],
             [['width', 'fixed', 'align'], 'string', 'max' => 20],
             [['description'], 'string', 'max' => 255],
             [['operate_ip'], 'string', 'max' => 15],
-            [['header_key', 'name'], 'unique', 'targetAttribute' => ['header_key', 'name']],
+            [['header_key', 'field'], 'unique', 'targetAttribute' => ['header_key', 'field']],
             [['header_key', 'label'], 'unique', 'targetAttribute' => ['header_key', 'label']],
         ];
     }
@@ -67,7 +107,7 @@ class HeaderOption extends Model
         return [
             'id'           => '自增ID',
             'header_key'   => '表头标志',
-            'name'         => '字段名',
+            'field'        => '字段名',
             'label'        => '显示名',
             'width'        => '固定宽度',
             'fixed'        => '列固定:[left,right,\"\"]',
@@ -87,5 +127,44 @@ class HeaderOption extends Model
             'created_at'   => '创建时间',
             'updated_at'   => '更新时间',
         ];
+    }
+
+    /**
+     * 绑定 behavior
+     *
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'ip'  => [
+                'class'      => IpBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'operate_ip',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'operate_ip',
+                ]
+            ],
+            'uid' => [
+                'class'      => UidBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => 'operate_uid',
+                    ActiveRecord::EVENT_BEFORE_UPDATE => 'operate_uid',
+                ]
+            ],
+        ];
+    }
+
+    /**
+     * 获取 header_key 下的所有选项
+     *
+     * @param string $headerKey
+     * @return HeaderOption[]|array
+     */
+    public static function getOptionsByKey(string $headerKey)
+    {
+        return HeaderOption::find()
+            ->andWhere(['=', 'header_key', $headerKey])
+            ->orderBy("sort_order DESC, id ASC")
+            ->all();
     }
 }

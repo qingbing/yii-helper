@@ -24,7 +24,7 @@ CREATE TABLE `pub_header_option` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `header_key` varchar(100) NOT NULL COMMENT '所属表头标记',
   -- 页面需要信息
-  `name` varchar(60) NOT NULL COMMENT '字段名',
+  `field` varchar(60) NOT NULL COMMENT '字段名',
   `label` varchar(50) NOT NULL COMMENT '显示名',
   `width` varchar(20) NOT NULL DEFAULT '' COMMENT '固定宽度',
   `fixed` varchar(20) NOT NULL DEFAULT '' COMMENT '列固定:[left,right,""]',
@@ -46,7 +46,7 @@ CREATE TABLE `pub_header_option` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_key_name` (`header_key`, `name`),
+  UNIQUE KEY `uk_key_field` (`header_key`, `field`),
   UNIQUE KEY `uk_key_label` (`header_key`, `label`),
   KEY `idx_sortOrder`(`sort_order`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='表头配置选项';
