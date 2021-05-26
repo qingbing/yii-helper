@@ -5,20 +5,26 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\tools;
+namespace YiiHelper\features\replaceSetting\tools;
 
 
 use yii\db\Query;
-use YiiHelper\models\ReplaceSetting\ReplaceSetting as ReplaceSettingAlias;
+use YiiHelper\models\replaceSetting\ReplaceSetting as ReplaceSettingAlias;
 use Zf\Helper\Exceptions\BusinessException;
 
+/**
+ * 工具 ： 替换配置
+ *
+ * Class ReplaceSetting
+ * @package YiiHelper\features\replaceSetting\tools
+ */
 class ReplaceSetting
 {
     /**
      * 获取实例
      *
      * @param string $code
-     * @return ReplaceSetting
+     * @return $this
      * @throws BusinessException
      */
     public static function getInstance(string $code)

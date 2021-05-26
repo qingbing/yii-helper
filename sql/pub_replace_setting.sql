@@ -1,3 +1,11 @@
+-- ----------------------------
+-- 用途
+--   替换配置：主要用于网站通用模版的替换
+--
+-- 实现逻辑
+-- 1. 界面管理替换模版，入表 pub_replace_setting
+-- 2. 提供 ReplaceSetting::getInstance("mail_register")->getContent(['uid' => 1]) 来进行模版提取
+-- ----------------------------
 
 -- ----------------------------
 --  Table structure for `pub_replace_setting`
