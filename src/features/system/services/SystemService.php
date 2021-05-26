@@ -97,7 +97,7 @@ class SystemService extends Service implements ISystemService
     }
 
     /**
-     * 获取当前操作表头
+     * 获取当前操作模型
      *
      * @param array $params
      * @return System
@@ -109,7 +109,7 @@ class SystemService extends Service implements ISystemService
             'id' => $params['id'] ?? null
         ]);
         if (null === $model) {
-            throw new BusinessException("表头不存在");
+            throw new BusinessException("系统不存在");
         }
         return $model;
     }

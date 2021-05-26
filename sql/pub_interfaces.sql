@@ -1,3 +1,18 @@
+-- ----------------------------
+-- 用途 ：组件
+-- 1. 实现组件 \YiiHelper\components\InterfaceLog::class
+-- 2. 开启组件的 acceptNewInterface=true, 访问的接口（接口和接口参数信息将记录）
+-- 3. 开启组件的 openLog=true, 在库里面的接口将回被记录访问日志
+--
+-- 实现逻辑
+-- 1. 实现组件并配置成 interfaceLog
+-- 2. 通过开启 acceptNewInterface 将接口记录入 pub_interfaces；接口字段录入 pub_interface_fields
+-- 3. 通过开启 openLog， 将在库的接口访问录入 pub_interface_access_logs
+-- 4. 界面管理表 pub_interfaces 信息，配置接口名称、接口类型、描述、日志记录、校验等信息
+-- 5. 界面管理表 pub_interface_fields 信息，配置名称、描述、必填等信息
+-- 6. 界面管理 pub_interface_access_logs， 查询接口访问信息
+-- ----------------------------
+
 
 -- ----------------------------
 --  Table structure for `pub_interfaces`

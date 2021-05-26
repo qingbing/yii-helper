@@ -116,7 +116,7 @@ class RouteRecordService extends Service implements IRouteRecordService
     }
 
     /**
-     * 获取当前操作路由
+     * 获取当前操作模型
      *
      * @param $params
      * @return RouteRecord

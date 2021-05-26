@@ -167,7 +167,7 @@ class HeaderOptionService extends Service implements IHeaderOptionService
     }
 
     /**
-     * 获取当前操作表头选项
+     * 获取当前操作模型
      *
      * @param array $params
      * @return HeaderOption

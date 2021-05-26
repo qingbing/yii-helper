@@ -5,14 +5,13 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\models\abstracts;
-
+namespace YiiHelper\models\operateLog;
 
 use YiiHelper\abstracts\Model;
 use YiiHelper\behaviors\IpBehavior;
+use YiiHelper\behaviors\NicknameBehavior;
 use YiiHelper\behaviors\TraceIdBehavior;
 use YiiHelper\behaviors\UidBehavior;
-use YiiHelper\behaviors\NicknameBehavior;
 
 /**
  * @property int $id 自增ID
@@ -27,47 +26,11 @@ use YiiHelper\behaviors\NicknameBehavior;
  * @property string $nickname 用户昵称
  * @property string $created_at 创建时间
  *
- * 操作日志抽象类
- * 1. 继承时需要定义日志表名
- * 2. 继承时需要实现日志支持类型:types()
- * 3. db-sql 参考 sql/operate_log.sql
- *
  * Class OperateLog
- * @package YiiHelper\models\abstracts
+ * @package YiiHelper\models\operateLog
  */
-abstract class OperateLog extends Model
+class OperateLog extends Model
 {
-    const TYPE_LOGIN = 'login';
-
-    /**
-     * 获取所有日志类型
-     *
-     * @return array
-     */
-    abstract public static function types();
-
-    /**
-     * 返回日志所在系统
-     *
-     * @return string
-     */
-    abstract static protected function getSystemAlias(): string;
-
-    /**
-     * 绑定 behavior
-     *
-     * @return array
-     */
-    public function behaviors()
-    {
-        return [
-            UidBehavior::class,
-            NicknameBehavior::class,
-            IpBehavior::class,
-            TraceIdBehavior::class
-        ];
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -113,26 +76,17 @@ abstract class OperateLog extends Model
     }
 
     /**
-     * 添加一条记录
+     * 绑定 behavior
      *
-     * @param string $type
-     * @param string $keyword
-     * @param mixed $data
-     * @param string $message
-     * @return bool
+     * @return array
      */
-    public static function add(string $type, $data, string $keyword = '', string $message = '')
+    public function behaviors()
     {
-        $data = [
-            'system_alias' => static::getSystemAlias(),
-            'type'         => $type, // 操作类型-用字符串描述
-            'keyword'      => $keyword, // 关键字，用于后期筛选
-            'message'      => $message, // 操作消息
-            'data'         => $data, // 操作的具体内容
+        return [
+            UidBehavior::class,
+            NicknameBehavior::class,
+            IpBehavior::class,
+            TraceIdBehavior::class
         ];
-
-        $model = new static();
-        $model->setAttributes($data);
-        return $model->saveOrException();
     }
 }

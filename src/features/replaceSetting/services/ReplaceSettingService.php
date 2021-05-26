@@ -90,9 +90,9 @@ class ReplaceSettingService extends Service implements IReplaceSettingService
     }
 
     /**
-     * 获取当前操作替换配置
+     * 获取当前操作模型
      *
-     * @param $params
+     * @param array $params
      * @return ReplaceSetting
      * @throws BusinessException
      */

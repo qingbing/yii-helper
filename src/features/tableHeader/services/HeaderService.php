@@ -95,7 +95,7 @@ class HeaderService extends Service implements IHeaderService
     }
 
     /**
-     * 获取当前操作表头
+     * 获取当前操作模型
      *
      * @param array $params
      * @return Header

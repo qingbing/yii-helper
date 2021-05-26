@@ -9,7 +9,6 @@ namespace YiiHelper\components;
 
 use Yii;
 use YiiHelper\helpers\Req;
-use YiiHelper\models\abstracts\OperateLog;
 use YiiHelper\models\abstracts\UserAccount;
 use Zf\Helper\DataStore;
 use Zf\Helper\Format;
@@ -109,50 +108,5 @@ class User extends \yii\web\User
         $userAccount->last_login_ip = Req::getUserIp();
         $userAccount->login_times   = $userAccount->login_times + 1;
         $userAccount->save();
-
-        // 添加登录日志
-        if ($this->operateClass && is_subclass_of($this->operateClass, OperateLog::class)) {
-            call_user_func_array([$this->operateClass, 'add'], [
-                OperateLog::TYPE_LOGIN,
-                [
-                    'login_ip'            => Req::getUserIp(),
-                    'user_login_times'    => $identity->login_times,
-                    'account_login_times' => $userAccount->login_times,
-                    'uid'                 => $identity->uid,
-                    'account'             => $userAccount->account,
-                    'account_id'          => $userAccount->id,
-                    'account_type'        => $userAccount->type,
-                ],
-                $identity->uid,
-                '用户登录'
-            ]);
-        }
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function beforeLogout($identity)
-    {
-        /* @var \YiiHelper\models\abstracts\User $identity */
-        // 添加登录日志
-        if ($this->operateClass && is_subclass_of($this->operateClass, OperateLog::class)) {
-            $userAccount = $identity->getLoginAccount();
-            call_user_func_array([$this->operateClass, 'add'], [
-                OperateLog::TYPE_LOGIN,
-                [
-                    'login_ip'            => Req::getUserIp(),
-                    'user_login_times'    => $identity->login_times,
-                    'account_login_times' => $userAccount->login_times,
-                    'uid'                 => $identity->uid,
-                    'account'             => $userAccount->account,
-                    'account_id'          => $userAccount->id,
-                    'account_type'        => $userAccount->type,
-                ],
-                $identity->uid,
-                '退出登录'
-            ]);
-        }
-        return parent::beforeLogout($identity);
     }
 }

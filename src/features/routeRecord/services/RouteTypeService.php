@@ -96,7 +96,7 @@ class RouteTypeService extends Service implements IRouteTypeService
     }
 
     /**
-     * 获取路由类型模型
+     * 获取当前操作模型
      *
      * @param array $params
      * @return RouteType|null

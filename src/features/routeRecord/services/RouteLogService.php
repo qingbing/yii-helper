@@ -69,7 +69,7 @@ class RouteLogService extends Service implements IRouteLogService
     }
 
     /**
-     * 获取路由日志模型
+     * 获取当前操作模型
      *
      * @param array $params
      * @return RouteAccessLog|null

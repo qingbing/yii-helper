@@ -1,3 +1,11 @@
+-- ----------------------------
+-- 用途
+--   操作日志：该日志主要用于程序员在重要的地方手动打一些操作的日志，主要用于问题排查或重要记录
+--
+-- 实现逻辑
+-- 1. 通过 \YiiHelper\features\operateLog\tools\OperateLog::getInstance()->add() 将日志数据写入 pub_operate_log 表
+-- 2. 界面查看操作日志情况
+-- ----------------------------
 
 -- ----------------------------
 --  Table structure for `pub_operate_log`
