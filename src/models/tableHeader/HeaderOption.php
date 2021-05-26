@@ -22,6 +22,7 @@ use YiiHelper\behaviors\UidBehavior;
  * @property int $is_tooltip 当内容过长被隐藏时显示 tooltip
  * @property int $is_resizable 对应列是否可以通过拖动改变宽度
  * @property string $component 使用组件
+ * @property string|null $options 字段选项映射关系
  * @property string|null $params 参数内容
  * @property string $description 描述
  * @property int $sort_order 分类排序
@@ -87,7 +88,7 @@ class HeaderOption extends Model
         return [
             [['header_key', 'field', 'label'], 'required'],
             [['is_tooltip', 'is_resizable', 'sort_order', 'is_required', 'is_default', 'is_enable', 'operate_uid'], 'integer'],
-            [['params', 'created_at', 'updated_at'], 'safe'],
+            [['options', 'params', 'created_at', 'updated_at'], 'safe'],
             [['header_key', 'default'], 'string', 'max' => 100],
             [['field', 'component'], 'string', 'max' => 60],
             [['label'], 'string', 'max' => 50],
@@ -110,17 +111,18 @@ class HeaderOption extends Model
             'field'        => '字段名',
             'label'        => '显示名',
             'width'        => '固定宽度',
-            'fixed'        => '列固定:[left,right,\"\"]',
-            'default'      => '默认值,当字段没有是返回，基本无用',
-            'align'        => '表格内容对齐方式:[center,left,right]',
-            'is_tooltip'   => '当内容过长被隐藏时显示 tooltip',
-            'is_resizable' => '对应列是否可以通过拖动改变宽度',
-            'component'    => '使用组件',
+            'fixed'        => '列固定',
+            'default'      => '默认值',
+            'align'        => '对齐方式',
+            'is_tooltip'   => '使用tooltip',
+            'is_resizable' => '开启拖动',
+            'component'    => '组件',
+            'options'      => '字段映射',
             'params'       => '参数内容',
             'description'  => '描述',
-            'sort_order'   => '分类排序',
-            'is_required'  => '是否必选，为\"是\"时不能没取消',
-            'is_default'   => '是否默认开启',
+            'sort_order'   => '排序',
+            'is_required'  => '是否必选',
+            'is_default'   => '默认开启',
             'is_enable'    => '是否开启',
             'operate_ip'   => '操作IP',
             'operate_uid'  => '操作UID',

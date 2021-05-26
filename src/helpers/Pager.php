@@ -68,8 +68,17 @@ class Pager extends Factory
         } else {
             // 自动获取数据总条数
             $queryCount = clone $query;
-            $queryCount->select('COUNT(*) as count')
-                ->limit(1)
+            $groupBy    = $query->groupBy;
+            if (is_array($groupBy)) {
+                $groupBy = implode(",", $groupBy);
+            }
+            if (empty($groupBy)) {
+                $queryCount->select('COUNT(*) as count');
+            } else {
+                $queryCount->groupBy(null);
+                $queryCount->select('COUNT(DISTINCT(' . $groupBy . ')) as count');
+            }
+            $queryCount->limit(1)
                 ->orderBy('');
 
             if ($query instanceof ActiveQuery) {
@@ -78,7 +87,7 @@ class Pager extends Factory
             } else {
                 $re = $queryCount->one();
             }
-            $totalCount = $re['count'];
+            $totalCount = (int)$re['count'];
         }
         if ($totalCount > 0) {
             // 强制参数校验

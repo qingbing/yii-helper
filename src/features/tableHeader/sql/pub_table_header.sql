@@ -33,6 +33,7 @@ CREATE TABLE `pub_header_option` (
   `is_tooltip` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '当内容过长被隐藏时显示 tooltip',
   `is_resizable` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '对应列是否可以通过拖动改变宽度',
   `component` varchar(60) NOT NULL DEFAULT '' COMMENT '使用组件',
+  `options` json COMMENT '字段选项映射关系',
   `params` json COMMENT '参数内容',
 
   -- 辅助控制

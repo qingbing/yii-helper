@@ -11,6 +11,7 @@ namespace YiiHelper\controllers;
 use Exception;
 use YiiHelper\abstracts\RestController;
 use YiiHelper\actions\ClearCache;
+use YiiHelper\features\tableHeader\actions\TableHeader;
 use YiiHelper\models\System;
 use YiiHelper\services\interfaces\IPubService;
 use YiiHelper\services\PubService;
@@ -37,9 +38,13 @@ class PubController extends RestController
     {
         return [
             // 清除系统缓存
-            'clear-cache' => [
+            'clear-cache'  => [
                 'class' => ClearCache::class
-            ]
+            ],
+            // 获取表头类型选项
+            'table-header' => [
+                'class' => TableHeader::class
+            ],
         ];
     }
 
@@ -75,4 +80,6 @@ class PubController extends RestController
         // 渲染结果
         return $this->success($res, '路由类型');
     }
+
+
 }
