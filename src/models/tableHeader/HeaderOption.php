@@ -164,7 +164,7 @@ class HeaderOption extends Model
      */
     public static function getOptionsByKey(string $headerKey)
     {
-        return HeaderOption::find()
+        return self::find()
             ->andWhere(['=', 'header_key', $headerKey])
             ->orderBy("sort_order DESC, id ASC")
             ->all();

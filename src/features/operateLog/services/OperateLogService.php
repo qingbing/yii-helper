@@ -32,7 +32,9 @@ class OperateLogService extends Service implements IOperateLogService
     {
         $query = OperateLog::find()
             ->orderBy('id DESC');
+        // 等于查询
         $this->attributeWhere($query, $params, ['id', 'trace_id', 'type', 'system_alias', 'uid', 'keyword', 'nickname']);
+        // like 查询
         $this->likeWhere($query, $params, 'message');
         return Pager::getInstance()->pagination($query, $params['pageNo'], $params['pageSize']);
     }

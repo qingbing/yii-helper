@@ -3,6 +3,7 @@
 namespace YiiHelper\models\interfaceLogs;
 
 use YiiHelper\abstracts\Model;
+use Zf\Helper\Exceptions\BusinessException;
 
 /**
  * This is the model class for table "pub_interfaces".
@@ -19,6 +20,9 @@ use YiiHelper\abstracts\Model;
  * @property int $is_strict_validate 开启严格检查[0:未启用; 1:已启用],启用是每个字段都必须在{interface_fields}中定义
  * @property string $created_at 创建时间
  * @property string $updated_at 更新时间
+ *
+ * @property-read int $optionCount 子项目数量
+ * @property-read InterfaceFields[] $options 子项目
  *
  * 接口信息
  */
@@ -71,5 +75,62 @@ class Interfaces extends Model
             'created_at'         => '创建时间',
             'updated_at'         => '更新时间',
         ];
+    }
+
+    /**
+     * 获取拥有的子项数量
+     *
+     * @return int|string
+     */
+    public function getOptionCount()
+    {
+        return $this->hasMany(
+            InterfaceFields::class,
+            ['interface_alias' => 'alias']
+        )
+            ->andWhere(['parent_field' => ''])
+            ->count();
+    }
+
+    /**
+     * 获取拥有的子项目
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getOptions()
+    {
+        return $this->hasMany(
+            InterfaceFields::class,
+            ['interface_alias' => 'alias']
+        )
+            ->orderBy("alias")
+            ->andWhere(['parent_field' => '']);
+    }
+
+    /**
+     * json需要返回的字段
+     *
+     * @return array|false
+     */
+    public function fields()
+    {
+        return array_merge(parent::fields(), [
+            'optionCount',
+            'options',
+        ]);
+    }
+
+    /**
+     * 检查是否可以删除
+     *
+     * @return bool
+     * @throws BusinessException
+     */
+    public function beforeDelete()
+    {
+        if ($this->optionCount > 0) {
+            throw new BusinessException("该类型尚有子项目，不能删除");
+        }
+        return parent::beforeDelete();
     }
 }

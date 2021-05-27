@@ -42,7 +42,7 @@ CREATE TABLE `pub_interfaces` (
 CREATE TABLE `pub_interface_fields` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `interface_alias` varchar(150) NOT NULL COMMENT '接口别名：systemAlias+uri_path',
-  `parent_alias` varchar(255) NOT NULL DEFAULT '' COMMENT '上级字段别名:interfaceFieldsAlias',
+  `parent_field` varchar(255) NOT NULL DEFAULT '' COMMENT '上级字段别名',
   `field` varchar(50) NOT NULL COMMENT '字段名',
   `alias` varchar(255) NOT NULL COMMENT '字段别名:interfaceAlias+parentAlias+field',
   `name` varchar(100) NOT NULL DEFAULT '' COMMENT '字段意义',
@@ -55,7 +55,7 @@ CREATE TABLE `pub_interface_fields` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_interfaceAlias_field` (`interface_alias`, `parent_alias`, `field`),
+  UNIQUE KEY `uk_interfaceAlias_field` (`interface_alias`, `parent_field`, `field`),
   UNIQUE KEY `uk_alias` (`alias`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统接口字段表';
 

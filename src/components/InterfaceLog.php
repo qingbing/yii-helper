@@ -126,7 +126,7 @@ class BusinessInterface
             $data = [
                 'system_alias' => $systemAlias,
                 'uri_path'     => $pathInfo,
-                'alias'        => $systemAlias . ':' . $pathInfo,
+                'alias'        => $systemAlias . '|' . str_replace('/', "_", $pathInfo),
             ];
             // 写入接口信息
             $interfaceModel = self::addInterfaceInfo($data);
@@ -156,7 +156,7 @@ class BusinessInterface
             $alias = $parentField ? "{$parentField}.{$val['field']}" : $val['field'];
             self::addInterfaceField([
                 'interface_alias' => $interfaceInfo->alias,
-                'parent_alias'    => $parentField,
+                'parent_field'    => $parentField,
                 'field'           => $val['field'],
                 'alias'           => "{$interfaceInfo->alias}|{$alias}",
                 'type'            => $type,
@@ -184,9 +184,9 @@ class BusinessInterface
         foreach ($params as $key => $val) {
             self::addInterfaceField([
                 'interface_alias' => $interfaceInfo->alias,
-                'parent_alias'    => "",
+                'parent_field'    => "",
                 'field'           => $key,
-                'alias'           => "{$interfaceInfo->alias}:{$key}",
+                'alias'           => "{$interfaceInfo->alias}|{$key}",
                 'type'            => $type,
                 'data_area'       => 'header',
                 'data_type'       => 'string',
@@ -349,6 +349,8 @@ class InterfaceLog extends Component
      */
     public $ignoreHeaders = [
         'x-forwarded-for',
+        'x-trace-id',
+        'x-system',
     ];
 
     /**
@@ -559,7 +561,7 @@ class InterfaceLog extends Component
             DataStore::get($this->getStoreKey()),
             [
                 'header'   => $this->getCustomHeaders($response->getHeaders()),
-                'response' => $response->data
+                'response' => (0 == $response->data['code'] && $response->data['data']) ? $response->data['data'] : null,
             ]
         );
     }

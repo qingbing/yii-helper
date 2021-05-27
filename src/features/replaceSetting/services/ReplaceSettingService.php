@@ -32,7 +32,9 @@ class ReplaceSettingService extends Service implements IReplaceSettingService
     {
         $query = ReplaceSetting::find()
             ->orderBy('sort_order ASC');
+        // 等于查询
         $this->attributeWhere($query, $params, 'is_open');
+        // like 查询
         $this->likeWhere($query, $params, ['code', 'name']);
         return Pager::getInstance()->pagination($query, $params['pageNo'], $params['pageSize']);
     }

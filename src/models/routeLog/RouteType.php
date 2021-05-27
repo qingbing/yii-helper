@@ -76,7 +76,7 @@ class RouteType extends Model
     }
 
     /**
-     * 检查路由是否可以删除
+     * 检查是否可以删除
      *
      * @return bool
      * @throws BusinessException

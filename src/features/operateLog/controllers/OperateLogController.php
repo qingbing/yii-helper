@@ -20,7 +20,7 @@ use Zf\Helper\Traits\Models\TLabelYesNo;
  * Class OperateLogController
  * @package YiiHelper\features\operateLog\controllers
  *
- * @property-read OperateLogService $service
+ * @property-read IOperateLogService $service
  */
 class OperateLogController extends RestController
 {

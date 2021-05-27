@@ -20,6 +20,8 @@ use Zf\Helper\Traits\Models\TLabelYesNo;
  *
  * Class RouteLogController
  * @package YiiHelper\features\routeRecord\controllers
+ *
+ * @property-read IRouteLogService $service
  */
 class RouteLogController extends RestController
 {

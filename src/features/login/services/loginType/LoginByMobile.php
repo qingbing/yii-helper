@@ -8,7 +8,6 @@
 namespace YiiHelper\features\login\services\loginType;
 
 
-
 use YiiHelper\features\login\services\loginType\abstracts\LoginBase;
 
 /**

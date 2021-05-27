@@ -62,7 +62,7 @@ class HeaderOptionController extends RestController
         $headerKey = $this->getParam('header_key');
         // 参数验证和获取
         $params = $this->validateParams([
-            [['header_key', 'field', 'label', 'sort_order', 'is_open'], 'required'],
+            [['header_key', 'field', 'label', 'sort_order'], 'required'],
             ['header_key', 'exist', 'label' => '表头标记', 'targetClass' => Header::class, 'targetAttribute' => 'key'],
             ['field', 'unique', 'label' => '选项字段', 'targetClass' => HeaderOption::class, 'targetAttribute' => 'field', 'filter' => ['header_key' => $headerKey]],
             ['label', 'unique', 'label' => '选项名称', 'targetClass' => HeaderOption::class, 'targetAttribute' => 'label', 'filter' => ['header_key' => $headerKey]],
@@ -79,7 +79,6 @@ class HeaderOptionController extends RestController
             ['sort_order', 'integer', 'label' => '排序'],
             ['is_required', 'in', 'label' => '必填', 'range' => array_keys(TLabelYesNo::isLabels())],
             ['is_default', 'in', 'label' => '默认开启', 'range' => array_keys(TLabelYesNo::isLabels())],
-            ['is_open', 'in', 'label' => '是否公开', 'range' => array_keys(TLabelYesNo::isLabels())],
         ]);
         // 业务处理
         $res = $this->service->add($params);
@@ -100,7 +99,7 @@ class HeaderOptionController extends RestController
         $headerKey = $this->getParam('header_key');
         // 参数验证和获取
         $params = $this->validateParams([
-            [['id', 'header_key', 'label'], 'required'],
+            [['id', 'header_key'], 'required'],
             ['id', 'exist', 'label' => 'ID', 'targetClass' => HeaderOption::class, 'targetAttribute' => 'id'],
             ['header_key', 'exist', 'label' => '表头标记', 'targetClass' => Header::class, 'targetAttribute' => 'key'],
             [
@@ -128,7 +127,6 @@ class HeaderOptionController extends RestController
             ['sort_order', 'integer', 'label' => '排序'],
             ['is_required', 'in', 'label' => '必填', 'range' => array_keys(TLabelYesNo::isLabels())],
             ['is_default', 'in', 'label' => '默认开启', 'range' => array_keys(TLabelYesNo::isLabels())],
-            ['is_open', 'in', 'label' => '是否公开', 'range' => array_keys(TLabelYesNo::isLabels())],
         ]);
         // 业务处理
         $res = $this->service->edit($params);

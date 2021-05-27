@@ -33,7 +33,9 @@ class RouteTypeService extends Service implements IRouteTypeService
     {
         $query = RouteType::find()
             ->orderBy('sort_order ASC');
+        // 等于查询
         $this->attributeWhere($query, $params, 'system_alias');
+        // like 查询
         $this->likeWhere($query, $params, ['route_type', 'type_name']);
         return Pager::getInstance()->pagination($query, $params['pageNo'], $params['pageSize']);
     }

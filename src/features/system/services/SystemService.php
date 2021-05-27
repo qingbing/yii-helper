@@ -34,7 +34,9 @@ class SystemService extends Service implements ISystemService
     {
         $query = System::find()
             ->orderBy('sort_order ASC');
+        // 等于查询
         $this->attributeWhere($query, $params, ['alias', 'is_enable', 'is_continue', 'is_record_field', 'is_open_log']);
+        // like 查询
         $this->likeWhere($query, $params, 'name');
         return Pager::getInstance()->pagination($query, $params['pageNo'], $params['pageSize']);
     }
