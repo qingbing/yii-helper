@@ -5,40 +5,40 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\features\tableHeader\services;
+namespace YiiHelper\features\form\services;
 
 
 use YiiHelper\abstracts\Service;
-use YiiHelper\features\tableHeader\services\interfaces\IHeaderOptionService;
+use YiiHelper\features\form\services\interfaces\IFormOptionService;
 use YiiHelper\helpers\AppHelper;
-use YiiHelper\models\tableHeader\Header;
-use YiiHelper\models\tableHeader\HeaderOption;
+use YiiHelper\models\form\FormCategory;
+use YiiHelper\models\form\FormOption;
 use Zf\Helper\Exceptions\BusinessException;
 
 /**
- * 逻辑类 ： 表头选项管理
+ * 服务 ： 表单选项管理
  *
- * Class HeaderOptionService
- * @package YiiHelper\features\tableHeader\services
+ * Class FormOptionService
+ * @package YiiHelper\features\from\services
  */
-class HeaderOptionService extends Service implements IHeaderOptionService
+class FormOptionService extends Service implements IFormOptionService
 {
     /**
-     * 表头选项列表
+     * 表单选项列表
      *
      * @param array|null $params
      * @return array
      */
     public function list(array $params = []): array
     {
-        $category = Header::findOne([
-            'key' => $params['header_key'],
+        $category = FormCategory::findOne([
+            'key' => $params['key'],
         ]);
         return $category->options;
     }
 
     /**
-     * 添加表头选项
+     * 添加表单选项
      *
      * @param array $params
      * @return bool
@@ -46,13 +46,13 @@ class HeaderOptionService extends Service implements IHeaderOptionService
      */
     public function add(array $params): bool
     {
-        $model = new HeaderOption();
+        $model = new FormOption();
         $model->setFilterAttributes($params);
         return $model->saveOrException();
     }
 
     /**
-     * 编辑表头选项
+     * 编辑表单选项
      *
      * @param array $params
      * @return bool
@@ -62,13 +62,13 @@ class HeaderOptionService extends Service implements IHeaderOptionService
     public function edit(array $params): bool
     {
         $model = $this->getModel($params);
-        unset($params['id'], $params['header_key']);
+        unset($params['id'], $params['key']);
         $model->setFilterAttributes($params);
         return $model->saveOrException();
     }
 
     /**
-     * 删除表头选项
+     * 删除表单选项
      *
      * @param array $params
      * @return bool
@@ -83,10 +83,10 @@ class HeaderOptionService extends Service implements IHeaderOptionService
     }
 
     /**
-     * 查看表头选项详情
+     * 查看表单选项详情
      *
      * @param array $params
-     * @return mixed|HeaderOption
+     * @return mixed|FormOption
      * @throws BusinessException
      */
     public function view(array $params)
@@ -103,8 +103,8 @@ class HeaderOptionService extends Service implements IHeaderOptionService
      */
     public function refreshOrder(array $params): bool
     {
-        $category = Header::findOne([
-            'key' => $params['header_key'],
+        $category = FormCategory::findOne([
+            'key' => $params['key'],
         ]);
         $options  = $category->options;
         AppHelper::app()->getDb()->transaction(function () use ($options) {
@@ -156,12 +156,12 @@ class HeaderOptionService extends Service implements IHeaderOptionService
     /**
      * 交换两个模型的 sort_order
      *
-     * @param HeaderOption $sourceModel
-     * @param HeaderOption $targetModel
+     * @param FormOption $sourceModel
+     * @param FormOption $targetModel
      * @return bool
      * @throws \Throwable
      */
-    protected function switchSortOrder(HeaderOption $sourceModel, ?HeaderOption $targetModel)
+    protected function switchSortOrder(FormOption $sourceModel, ?FormOption $targetModel)
     {
         AppHelper::app()->getDb()->transaction(function () use ($sourceModel, $targetModel) {
             if (null === $targetModel) {
@@ -181,16 +181,16 @@ class HeaderOptionService extends Service implements IHeaderOptionService
      * 获取当前操作模型
      *
      * @param array $params
-     * @return HeaderOption
+     * @return FormOption
      * @throws BusinessException
      */
-    protected function getModel(array $params): HeaderOption
+    protected function getModel(array $params): FormOption
     {
-        $model = HeaderOption::findOne([
+        $model = FormOption::findOne([
             'id' => $params['id'] ?? null
         ]);
         if (null === $model) {
-            throw new BusinessException("表头选项不存在");
+            throw new BusinessException("表单选项不存在");
         }
         return $model;
     }
@@ -198,18 +198,18 @@ class HeaderOptionService extends Service implements IHeaderOptionService
     /**
      * 获取对调的兄弟模型
      *
-     * @param HeaderOption $model
+     * @param FormOption $model
      * @param string $type
-     * @return array|HeaderOption|null
+     * @return array|FormOption|null
      */
-    protected function getBrother(HeaderOption $model, string $type)
+    protected function getBrother(FormOption $model, string $type)
     {
         $differs = [
             PREV => ['oper' => '<', 'sort' => 'sort_order DESC'],
             NEXT => ['oper' => '>', 'sort' => 'sort_order ASC'],
         ];
-        return HeaderOption::find()
-            ->andWhere(['=', 'header_key', $model->header_key])
+        return FormOption::find()
+            ->andWhere(['=', 'key', $model->key])
             ->andWhere([$differs[$type]['oper'], 'sort_order', $model->sort_order])
             ->orderBy($differs[$type]['sort'])
             ->one();

@@ -101,7 +101,7 @@ class HeaderOptionController extends RestController
         $headerKey = $this->getParam('header_key');
         // 参数验证和获取
         $params = $this->validateParams([
-            [['id', 'header_key'], 'required'],
+            [['id', 'header_key'], 'required'], // 必填做这么少为了table-cell-edit
             ['id', 'exist', 'label' => 'ID', 'targetClass' => HeaderOption::class, 'targetAttribute' => 'id'],
             ['header_key', 'exist', 'label' => '表头标记', 'targetClass' => Header::class, 'targetAttribute' => 'key'],
             [

@@ -107,7 +107,8 @@ class InterfaceFields extends Model
                 'interface_alias' => 'interface_alias',
                 'parent_field'    => 'field',
             ]
-        );
+        )
+            ->orderBy("alias");
     }
 
     /**

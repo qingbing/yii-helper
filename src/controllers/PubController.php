@@ -11,6 +11,7 @@ namespace YiiHelper\controllers;
 use Exception;
 use YiiHelper\abstracts\RestController;
 use YiiHelper\actions\ClearCache;
+use YiiHelper\features\form\actions\FormOption;
 use YiiHelper\features\tableHeader\actions\TableHeader;
 use YiiHelper\models\System;
 use YiiHelper\services\interfaces\IPubService;
@@ -42,8 +43,12 @@ class PubController extends RestController
                 'class' => ClearCache::class
             ],
             // 获取表头类型选项
-            'table-header' => [
+            'header-options' => [
                 'class' => TableHeader::class
+            ],
+            // 获取表单类型选项
+            'form-options' => [
+                'class' => FormOption::class
             ],
         ];
     }
@@ -54,7 +59,7 @@ class PubController extends RestController
      * @return array
      * @throws Exception
      */
-    public function actionSystems()
+    public function actionOptionSystems()
     {
         // 业务处理
         $res = $this->service->systems();
@@ -68,7 +73,7 @@ class PubController extends RestController
      * @return array
      * @throws Exception
      */
-    public function actionRouteTypes()
+    public function actionOptionRouteTypes()
     {
         // 参数验证和获取
         $params = $this->validateParams([
@@ -80,6 +85,4 @@ class PubController extends RestController
         // 渲染结果
         return $this->success($res, '路由类型');
     }
-
-
 }

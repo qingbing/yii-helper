@@ -75,10 +75,10 @@ class Header extends Model
      */
     public function getOptions()
     {
-        return $this->hasOne(
+        return $this->hasMany(
             HeaderOption::class,
             ['header_key' => 'key']
-        );
+        )->orderBy("sort_order ASC, id ASC");
     }
 
     /**
