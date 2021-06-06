@@ -44,7 +44,9 @@ abstract class Model extends ActiveRecord
     {
         $attributes = [];
         foreach ($values as $attribute => $value) {
-            if (null !== $value) {
+            if (is_bool($value)) {
+                $attributes[$attribute] = (int)$value;
+            } else if (null !== $value) {
                 $attributes[$attribute] = $value;
             }
         }

@@ -115,6 +115,8 @@ class HeaderOptionService extends Service implements IHeaderOptionService
      *
      * @param array $params
      * @return bool
+     * @throws BusinessException
+     * @throws \Throwable
      */
     public function orderUp(array $params): bool
     {
@@ -131,6 +133,8 @@ class HeaderOptionService extends Service implements IHeaderOptionService
      *
      * @param array $params
      * @return bool
+     * @throws BusinessException
+     * @throws \Throwable
      */
     public function orderDown(array $params): bool
     {
@@ -150,7 +154,7 @@ class HeaderOptionService extends Service implements IHeaderOptionService
      * @return bool
      * @throws \Throwable
      */
-    protected function switchSortOrder(HeaderOption $sourceModel, HeaderOption $targetModel)
+    protected function switchSortOrder(HeaderOption $sourceModel, ?HeaderOption $targetModel)
     {
         AppHelper::app()->getDb()->transaction(function () use ($sourceModel, $targetModel) {
             if (null === $targetModel) {
@@ -189,13 +193,13 @@ class HeaderOptionService extends Service implements IHeaderOptionService
      *
      * @param HeaderOption $model
      * @param string $type
-     * @return array|\yii\db\ActiveRecord|null
+     * @return array|HeaderOption|null
      */
     protected function getBrother(HeaderOption $model, string $type)
     {
         $differs = [
-            PREV => ['oper' => '>', 'sort' => 'sort_order ASC'],
-            NEXT => ['oper' => '<', 'sort' => 'sort_order DESC'],
+            PREV => ['oper' => '<', 'sort' => 'sort_order DESC'],
+            NEXT => ['oper' => '>', 'sort' => 'sort_order ASC'],
         ];
         return HeaderOption::find()
             ->andWhere(['=', 'header_key', $model->header_key])

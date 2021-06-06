@@ -42,7 +42,7 @@ class TableHeader extends Action
         $options = HeaderOption::find()
             ->andWhere(['=', 'header_key', $params['key']])
             ->andWhere(['=', 'is_enable', 1])
-            ->orderBy('sort_order DESC, id ASC')
+            ->orderBy('sort_order ASC, id ASC')
             ->all();
         /* @var HeaderOption[] $options */
         $R = [];
@@ -59,6 +59,7 @@ class TableHeader extends Action
             empty($option->params) || ($_['params'] = $option->params);
             1 == $option->is_tooltip && ($_['is_tooltip'] = true);
             1 == $option->is_resizable && ($_['is_resizable'] = true);
+            1 == $option->is_editable && ($_['is_editable'] = true);
             $R[$option->field] = $_;
         }
         // 渲染结果

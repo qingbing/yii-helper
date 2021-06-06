@@ -71,14 +71,16 @@ class HeaderOptionController extends RestController
             ['component', 'string', 'label' => '组件名'], // 除了程序员（超管），其它人不能修改和查看，因为需要前端代码配合
             ['fixed', 'in', 'label' => '固定方向', 'range' => array_keys(HeaderOption::fixedTypes())],
             ['align', 'in', 'label' => '对齐方式', 'range' => array_keys(HeaderOption::fixedTypes())],
-            ['is_tooltip', 'in', 'label' => '过长隐藏', 'range' => array_keys(TLabelEnable::enableLabels())],
-            ['is_resizable', 'in', 'label' => '拖动宽度', 'range' => array_keys(TLabelEnable::enableLabels())],
+            ['is_tooltip', 'boolean', 'label' => '使用tooltip'],
+            ['is_editable', 'boolean', 'label' => '表格编辑'],
+            ['is_resizable', 'boolean', 'label' => '拖动宽度'],
             ['options', JsonValidator::class, 'label' => '映射关系'],
             ['params', JsonValidator::class, 'label' => '参数内容'],
             ['description', 'string', 'label' => '表头选项描述'],
             ['sort_order', 'integer', 'label' => '排序'],
-            ['is_required', 'in', 'label' => '必填', 'range' => array_keys(TLabelYesNo::isLabels())],
-            ['is_default', 'in', 'label' => '默认开启', 'range' => array_keys(TLabelYesNo::isLabels())],
+            ['is_required', 'boolean', 'label' => '必填'],
+            ['is_default', 'boolean', 'label' => '默认开启'],
+            ['is_enable', 'boolean', 'label' => '是否开启'],
         ]);
         // 业务处理
         $res = $this->service->add($params);
@@ -118,8 +120,9 @@ class HeaderOptionController extends RestController
             ['default', 'string', 'label' => '默认值'],
             ['component', 'string', 'label' => '组件名'], // 除了程序员（超管），其它人不能修改和查看，因为需要前端代码配合
             ['fixed', 'in', 'label' => '固定方向', 'range' => array_keys(HeaderOption::fixedTypes())],
-            ['align', 'in', 'label' => '对齐方式', 'range' => array_keys(HeaderOption::fixedTypes())],
+            ['align', 'in', 'label' => '对齐方式', 'range' => array_keys(HeaderOption::alignTypes())],
             ['is_tooltip', 'in', 'label' => '过长隐藏', 'range' => array_keys(TLabelEnable::enableLabels())],
+            ['is_editable', 'in', 'label' => '表格编辑', 'range' => array_keys(TLabelEnable::enableLabels())],
             ['is_resizable', 'in', 'label' => '拖动宽度', 'range' => array_keys(TLabelEnable::enableLabels())],
             ['options', JsonValidator::class, 'label' => '映射关系'],
             ['params', JsonValidator::class, 'label' => '参数内容'],
@@ -127,6 +130,7 @@ class HeaderOptionController extends RestController
             ['sort_order', 'integer', 'label' => '排序'],
             ['is_required', 'in', 'label' => '必填', 'range' => array_keys(TLabelYesNo::isLabels())],
             ['is_default', 'in', 'label' => '默认开启', 'range' => array_keys(TLabelYesNo::isLabels())],
+            ['is_enable', 'boolean', 'label' => '是否开启'],
         ]);
         // 业务处理
         $res = $this->service->edit($params);
