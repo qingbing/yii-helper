@@ -60,7 +60,7 @@ class FormOptionController extends RestController
         $key = $this->getParam('key');
         // 参数验证和获取
         $params = $this->validateParams([
-            [['key', 'field', 'label', 'input_type', 'sort_order', 'is_required', 'is_enable', 'required_msg'], 'required'],
+            [['key', 'field', 'label', 'input_type', 'sort_order', 'is_required', 'is_enable'], 'required'],
             ['key', 'exist', 'label' => '表单标记', 'targetClass' => FormCategory::class, 'targetAttribute' => 'key'],
             ['field', 'unique', 'label' => '选项字段', 'targetClass' => FormOption::class, 'targetAttribute' => 'field', 'filter' => ['key' => $key]],
             ['label', 'unique', 'label' => '选项名称', 'targetClass' => FormOption::class, 'targetAttribute' => 'label', 'filter' => ['key' => $key]],

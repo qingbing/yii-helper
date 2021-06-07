@@ -96,10 +96,10 @@ class FormSetting
         $this->category = $category;
         $setting        = $category->setting;
         if (null === $setting) {
-            $setting       = new \YiiHelper\models\form\FormSetting();
-            $setting->key  = $category->key;
-            $this->setting = $setting;
+            $setting      = new \YiiHelper\models\form\FormSetting();
+            $setting->key = $category->key;
         }
+        $this->setting = $setting;
     }
 
     /**

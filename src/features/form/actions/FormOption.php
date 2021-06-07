@@ -48,8 +48,8 @@ class FormOption extends Action
             $_['label']      = $option->label;
             $_['input_type'] = $option->input_type;
             $_['default']    = $option->default;
-            count($option->exts) > 0 && ($_['exts'] = $option->exts);
-            if (count($option->rules) > 0) {
+            is_array($option->exts) && count($option->exts) > 0 && ($_['exts'] = $option->exts);
+            if (is_array($option->rules) && count($option->rules) > 0) {
                 $rules = $option->rules;
             } else {
                 $rules = [];

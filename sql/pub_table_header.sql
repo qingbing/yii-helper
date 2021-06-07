@@ -60,31 +60,32 @@ CREATE TABLE `pub_header_option` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='表头配置选项';
 
 
+-- ----------------------------
+--  Data for header-key "program-header-category"
+-- ----------------------------
 
--- ----------------------------
---  Data for header-key "program-header"
--- ----------------------------
 -- pub_header
 insert into `pub_header`
 ( `key`, `name`, `description`, `sort_order`, `is_open`)
 values
-( 'program-header', '程序员管理系统-表头管理', '程序员管理系统-表头管理', '127', '0');
+( 'program-header-category', '程序员管理系统-表头管理', '程序员管理系统-表头管理', '126', '0');
 
 -- pub_header_option
 insert into `pub_header_option`
 ( `header_key`, `field`, `label`, `width`, `fixed`, `default`, `align`, `is_tooltip`, `is_resizable`, `is_editable`, `component`, `options`, `params`, `description`, `sort_order`, `is_required`, `is_default`, `is_enable`, `operate_ip`, `operate_uid`)
 values
-( 'program-header', '_idx', '序号', '50', 'left', '', '', '0', '1', '0', '', '\"\"', '\"\"', '', '1', '1', '1', '1', '192.168.1.1', '100000000'),
-( 'program-header', 'key', '表头标识', '240', 'left', '', 'left', '0', '1', '0', '', '\"\"', '\"\"', '', '2', '1', '1', '1', '192.168.1.1', '100000000'),
-( 'program-header', 'name', '表头名称', '300', '', '', 'left', '1', '0', '0', '', '\"\"', '\"\"', '', '3', '1', '1', '1', '192.168.1.1', '100000000'),
-( 'program-header', 'sort_order', '排序', '60', '', '', '', '0', '0', '0', '', '\"\"', '\"\"', '', '4', '0', '1', '1', '192.168.1.1', '100000000'),
-( 'program-header', 'is_open', '是否公开', '80', '', '', '', '0', '0', '0', '', '\"\"', '\"\"', '', '5', '0', '1', '1', '192.168.1.1', '100000000'),
-( 'program-header', 'operate', '操作', '', 'right', '', 'left', '0', '0', '0', 'operate', '\"\"', '[]', '', '6', '1', '1', '1', '192.168.1.1', '100000000');
+( 'program-header-category', '_idx', '序号', '50', 'left', '', '', '0', '1', '0', '', '\"\"', '\"\"', '', '1', '1', '1', '1', '192.168.1.1', '100000000'),
+( 'program-header-category', 'key', '表头标识', '240', 'left', '', 'left', '0', '1', '0', '', '\"\"', '\"\"', '', '2', '1', '1', '1', '192.168.1.1', '100000000'),
+( 'program-header-category', 'is_open', '是否公开', '80', '', '', '', '0', '0', '0', '', '[\"否\", \"是\"]', '\"\"', '', '3', '0', '1', '1', '192.168.1.1', '100000000'),
+( 'program-header-category', 'name', '表头名称', '300', '', '', 'left', '1', '0', '0', '', '\"\"', '\"\"', '', '4', '1', '1', '1', '192.168.1.1', '0'),
+( 'program-header-category', 'sort_order', '排序', '60', '', '', '', '0', '0', '0', '', '\"\"', '\"\"', '', '5', '0', '1', '1', '192.168.1.1', '0'),
+( 'program-header-category', 'operate', '操作', '', 'right', '', 'left', '0', '0', '0', 'operate', '\"\"', '[]', '', '6', '1', '1', '1', '192.168.1.1', '100000000');
 
 
 -- ----------------------------
 --  Data for header-key "program-header-options"
 -- ----------------------------
+
 -- pub_header
 insert into `pub_header`
 ( `key`, `name`, `description`, `sort_order`, `is_open`)
@@ -94,19 +95,19 @@ values
 -- pub_header_option
 insert into `pub_header_option`
 ( `header_key`, `field`, `label`, `width`, `fixed`, `default`, `align`, `is_tooltip`, `is_resizable`, `is_editable`, `component`, `options`, `params`, `description`, `sort_order`, `is_required`, `is_default`, `is_enable`, `operate_ip`, `operate_uid`)
- values
+values
 ( 'program-header-options', '_idx', '序号', '50', 'left', '', '', '0', '0', '0', '', '\"\"', '\"\"', '', '1', '0', '1', '1', '192.168.1.1', '100000000'),
 ( 'program-header-options', 'field', '选项字段', '100', 'left', '', 'left', '0', '0', '0', '', '\"\"', '\"\"', '', '2', '1', '1', '1', '192.168.1.1', '100000000'),
 ( 'program-header-options', 'label', '选项名称', '150', '', '', 'left', '1', '0', '1', '', '\"\"', '{\"type\": \"text\"}', '', '3', '1', '1', '1', '192.168.1.1', '100000000'),
-( 'program-header-options', 'sort_order', '排序', '80', '', '', '', '0', '0', '1', '', '\"\"', '{\"type\": \"text\"}', '', '4', '0', '1', '1', '192.168.1.1', '100000000'),
-( 'program-header-options', 'width', '列宽度', '80', '', '', '', '0', '0', '1', '', '\"\"', '{\"type\": \"text\"}', '', '5', '0', '1', '1', '192.168.1.1', '100000000'),
-( 'program-header-options', 'default', '默认值', '60', '', '', '', '0', '0', '1', '', '\"\"', '{\"type\": \"text\"}', '', '6', '0', '1', '1', '192.168.1.1', '100000000'),
+( 'program-header-options', 'width', '列宽度', '80', '', '', '', '0', '0', '1', '', '\"\"', '{\"type\": \"text\"}', '', '4', '0', '1', '1', '192.168.1.1', '100000000'),
+( 'program-header-options', 'align', '对齐方式', '80', '', '', '', '0', '0', '1', '', '\"\"', '{\"type\": \"select\", \"options\": {\"left\": \"左对齐\", \"right\": \"右对齐\", \"center\": \"居中对齐\"}}', '', '5', '1', '1', '1', '192.168.1.1', '100000000'),
+( 'program-header-options', 'sort_order', '排序', '80', '', '', '', '0', '0', '1', '', '\"\"', '{\"type\": \"text\"}', '', '6', '0', '1', '1', '192.168.1.1', '100000000'),
 ( 'program-header-options', 'fixed', '固定方向', '80', '', '', '', '0', '0', '1', '', '\"\"', '{\"type\": \"select\", \"options\": {\"left\": \"靠左\", \"right\": \"靠右\"}}', '', '7', '0', '1', '1', '192.168.1.1', '100000000'),
-( 'program-header-options', 'align', '对齐方式', '80', '', '', '', '0', '0', '1', '', '\"\"', '{\"type\": \"select\", \"options\": {\"left\": \"左对齐\", \"right\": \"右对齐\", \"center\": \"居中对齐\"}}', '', '8', '1', '1', '1', '192.168.1.1', '100000000'),
-( 'program-header-options', 'is_required', '必填', '80', '', '', '', '0', '0', '1', '', '\"\"', '{\"type\": \"switch\"}', '', '9', '1', '1', '1', '192.168.1.1', '100000000'),
-( 'program-header-options', 'is_default', '默认开启', '80', '', '', '', '0', '0', '1', '', '\"\"', '{\"type\": \"switch\"}', '', '10', '1', '1', '1', '192.168.1.1', '100000000'),
-( 'program-header-options', 'is_enable', '是否开启', '80', '', '', '', '0', '0', '1', '', '\"\"', '{\"type\": \"switch\"}', '', '11', '1', '1', '1', '192.168.1.1', '100000000'),
-( 'program-header-options', 'is_editable', '表格编辑', '80', '', '', '', '0', '0', '1', '', '\"\"', '{\"type\": \"switch\"}', '', '12', '0', '1', '1', '192.168.1.1', '100000000'),
+( 'program-header-options', 'is_required', '必填', '80', '', '', '', '0', '0', '1', '', '\"\"', '{\"type\": \"switch\"}', '', '8', '1', '1', '1', '192.168.1.1', '100000000'),
+( 'program-header-options', 'is_default', '默认开启', '80', '', '', '', '0', '0', '1', '', '\"\"', '{\"type\": \"switch\"}', '', '9', '1', '1', '1', '192.168.1.1', '100000000'),
+( 'program-header-options', 'is_enable', '是否开启', '80', '', '', '', '0', '0', '1', '', '\"\"', '{\"type\": \"switch\"}', '', '10', '1', '1', '1', '192.168.1.1', '100000000'),
+( 'program-header-options', 'is_editable', '表格编辑', '80', '', '', '', '0', '0', '1', '', '\"\"', '{\"type\": \"switch\"}', '', '11', '0', '1', '1', '192.168.1.1', '100000000'),
+( 'program-header-options', 'is_resizable', '可拖动', '80', '', '', '', '0', '0', '1', '', '\"\"', '{\"type\": \"switch\"}', '', '12', '0', '0', '0', '192.168.1.1', '100000000'),
 ( 'program-header-options', 'is_tooltip', '使用tooltip', '80', '', '', '', '0', '0', '1', '', '\"\"', '{\"type\": \"switch\"}', '', '13', '0', '1', '1', '192.168.1.1', '100000000'),
-( 'program-header-options', 'is_resizable', '可拖动', '80', '', '', '', '0', '0', '1', '', '\"\"', '{\"type\": \"switch\"}', '', '14', '0', '0', '0', '192.168.1.1', '100000000'),
+( 'program-header-options', 'default', '默认值', '80', '', '', '', '0', '0', '1', '', '\"\"', '{\"type\": \"text\"}', '', '14', '0', '1', '1', '192.168.1.1', '100000000'),
 ( 'program-header-options', 'operate', '操作', '260', 'right', '', 'left', '0', '0', '0', 'operate', '\"\"', '[]', '', '15', '1', '1', '1', '192.168.1.1', '100000000');

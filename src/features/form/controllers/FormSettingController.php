@@ -43,7 +43,7 @@ class FormSettingController extends RestController
         // 业务处理
         $res = $this->service->get($params);
         // 渲染结果
-        return $this->success($res, '表单选项列表');
+        return $this->success($res, '配置表单获取');
     }
 
     /**
@@ -62,6 +62,6 @@ class FormSettingController extends RestController
         // 业务处理
         $res = $this->service->save(array_merge($this->request->getQueryParams(), $this->request->getBodyParams()));
         // 渲染结果
-        return $this->success($res, '表单选项列表');
+        return $this->success($res, '保存配置表单成功');
     }
 }
