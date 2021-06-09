@@ -38,14 +38,18 @@ class RouteRecordService extends Service implements IRouteRecordService
             ->from(RouteRecord::tableName() . ' AS r')
             ->select([
                 'r.*',
-                new Expression("IFNULL(lc.is_logging,0) AS is_logging")
+                'rt.type_name',
+                new Expression("IFNULL(lc.is_logging,0) AS is_logging"),
+                new Expression("IFNULL(lc.message,'') AS message"),
+                new Expression("IFNULL(lc.key_fields,'') AS key_fields"),
             ])
             ->leftJoin(RouteLogConfig::tableName() . ' AS lc', 'lc.system_alias=r.system_alias AND lc.route=r.route')
+            ->leftJoin(RouteType::tableName() . ' AS rt', 'rt.system_alias=r.system_alias AND rt.route_type=r.route_type')
             ->andFilterWhere(['=', 'r.system_alias', $params['system_alias']])
             ->andFilterWhere(['=', 'r.route_type', $params['route_type']])
             ->andFilterWhere(['=', 'r.is_operate', $params['is_operate']])
             ->andFilterWhere(['like', 'r.route', $params['route']])
-            ->orderBy('r.sort_order ASC');
+            ->orderBy('r.id ASC');
         if ('' !== $params['is_logging']) {
             if (1 == $params['is_logging']) {
                 $query->andWhere(['=', 'lc.is_logging', $params['is_logging']]);
