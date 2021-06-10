@@ -77,7 +77,6 @@ class PubController extends RestController
     {
         // 参数验证和获取
         $params = $this->validateParams([
-            ['system_alias', 'required'],
             ['system_alias', 'exist', 'label' => '系统别名', 'targetClass' => System::class, 'targetAttribute' => 'alias'],
         ]);
         // 业务处理

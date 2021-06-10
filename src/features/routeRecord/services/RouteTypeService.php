@@ -49,7 +49,8 @@ class RouteTypeService extends Service implements IRouteTypeService
      */
     public function add(array $params): bool
     {
-        $model = new RouteType();
+        $model                = new RouteType();
+        $params['route_type'] = "{$params['system_alias']}-{$params['route_type']}";
         $model->setFilterAttributes($params);
         return $model->saveOrException();
     }

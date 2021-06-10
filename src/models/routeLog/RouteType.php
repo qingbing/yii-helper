@@ -96,12 +96,12 @@ class RouteType extends Model
      * @param bool $isOption 是否选项卡
      * @return array|\yii\db\ActiveRecord[]
      */
-    public static function all(string $systemAlias, bool $isOption = true)
+    public static function all(?string $systemAlias, bool $isOption = true)
     {
         $res     = self::find()
             ->select(['route_type', 'type_name'])
-            ->andWhere(['=', 'system_alias', $systemAlias])
-            ->orderBy('sort_order DESC, id ASC')
+            ->andFilterWhere(['=', 'system_alias', $systemAlias])
+            ->orderBy('route_type ASC, sort_order ASC, id ASC')
             ->asArray()
             ->all();
         $options = [];
