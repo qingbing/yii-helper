@@ -31,6 +31,15 @@ class ReplaceSettingService extends Service implements IReplaceSettingService
     public function list(array $params = []): array
     {
         $query = ReplaceSetting::find()
+            ->select([
+                "code",
+                "name",
+                "description",
+                "IFNULL(content, template)",
+                "sort_order",
+                "is_open",
+                "replace_fields",
+            ])
             ->orderBy('sort_order ASC');
         // 等于查询
         $this->attributeWhere($query, $params, 'is_open');

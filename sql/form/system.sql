@@ -7,7 +7,7 @@
 insert into `pub_form_category`
 ( `key`, `name`, `description`, `sort_order`, `is_setting`, `is_open`, `is_enable`)
 values
-( 'program-system-manage', '程序员管理——系统管理', '程序员管理——系统管理', '3', '0', '0', '1');
+( 'program-system-manage', '程序员管理——系统管理', '程序员管理——系统管理', '5', '0', '0', '1');
 
 
 -- pub_form_option
