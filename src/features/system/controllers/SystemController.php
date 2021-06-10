@@ -93,7 +93,7 @@ class SystemController extends RestController
         $alias = $this->getParam('alias');
         // 参数验证和获取
         $params = $this->validateParams([
-            [['id', 'alias', 'name', 'sort_order'], 'required'],
+            [['id'], 'required'], // 必填字段减少，为了表格编辑
             ['id', 'exist', 'label' => '系统ID', 'targetClass' => System::class, 'targetAttribute' => 'id'],
             ['alias', 'exist', 'label' => '系统别名', 'targetClass' => System::class, 'targetAttribute' => 'alias'],
             ['name', 'unique', 'label' => '系统名称', 'targetClass' => System::class, 'targetAttribute' => 'name', 'filter' => ['!=', 'alias', $alias]],
