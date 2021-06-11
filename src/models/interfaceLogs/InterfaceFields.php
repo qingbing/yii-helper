@@ -10,7 +10,7 @@ use Zf\Helper\Exceptions\BusinessException;
  *
  * @property int $id 自增ID
  * @property string $interface_alias 接口别名：systemAlias+uri_path
- * @property string $parent_field 上级字段别名:interfaceFieldsAlias
+ * @property string $parent_field 上级字段别名
  * @property string $field 字段名
  * @property string $alias 字段别名:interfaceAlias+parentAlias+field
  * @property string $name 字段意义
@@ -19,6 +19,8 @@ use Zf\Helper\Exceptions\BusinessException;
  * @property string $data_type 数据类型[integer|float|boolean|string|object|array|items]
  * @property string $description 描述
  * @property int $is_required 是否必填[0:否; 1:是]
+ * @property int $is_ignore 是否忽略字段，这些字段后台不接收[0:否; 1:是]
+ * @property int $is_last_level 最后级别，不含子字段
  * @property string $created_at 创建时间
  * @property string $updated_at 更新时间
  *
@@ -44,7 +46,7 @@ class InterfaceFields extends Model
     {
         return [
             [['interface_alias', 'field', 'alias'], 'required'],
-            [['is_required'], 'integer'],
+            [['is_required', 'is_ignore', 'is_last_level'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['interface_alias'], 'string', 'max' => 150],
             [['parent_field', 'alias', 'description'], 'string', 'max' => 255],
@@ -73,6 +75,8 @@ class InterfaceFields extends Model
             'data_type'       => '数据类型',
             'description'     => '描述',
             'is_required'     => '是否必填',
+            'is_ignore'       => '忽略字段',
+            'is_last_level'   => '最后级别',
             'created_at'      => '创建时间',
             'updated_at'      => '更新时间',
         ];

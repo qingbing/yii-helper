@@ -132,7 +132,7 @@ class BusinessInterface
             $interfaceModel = self::addInterfaceInfo($data);
             // 写入请求信息
             self::addHeaderFields($interfaceModel, 'input', $input['header'] ?? null);
-            self::addFileFields($interfaceModel, 'input', $input['file'] ?? null);
+            self::addFileFields($interfaceModel, $input['file'] ?? null);
             self::addParamFields($interfaceModel, 'input', 'get', self::releaseParams($input['get'] ?? null)['sub']);
             self::addParamFields($interfaceModel, 'input', 'post', self::releaseParams($input['post'] ?? null)['sub']);
             // 写入响应信息
@@ -154,7 +154,7 @@ class BusinessInterface
     {
         foreach ($params as $val) {
             $alias = $parentField ? "{$parentField}.{$val['field']}" : $val['field'];
-            self::addInterfaceField([
+            $model = self::addInterfaceField([
                 'interface_alias' => $interfaceInfo->alias,
                 'parent_field'    => $parentField,
                 'field'           => $val['field'],
@@ -163,7 +163,8 @@ class BusinessInterface
                 'data_area'       => $dataArea,
                 'data_type'       => $val['type'],
             ]);
-            if (!empty($val['sub'])) {
+            if (!$model->is_last_level && !empty($val['sub'])) {
+                // 非最后级别并且 sub 不为空表示有子项目
                 self::addParamFields($interfaceInfo, $type, $dataArea, $val['sub'], $alias);
             }
         }
@@ -198,24 +199,34 @@ class BusinessInterface
      * 添加 file 接口字段信息
      *
      * @param Interfaces $interfaceInfo
-     * @param string $type
      * @param array|null $params
      */
-    protected static function addFileFields(Interfaces $interfaceInfo, string $type = 'input', ?array $params = null)
+    protected static function addFileFields(Interfaces $interfaceInfo, ?array $params = null)
     {
         if (empty($params)) {
             return;
         }
         foreach ($params as $key => $val) {
+            if (is_string($val['name'])) {
+                $data_type = "string";
+            } elseif (is_real_array($val['name'])) {
+                $data_type = "items";
+            } else {
+                $data_type = "object";
+            }
             self::addInterfaceField([
                 'interface_alias' => $interfaceInfo->alias,
                 'parent_alias'    => "",
                 'field'           => $key,
-                'alias'           => "{$interfaceInfo->alias}:{$key}",
-                'type'            => $type,
-                'data_area'       => 'header',
-                'data_type'       => is_array($val['name']) ? 'string' : 'items',
+                'alias'           => "{$interfaceInfo->alias}|{$key}",
+                'type'            => "input",
+                'data_area'       => 'file',
+                'data_type'       => $data_type,
             ]);
+            // file 的 object 数组
+            if ("object" === $data_type) {
+                self::addParamFields($interfaceInfo, 'input', 'file', self::releaseParams($val['name'])['sub'], $key);
+            }
         }
     }
 

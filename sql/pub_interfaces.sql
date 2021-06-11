@@ -52,6 +52,7 @@ CREATE TABLE `pub_interface_fields` (
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `is_required` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否必填[0:否; 1:是]',
   `is_ignore` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否忽略字段，这些字段后台不接收[0:否; 1:是]',
+  `is_last_level` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '最后级别，不含子字段',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
