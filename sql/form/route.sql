@@ -44,13 +44,15 @@ values
 ( 'program-route-record', 'route', '路由', 'input-text', '', '', '4', '1', '\"\"', '\"\"', '1', ''),
 ( 'program-route-record', 'sort_order', '排序', 'input-number', '0', '', '5', '1', '\"\"', '\"\"', '1', ''),
 ( 'program-route-record', 'is_operate', '操作路由', 'ele-switch', '', '', '6', '1', '\"\"', '\"\"', '0', ''),
-( 'program-route-record', 'is_logging', '开启日志', 'ele-switch', '', '', '7', '1', '\"\"', '\"\"', '0', ''),
-( 'program-route-record', 'message', '路由消息', 'input-area', '', '', '8', '1', '\"\"', '\"\"', '0', ''),
-( 'program-route-record', 'key_fields', '参数关键字', 'input-area', '', '', '9', '1', '\"\"', '\"\"', '0', ''),
-( 'program-route-record', 'access_times', '访问次数', 'view-text', '', '', '10', '1', '\"\"', '\"\"', '0', ''),
-( 'program-route-record', 'description', '路由描述', 'input-area', '', '', '11', '1', '\"\"', '\"\"', '0', ''),
-( 'program-route-record', 'created_at', '创建时间', 'view-text', '', '', '12', '1', '\"\"', '\"\"', '0', ''),
-( 'program-route-record', 'updated_at', '更新时间', 'view-text', '', '', '13', '1', '\"\"', '\"\"', '0', '');
+( 'program-route-record', 'access_times', '访问次数', 'view-text', '', '', '7', '1', '\"\"', '\"\"', '0', ''),
+( 'program-route-record', 'description', '路由描述', 'input-area', '', '', '8', '1', '\"\"', '\"\"', '0', ''),
+( 'program-route-record', 'is_logging', '开启日志', 'ele-switch', '', '', '9', '1', '\"\"', '\"\"', '0', ''),
+( 'program-route-record', 'logging_message', '路由消息', 'input-area', '', '', '10', '1', '\"\"', '\"\"', '0', ''),
+( 'program-route-record', 'logging_key_fields', '参数关键字', 'input-area', '', '', '11', '1', '\"\"', '\"\"', '0', ''),
+( 'program-route-record', 'is_mocking', '开启mock', 'ele-switch', '', '', '12', '1', '\"\"', '\"\"', '0', ''),
+( 'program-route-record', 'mocking_response', 'mock响应', 'json-editor', '', '', '13', '1', '\"\"', '\"\"', '0', ''),
+( 'program-route-record', 'created_at', '创建时间', 'view-text', '', '', '14', '1', '\"\"', '\"\"', '0', ''),
+( 'program-route-record', 'updated_at', '更新时间', 'view-text', '', '', '15', '1', '\"\"', '\"\"', '0', '');
 
 
 

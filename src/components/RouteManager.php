@@ -152,7 +152,7 @@ class RouteManager extends Component
      *
      * @throws CustomException
      * @throws InvalidConfigException
-     * @throws \yii\base\ExitException
+     * @throws \Exception
      */
     public function init()
     {
@@ -166,7 +166,7 @@ class RouteManager extends Component
         if ($this->openMock) {
             // 开启mock
             $config = $this->getRouteRecordConfig();
-            if ($config) {
+            if ($config && $config->is_mocking) {
                 Yii::$app->response->format = Response::FORMAT_JSON;
                 Yii::$app->response->data   = $this->success($config->mocking_response, $this->mockMsg);
                 Yii::$app->response->send();
