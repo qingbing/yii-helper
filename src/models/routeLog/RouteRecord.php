@@ -18,7 +18,7 @@ use YiiHelper\abstracts\Model;
  * @property string $created_at 创建时间
  * @property string $updated_at 更新时间
  *
- * @property-read RouteLogConfig $logConfig
+ * @property-read RouteRecordConfig $recordConfig
  */
 class RouteRecord extends Model
 {
@@ -70,9 +70,9 @@ class RouteRecord extends Model
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getLogConfig()
+    public function getRecordConfig()
     {
-        return $this->hasOne(RouteLogConfig::class,
+        return $this->hasOne(RouteRecordConfig::class,
             [
                 'system_alias' => 'system_alias', 'route' => 'route',
             ]

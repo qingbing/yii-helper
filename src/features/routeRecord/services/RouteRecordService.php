@@ -13,8 +13,8 @@ use yii\db\Query;
 use YiiHelper\abstracts\Service;
 use YiiHelper\features\routeRecord\services\interfaces\IRouteRecordService;
 use YiiHelper\helpers\Pager;
-use YiiHelper\models\routeLog\RouteLogConfig;
 use YiiHelper\models\routeLog\RouteRecord;
+use YiiHelper\models\routeLog\RouteRecordConfig;
 use YiiHelper\models\routeLog\RouteType;
 use Zf\Helper\Exceptions\BusinessException;
 
@@ -39,11 +39,13 @@ class RouteRecordService extends Service implements IRouteRecordService
             ->select([
                 'r.*',
                 'rt.type_name',
-                new Expression("IFNULL(lc.is_logging,0) AS is_logging"),
-                new Expression("IFNULL(lc.message,'') AS message"),
-                new Expression("IFNULL(lc.key_fields,'') AS key_fields"),
+                new Expression("IFNULL(rc.is_logging,0) AS is_logging"),
+                new Expression("IFNULL(rc.logging_message,'') AS logging_message"),
+                new Expression("IFNULL(rc.logging_key_fields,'') AS logging_key_fields"),
+                new Expression("IFNULL(rc.is_mocking,0) AS is_mocking"),
+                new Expression("IFNULL(rc.mocking_response,'') AS mocking_response"),
             ])
-            ->leftJoin(RouteLogConfig::tableName() . ' AS lc', 'lc.system_alias=r.system_alias AND lc.route=r.route')
+            ->leftJoin(RouteRecordConfig::tableName() . ' AS rc', 'rc.system_alias=r.system_alias AND rc.route=r.route')
             ->leftJoin(RouteType::tableName() . ' AS rt', 'rt.system_alias=r.system_alias AND rt.route_type=r.route_type')
             ->andFilterWhere(['=', 'r.system_alias', $params['system_alias']])
             ->andFilterWhere(['=', 'r.route_type', $params['route_type']])
@@ -52,12 +54,23 @@ class RouteRecordService extends Service implements IRouteRecordService
             ->orderBy('r.id ASC');
         if ('' !== $params['is_logging']) {
             if (1 == $params['is_logging']) {
-                $query->andWhere(['=', 'lc.is_logging', $params['is_logging']]);
+                $query->andWhere(['=', 'rc.is_logging', $params['is_logging']]);
             } else {
                 $query->andWhere([
                     'or',
-                    ['=', 'lc.is_logging', 0],
-                    'lc.is_logging IS NULL',
+                    ['=', 'rc.is_logging', 0],
+                    'rc.is_logging IS NULL',
+                ]);
+            }
+        }
+        if ('' !== $params['is_mocking']) {
+            if (1 == $params['is_mocking']) {
+                $query->andWhere(['=', 'rc.is_mocking', $params['is_mocking']]);
+            } else {
+                $query->andWhere([
+                    'or',
+                    ['=', 'rc.is_mocking', 0],
+                    'rc.is_mocking IS NULL',
                 ]);
             }
         }
@@ -138,26 +151,28 @@ class RouteRecordService extends Service implements IRouteRecordService
     }
 
     /**
-     * 编辑路由日志配置
+     * 编辑路由配置
      *
      * @param array $params
      * @return bool
      * @throws BusinessException
      * @throws \yii\db\Exception
      */
-    public function editLogConfig(array $params): bool
+    public function editRecordConfig(array $params): bool
     {
         $model  = $this->getModel($params);
-        $config = $model->logConfig;
+        $config = $model->recordConfig;
         if (null === $config) {
-            $config               = new RouteLogConfig();
+            $config               = new RouteRecordConfig();
             $config->system_alias = $model->system_alias;
             $config->route        = $model->route;
         }
         $config->setFilterAttributes([
-            'is_logging' => $params['is_logging'],
-            'message'    => $params['message'],
-            'key_fields' => $params['key_fields'],
+            'is_logging'         => $params['is_logging'],
+            'logging_message'    => $params['logging_message'],
+            'logging_key_fields' => $params['logging_key_fields'],
+            'is_mocking'         => $params['is_mocking'],
+            'mocking_response'   => $params['mocking_response'],
         ]);
         return $config->saveOrException();
     }

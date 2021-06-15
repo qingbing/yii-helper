@@ -52,13 +52,15 @@ CREATE TABLE `pub_route_record` (
 -- ----------------------------
 --  Table structure for `pub_route_log_config`
 -- ----------------------------
-CREATE TABLE `pub_route_log_config` (
+CREATE TABLE `pub_route_record_config` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `system_alias` varchar(50) NOT NULL DEFAULT '' COMMENT '系统别名',
   `route` varchar(160) NOT NULL DEFAULT '' COMMENT 'URL路由',
   `is_logging` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '是否记录日志[0:否; 1:是]',
-  `message` varchar(255) NOT NULL DEFAULT '' COMMENT '路由操作提示',
-  `key_fields` varchar(200) NOT NULL DEFAULT '' COMMENT '路由关键字',
+  `logging_message` varchar(255) NOT NULL DEFAULT '' COMMENT '路由操作提示',
+  `logging_key_fields` varchar(200) NOT NULL DEFAULT '' COMMENT '路由关键字',
+  `is_mocking` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '路由响应是否mock[0:否; 1:是]',
+  `mocking_response` json COMMENT '开启mock时的响应json',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
@@ -66,8 +68,10 @@ CREATE TABLE `pub_route_log_config` (
   KEY `idx_systemAlias` (`system_alias`),
   KEY `idx_route` (`route`),
   KEY `idx_logging` (`is_logging`),
+  KEY `is_mocking` (`is_mocking`),
   KEY `idx_create_at` (`created_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统路由配置';
+
 
 
 -- ----------------------------

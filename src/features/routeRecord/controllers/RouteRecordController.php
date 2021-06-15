@@ -15,6 +15,7 @@ use YiiHelper\features\routeRecord\services\RouteRecordService;
 use YiiHelper\models\System;
 use YiiHelper\models\routeLog\RouteRecord;
 use YiiHelper\models\routeLog\RouteType;
+use YiiHelper\validators\JsonValidator;
 use Zf\Helper\Traits\Models\TLabelYesNo;
 
 /**
@@ -44,7 +45,8 @@ class RouteRecordController extends RestController
             ['route_type', 'string', 'label' => '路由分类'],
             ['route', 'string', 'label' => '路由'],
             ['is_operate', 'in', 'label' => '是否操作', 'range' => array_keys(TLabelYesNo::yesNoLabels())],
-            ['is_logging', 'in', 'label' => '记录日志', 'range' => array_keys(TLabelYesNo::yesNoLabels())],
+            ['is_logging', 'in', 'label' => '开启日志', 'range' => array_keys(TLabelYesNo::yesNoLabels())],
+            ['is_mocking', 'in', 'label' => '开启Mock', 'range' => array_keys(TLabelYesNo::yesNoLabels())],
         ], null, true);
         // 业务处理
         $res = $this->service->list($params);
@@ -125,26 +127,28 @@ class RouteRecordController extends RestController
     }
 
     /**
-     * 编辑路由日志配置
+     * 编辑路由配置
      *
      * @return array
      * @throws Exception
      */
-    public function actionEditLogConfig()
+    public function actionEditRecordConfig()
     {
         // 参数验证和获取
         $params = $this->validateParams([
-            [['id', 'is_logging'], 'required'],
+            [['id'], 'required'],
             [
                 'id', 'exist', 'label' => '类型ID', 'targetClass' => RouteRecord::class, 'targetAttribute' => 'id'
             ],
-            ['is_logging', 'in', 'label' => '是否记录', 'range' => array_keys(TLabelYesNo::yesNoLabels())],
-            ['message', 'string', 'label' => '操作提示'],
-            ['key_fields', 'string', 'label' => '关键字标志'],
+            ['is_logging', 'in', 'label' => '开启日志', 'range' => array_keys(TLabelYesNo::yesNoLabels())],
+            ['logging_message', 'string', 'label' => '操作提示'],
+            ['logging_key_fields', 'string', 'label' => '关键字标志'],
+            ['is_mocking', 'in', 'label' => '开启mock', 'range' => array_keys(TLabelYesNo::yesNoLabels())],
+            ['mocking_response', JsonValidator::class, 'label' => 'mock响应数据'],
         ]);
         // 业务处理
-        $res = $this->service->editLogConfig($params);
+        $res = $this->service->editRecordConfig($params);
         // 渲染结果
-        return $this->success($res, '编辑路由日志配置成功');
+        return $this->success($res, '编辑路由配置成功');
     }
 }

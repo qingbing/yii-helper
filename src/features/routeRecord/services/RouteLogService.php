@@ -13,8 +13,8 @@ use YiiHelper\abstracts\Service;
 use YiiHelper\features\routeRecord\services\interfaces\IRouteLogService;
 use YiiHelper\helpers\Pager;
 use YiiHelper\models\routeLog\RouteAccessLog;
-use YiiHelper\models\routeLog\RouteLogConfig;
 use YiiHelper\models\routeLog\RouteRecord;
+use YiiHelper\models\routeLog\RouteRecordConfig;
 use Zf\Helper\Exceptions\BusinessException;
 
 /**
@@ -39,10 +39,10 @@ class RouteLogService extends Service implements IRouteLogService
                 'r.system_alias', 'r.route', 'r.route_type', 'r.is_operate', 'r.access_times'
             ])
             ->from(RouteAccessLog::tableName() . ' AS al')
-            ->leftJoin(RouteLogConfig::tableName() . ' AS lc', 'al.route_log_config_id=lc.id')
-            ->leftJoin(RouteRecord::tableName() . ' AS r', 'lc.system_alias=r.system_alias AND lc.route=r.route')
+            ->leftJoin(RouteRecordConfig::tableName() . ' AS rc', 'al.route_log_config_id=rc.id')
+            ->leftJoin(RouteRecord::tableName() . ' AS r', 'rc.system_alias=r.system_alias AND rc.route=r.route')
             // 条件组装
-            ->andFilterWhere(['=', 'lc.system_alias', $params['system_alias']])
+            ->andFilterWhere(['=', 'rc.system_alias', $params['system_alias']])
             ->andFilterWhere(['=', 'r.route_type', $params['route_type']])
             ->andFilterWhere(['=', 'al.trace_id', $params['trace_id']])
             ->andFilterWhere(['=', 'r.is_operate', $params['is_operate']])
@@ -51,7 +51,7 @@ class RouteLogService extends Service implements IRouteLogService
             ->andFilterWhere(['=', 'al.uid', $params['uid']])
             ->andFilterWhere(['=', 'al.keyword', $params['keyword']])
             ->andFilterWhere(['like', 'al.message', $params['message']])
-            ->andFilterWhere(['like', 'lc.route', $params['route']]);
+            ->andFilterWhere(['like', 'rc.route', $params['route']]);
         // 分页查询
         return Pager::getInstance()->pagination($query, $params['pageNo'], $params['pageSize']);
     }

@@ -17,8 +17,9 @@ use yii\web\Application;
 use yii\web\Response;
 use YiiHelper\helpers\AppHelper;
 use YiiHelper\models\routeLog\RouteAccessLog;
-use YiiHelper\models\routeLog\RouteLogConfig;
 use YiiHelper\models\routeLog\RouteRecord;
+use YiiHelper\models\routeLog\RouteRecordConfig;
+use YiiHelper\traits\TResponse;
 use Zf\Helper\Exceptions\CustomException;
 
 /**
@@ -78,6 +79,7 @@ abstract class RouteLogBase extends BaseObject implements IRouteLog
  */
 class RouteManager extends Component
 {
+    use TResponse;
     /**
      * @var bool 是否开启路由记录
      */
@@ -86,6 +88,14 @@ class RouteManager extends Component
      * @var bool 是否开启路由日志
      */
     public $openLog = false;
+    /**
+     * @var bool 是否开mock日志
+     */
+    public $openMock = false;
+    /**
+     * @var string mock的消息标识
+     */
+    public $mockMsg = "__ROUTE__MOCK__";
     /**
      * @var string 系统别名
      */
@@ -127,11 +137,11 @@ class RouteManager extends Component
     /**
      * 获取当前路由日志配置模型
      *
-     * @return RouteLogConfig|null
+     * @return RouteRecordConfig|null
      */
-    protected function getRouteLogConfig()
+    protected function getRouteRecordConfig()
     {
-        return RouteLogConfig::findOne([
+        return RouteRecordConfig::findOne([
             'system_alias' => $this->systemAlias,
             'route'        => $this->route,
         ]);
@@ -142,6 +152,7 @@ class RouteManager extends Component
      *
      * @throws CustomException
      * @throws InvalidConfigException
+     * @throws \yii\base\ExitException
      */
     public function init()
     {
@@ -152,6 +163,16 @@ class RouteManager extends Component
             $this->systemAlias = AppHelper::app()->getSystemAlias();
         }
         $this->route = AppHelper::app()->getRequest()->getPathInfo();
+        if ($this->openMock) {
+            // 开启mock
+            $config = $this->getRouteRecordConfig();
+            if ($config) {
+                Yii::$app->response->format = Response::FORMAT_JSON;
+                Yii::$app->response->data   = $this->success($config->mocking_response, $this->mockMsg);
+                Yii::$app->response->send();
+                Yii::$app->end();
+            }
+        }
         if ($this->openRouteRecord) {
             // 开启路由记录
             Yii::$app->on(Application::EVENT_BEFORE_REQUEST, [$this, 'routeRecordHandle']);
@@ -210,7 +231,7 @@ class RouteManager extends Component
         if (null === $route) {
             return;
         }
-        $config = $this->getRouteLogConfig();
+        $config = $this->getRouteRecordConfig();
         if (null === $config) {
             return;
         }

@@ -19,10 +19,10 @@ use YiiHelper\services\interfaces\ICurdService;
 interface IRouteRecordService extends ICurdService
 {
     /**
-     * 编辑路由日志配置
+     * 编辑路由配置
      *
      * @param array $params
      * @return bool
      */
-    public function editLogConfig(array $params): bool;
+    public function editRecordConfig(array $params): bool;
 }
