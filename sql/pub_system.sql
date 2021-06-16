@@ -13,7 +13,7 @@ CREATE TABLE `pub_system` (
   `name` varchar(100) NOT NULL COMMENT '系统名称',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `uri_prefix` varchar(100) NOT NULL DEFAULT '' COMMENT '系统调用时访问URI前缀',
-  `rule` varchar(20) NOT NULL DEFAULT 'inner' COMMENT '接口调用规则，inner当前系统，不需要验证和调用',
+  `rule` varchar(20) NOT NULL DEFAULT 'inner' COMMENT 'inner->当前系统；transfer->当前系统转发；outer->外部系统',
   `ext` json DEFAULT NULL COMMENT '扩展字段数据',
   `is_enable` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '系统是否启用状态[0:未启用; 1:已启用]，未启用抛异常',
   `is_continue` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '接口未申明(pub_interfaces)是否继续调用[0:抛异常; 1:继续调用]',

@@ -12,7 +12,7 @@ use YiiHelper\abstracts\Model;
  * @property string $name 系统名称
  * @property string $description 描述
  * @property string $uri_prefix 系统调用时访问URI前缀
- * @property string $rule 接口调用规则，inner当前系统，不需要验证和调用
+ * @property string $rule inner->当前系统；transfer->当前系统转发；outer->外部系统
  * @property string|null $ext 扩展字段数据
  * @property int $is_enable 系统是否启用状态[0:未启用; 1:已启用]，未启用抛异常
  * @property int $is_continue 接口未申明(pub_interfaces)是否继续调用[0:抛异常; 1:继续调用]
@@ -26,6 +26,24 @@ use YiiHelper\abstracts\Model;
  */
 class System extends Model
 {
+    const RULE_INNER    = "inner";
+    const RULE_TRANSFER = "transfer";
+    const RULE_OUTER    = "outer";
+
+    /**
+     * 系统规则
+     *
+     * @return array
+     */
+    public static function systemRules()
+    {
+        return [
+            self::RULE_INNER    => "当前系统",
+            self::RULE_TRANSFER => "内部系统", // 带转发
+            self::RULE_OUTER    => "外部系统", // 带转发
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
