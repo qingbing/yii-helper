@@ -5,22 +5,20 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\features\system\services;
+namespace YiiHelper\features\interfaceManager\services;
 
 
 use YiiHelper\abstracts\Service;
-use YiiHelper\features\system\services\interfaces\ISystemService;
+use YiiHelper\features\interfaceManager\services\interfaces\ISystemService;
 use YiiHelper\helpers\Pager;
-use YiiHelper\models\System;
+use YiiHelper\models\interfaceManager\InterfaceSystems;
 use Zf\Helper\Exceptions\BusinessException;
-use Zf\Helper\Traits\Models\TLabelEnable;
-use Zf\Helper\Traits\Models\TLabelYesNo;
 
 /**
  * 服务 ： 系统管理
  *
  * Class SystemService
- * @package YiiHelper\features\system\services
+ * @package YiiHelper\features\interfaceManager\services
  */
 class SystemService extends Service implements ISystemService
 {
@@ -32,12 +30,20 @@ class SystemService extends Service implements ISystemService
      */
     public function list(array $params = []): array
     {
-        $query = System::find()
+        $query = InterfaceSystems::find()
             ->orderBy('sort_order ASC');
         // 等于查询
-        $this->attributeWhere($query, $params, ['alias', 'is_enable', 'is_continue', 'is_record_field', 'is_open_log']);
+        $this->attributeWhere($query, $params, [
+            'system_alias',
+            'is_enable',
+            'is_allow_new_interface',
+            'is_record_field',
+            'is_open_access_log',
+            'is_open_validate',
+            'is_strict_validate'
+        ]);
         // like 查询
-        $this->likeWhere($query, $params, 'name');
+        $this->likeWhere($query, $params, 'system_name');
         return Pager::getInstance()->pagination($query, $params['pageNo'], $params['pageSize']);
     }
 
@@ -50,7 +56,7 @@ class SystemService extends Service implements ISystemService
      */
     public function add(array $params): bool
     {
-        $model = new System();
+        $model = new InterfaceSystems();
         $model->setFilterAttributes($params);
         return $model->saveOrException();
     }
@@ -90,7 +96,7 @@ class SystemService extends Service implements ISystemService
      * 查看系统详情
      *
      * @param array $params
-     * @return mixed|System
+     * @return mixed|InterfaceSystems
      * @throws BusinessException
      */
     public function view(array $params)
@@ -102,12 +108,12 @@ class SystemService extends Service implements ISystemService
      * 获取当前操作模型
      *
      * @param array $params
-     * @return System
+     * @return InterfaceSystems
      * @throws BusinessException
      */
-    protected function getModel(array $params): System
+    protected function getModel(array $params): InterfaceSystems
     {
-        $model = System::findOne([
+        $model = InterfaceSystems::findOne([
             'id' => $params['id'] ?? null
         ]);
         if (null === $model) {

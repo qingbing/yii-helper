@@ -5,7 +5,8 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\features\system\services\interfaces;
+namespace YiiHelper\features\interfaceManager\services\interfaces;
+
 
 use YiiHelper\services\interfaces\ICurdService;
 
@@ -13,8 +14,9 @@ use YiiHelper\services\interfaces\ICurdService;
  * 接口 ： 系统管理
  *
  * Interface ISystemService
- * @package YiiHelper\features\system\services\interfaces
+ * @package YiiHelper\features\interfaceManager\services\interfaces
  */
 interface ISystemService extends ICurdService
 {
+
 }
