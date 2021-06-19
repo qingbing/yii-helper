@@ -46,8 +46,10 @@ class ErrorHandler extends \yii\web\ErrorHandler
         } elseif (Response::FORMAT_RAW === $response->format) {
             $response->data = static::convertExceptionToString($exception);
         } else {
-            $response->data = $this->convertExceptionToArray($exception);
+            $response->format = Response::FORMAT_JSON;
+            $response->data   = $this->convertExceptionToArray($exception);
         }
+
         // 设置 http 状态返回码
         if ($exception instanceof HttpException) {
             $response->setStatusCode($exception->statusCode);
@@ -69,7 +71,7 @@ class ErrorHandler extends \yii\web\ErrorHandler
         }
         $response->data = \YiiHelper\helpers\Response::getInstance()
             ->setMsg($exception->getMessage())
-            ->setCode($exception->getCode())
+            ->setCode(0 == $exception->getCode() ? -1 : $exception->getCode())
             ->output($data);
 
         // 发送响应

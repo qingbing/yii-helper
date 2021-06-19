@@ -84,7 +84,6 @@ class DynamicModel extends \yii\base\DynamicModel
                 } else {
                     $values[$name] = isset($data[$name]) ? $data[$name] : $rule['default'];
                 }
-                unset($rule['default']);
             } else {
                 if (false !== strpos($name, '.')) {
                     list($prefix, $key) = explode('.', $name, 2);
@@ -93,6 +92,7 @@ class DynamicModel extends \yii\base\DynamicModel
                     $values[$name] = isset($data[$name]) ? $data[$name] : null;
                 }
             }
+            unset($rule['default']);
         }
     }
 
