@@ -61,10 +61,10 @@ values
 CREATE TABLE `pub_interface_type` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `system_alias` varchar(50) NOT NULL DEFAULT '' COMMENT '系统别名',
-  `type` varchar(32) NOT NULL DEFAULT '' COMMENT '路由分类',
+  `type` varchar(32) NOT NULL DEFAULT '' COMMENT '接口分类',
   `type_name` varchar(200) NOT NULL DEFAULT '' COMMENT '类型名称',
   `sort_order` tinyint(4) NOT NULL DEFAULT '0' COMMENT '排序',
-  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '路由描述',
+  `description` varchar(255) NOT NULL DEFAULT '' COMMENT '分类描述',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),

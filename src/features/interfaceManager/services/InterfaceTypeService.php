@@ -9,46 +9,38 @@ namespace YiiHelper\features\interfaceManager\services;
 
 
 use YiiHelper\abstracts\Service;
-use YiiHelper\features\interfaceManager\services\interfaces\ISystemService;
+use YiiHelper\features\interfaceManager\services\interfaces\IInterfaceTypeService;
 use YiiHelper\helpers\Pager;
-use YiiHelper\models\interfaceManager\InterfaceSystems;
+use YiiHelper\models\interfaceManager\InterfaceType;
 use Zf\Helper\Exceptions\BusinessException;
 
 /**
- * 服务 ： 系统管理
+ * 服务 ： 接口系统类型
  *
- * Class SystemService
+ * Class SystemTypeService
  * @package YiiHelper\features\interfaceManager\services
  */
-class SystemService extends Service implements ISystemService
+class InterfaceTypeService extends Service implements IInterfaceTypeService
 {
     /**
-     * 系统列表
+     * 接口类型列表
      *
      * @param array|null $params
      * @return array
      */
     public function list(array $params = []): array
     {
-        $query = InterfaceSystems::find()
+        $query = InterfaceType::find()
             ->orderBy('sort_order ASC');
         // 等于查询
-        $this->attributeWhere($query, $params, [
-            'system_alias',
-            'is_enable',
-            'is_allow_new_interface',
-            'is_record_field',
-            'is_open_access_log',
-            'is_open_validate',
-            'is_strict_validate'
-        ]);
+        $this->attributeWhere($query, $params, 'system_alias');
         // like 查询
-        $this->likeWhere($query, $params, 'system_name');
+        $this->likeWhere($query, $params, ['type', 'type_name']);
         return Pager::getInstance()->pagination($query, $params['pageNo'], $params['pageSize']);
     }
 
     /**
-     * 添加系统
+     * 添加接口类型
      *
      * @param array $params
      * @return bool
@@ -56,13 +48,14 @@ class SystemService extends Service implements ISystemService
      */
     public function add(array $params): bool
     {
-        $model = new InterfaceSystems();
+        $model          = new InterfaceType();
+        $params['type'] = "{$params['system_alias']}-{$params['type']}";
         $model->setFilterAttributes($params);
         return $model->saveOrException();
     }
 
     /**
-     * 编辑系统
+     * 编辑接口类型
      *
      * @param array $params
      * @return bool
@@ -72,13 +65,13 @@ class SystemService extends Service implements ISystemService
     public function edit(array $params): bool
     {
         $model = $this->getModel($params);
-        unset($params['id']);
+        unset($params['id'], $params['system_alias']);
         $model->setFilterAttributes($params);
         return $model->saveOrException();
     }
 
     /**
-     * 删除系统
+     * 删除接口类型
      *
      * @param array $params
      * @return bool
@@ -93,10 +86,10 @@ class SystemService extends Service implements ISystemService
     }
 
     /**
-     * 查看系统详情
+     * 查看接口类型详情
      *
      * @param array $params
-     * @return mixed|InterfaceSystems
+     * @return mixed|InterfaceType|null
      * @throws BusinessException
      */
     public function view(array $params)
@@ -108,16 +101,16 @@ class SystemService extends Service implements ISystemService
      * 获取当前操作模型
      *
      * @param array $params
-     * @return InterfaceSystems
+     * @return InterfaceType|null
      * @throws BusinessException
      */
-    protected function getModel(array $params): InterfaceSystems
+    protected function getModel(array $params)
     {
-        $model = InterfaceSystems::findOne([
-            'id' => $params['id'] ?? null
+        $model = InterfaceType::findOne([
+            'id' => $params['id'] ?? null,
         ]);
         if (null === $model) {
-            throw new BusinessException("系统不存在");
+            throw new BusinessException("接口类型不存在");
         }
         return $model;
     }

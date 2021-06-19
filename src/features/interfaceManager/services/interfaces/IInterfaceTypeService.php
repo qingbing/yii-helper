@@ -11,12 +11,12 @@ namespace YiiHelper\features\interfaceManager\services\interfaces;
 use YiiHelper\services\interfaces\ICurdService;
 
 /**
- * 接口 ： 系统管理
+ * 接口 ： 接口系统类型
  *
- * Interface ISystemService
+ * Interface ISystemTypeService
  * @package YiiHelper\features\interfaceManager\services\interfaces
  */
-interface ISystemService extends ICurdService
+interface IInterfaceTypeService extends ICurdService
 {
 
 }

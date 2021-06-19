@@ -9,8 +9,8 @@ namespace YiiHelper\features\interfaceManager\controllers;
 
 
 use YiiHelper\abstracts\RestController;
-use YiiHelper\features\interfaceManager\services\interfaces\ISystemService;
-use YiiHelper\features\interfaceManager\services\SystemService;
+use YiiHelper\features\interfaceManager\services\interfaces\IInterfaceSystemService;
+use YiiHelper\features\interfaceManager\services\InterfaceSystemService;
 use YiiHelper\models\interfaceManager\InterfaceSystems;
 use YiiHelper\validators\JsonValidator;
 use Zf\Helper\Traits\Models\TLabelEnable;
@@ -22,10 +22,10 @@ use Zf\Helper\Traits\Models\TLabelYesNo;
  * Class SystemController
  * @package YiiHelper\features\interfaceManager\controllers
  */
-class SystemController extends RestController
+class InterfaceSystemController extends RestController
 {
-    protected $serviceInterface = ISystemService::class;
-    protected $serviceClass     = SystemService::class;
+    protected $serviceInterface = IInterfaceSystemService::class;
+    protected $serviceClass     = InterfaceSystemService::class;
 
     /**
      * 系统搜索列表

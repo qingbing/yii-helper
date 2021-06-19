@@ -11,10 +11,10 @@ use Zf\Helper\Exceptions\BusinessException;
  *
  * @property int $id 自增ID
  * @property string $system_alias 系统别名
- * @property string $type 路由分类
+ * @property string $type 接口分类
  * @property string $type_name 类型名称
  * @property int $sort_order 排序
- * @property string $description 路由描述
+ * @property string $description 接口描述
  * @property string $created_at 创建时间
  * @property string $updated_at 更新时间
  *
@@ -55,10 +55,10 @@ class InterfaceType extends Model
         return [
             'id'           => '自增ID',
             'system_alias' => '系统别名',
-            'type'         => '路由分类',
+            'type'         => '接口分类',
             'type_name'    => '类型名称',
             'sort_order'   => '排序',
-            'description'  => '路由描述',
+            'description'  => '接口描述',
             'created_at'   => '创建时间',
             'updated_at'   => '更新时间',
         ];
@@ -99,7 +99,7 @@ class InterfaceType extends Model
      */
     public function beforeDelete()
     {
-        if ($this->optionCount > 0) {
+        if ($this->interfaceCount > 0) {
             throw new BusinessException("该类型尚有子项目，不能删除");
         }
         return parent::beforeDelete();
