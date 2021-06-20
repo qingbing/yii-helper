@@ -49,10 +49,11 @@ class InterfaceFields extends Model
         ];
     }
 
-    const DATA_AREA_HEADER = 'header';
-    const DATA_AREA_FILE   = 'file';
-    const DATA_AREA_GET    = 'get';
-    const DATA_AREA_POST   = 'post';
+    const DATA_AREA_HEADER   = 'header';
+    const DATA_AREA_FILE     = 'file';
+    const DATA_AREA_GET      = 'get';
+    const DATA_AREA_POST     = 'post';
+    const DATA_AREA_RESPONSE = 'response';
 
     /**
      * 字段来源
@@ -61,10 +62,11 @@ class InterfaceFields extends Model
     public static function dataAreas()
     {
         return [
-            self::DATA_AREA_HEADER => 'header', // header
-            self::DATA_AREA_FILE   => 'file', // file
-            self::DATA_AREA_GET    => 'get', // get
-            self::DATA_AREA_POST   => 'post', // post
+            self::DATA_AREA_HEADER   => 'header', // header
+            self::DATA_AREA_FILE     => 'file', // file
+            self::DATA_AREA_GET      => 'get', // get
+            self::DATA_AREA_POST     => 'post', // post
+            self::DATA_AREA_RESPONSE => 'response', // response
         ];
     }
 
@@ -233,7 +235,7 @@ class InterfaceFields extends Model
     public function beforeDelete()
     {
         if ($this->optionCount > 0) {
-            throw new BusinessException("该类型尚有子项目，不能删除");
+            throw new BusinessException("该字段尚有子字段，不能删除");
         }
         return parent::beforeDelete();
     }

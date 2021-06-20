@@ -20,6 +20,8 @@ use YiiHelper\models\interfaceManager\InterfaceType;
  *
  * Class SystemTypeController
  * @package YiiHelper\features\interfaceManager\controllers
+ *
+ * @property-read IInterfaceTypeService $service
  */
 class InterfaceTypeController extends RestController
 {

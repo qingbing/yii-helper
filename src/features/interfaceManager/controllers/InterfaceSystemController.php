@@ -21,6 +21,8 @@ use Zf\Helper\Traits\Models\TLabelYesNo;
  *
  * Class SystemController
  * @package YiiHelper\features\interfaceManager\controllers
+ *
+ * @property-read IInterfaceSystemService $service
  */
 class InterfaceSystemController extends RestController
 {

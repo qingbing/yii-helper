@@ -190,7 +190,7 @@ class Interfaces extends Model
             InterfaceFields::class,
             ['interface_alias' => 'alias']
         )
-            ->orderBy("alias")
+            ->orderBy("type, data_area, alias")
             ->andWhere(['parent_field' => '']);
     }
 
@@ -216,7 +216,7 @@ class Interfaces extends Model
     public function beforeDelete()
     {
         if ($this->optionCount > 0) {
-            throw new BusinessException("该类型尚有子项目，不能删除");
+            throw new BusinessException("该接口尚有字段，不能删除");
         }
         return parent::beforeDelete();
     }
