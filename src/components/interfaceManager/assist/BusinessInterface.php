@@ -461,15 +461,15 @@ class BusinessInterface
                 case InterfaceFields::DATA_TYPE_DOUBLE  : // double
                 case InterfaceFields::DATA_TYPE_NUMBER  : // number
                     $ruleType = $field['data_type'];
-                    $extRules = Util::getArrayByKeys($extRules, ['message', 'max', 'min', 'tooBig', 'tooSmall']);
+                    $extRules = Util::filterArrayByKeys($extRules, ['message', 'max', 'min', 'tooBig', 'tooSmall']);
                     break;
                 case InterfaceFields::DATA_TYPE_BOOLEAN : // boolean
                     $ruleType = $field['data_type'];
-                    $extRules = Util::getArrayByKeys($extRules, ['message', 'trueValue', 'falseValue']);
+                    $extRules = Util::filterArrayByKeys($extRules, ['message', 'trueValue', 'falseValue']);
                     break;
                 case InterfaceFields::DATA_TYPE_STRING  : // string
                     $ruleType = $field['data_type'];
-                    $extRules = Util::getArrayByKeys($extRules, ['message', 'length', 'max', 'min', 'message', 'tooShort', 'tooLong']);
+                    $extRules = Util::filterArrayByKeys($extRules, ['message', 'length', 'max', 'min', 'message', 'tooShort', 'tooLong']);
                     break;
                 case InterfaceFields::DATA_TYPE_OBJECT  : // object
                     $ruleType = JsonValidator::class;
@@ -482,49 +482,49 @@ class BusinessInterface
                     break;
                 case InterfaceFields::DATA_TYPE_COMPARE : // compare
                     $ruleType = $field['data_type'];
-                    $extRules = Util::getArrayByKeys($extRules, ['message', 'compareAttribute', 'compareValue']);
+                    $extRules = Util::filterArrayByKeys($extRules, ['message', 'compareAttribute', 'compareValue']);
                     if (!isset($extRules['compareAttribute'])) {
                         $ignore = true;
                     }
                     break;
                 case InterfaceFields::DATA_TYPE_DATE    : // date
                     $ruleType = $field['data_type'];
-                    $extRules = Util::getArrayByKeys($extRules, ['message', 'format', 'max', 'min', 'tooBig', 'tooSmall', 'maxString', 'minString']);
+                    $extRules = Util::filterArrayByKeys($extRules, ['message', 'format', 'max', 'min', 'tooBig', 'tooSmall', 'maxString', 'minString']);
                     if (!isset($extRules['format'])) {
                         $extRules['format'] = "php:Y-m-d";
                     }
                     break;
                 case InterfaceFields::DATA_TYPE_DATETIME: // datetime
                     $ruleType = $field['data_type'];
-                    $extRules = Util::getArrayByKeys($extRules, ['message', 'format', 'max', 'min', 'tooBig', 'tooSmall', 'maxString', 'minString']);
+                    $extRules = Util::filterArrayByKeys($extRules, ['message', 'format', 'max', 'min', 'tooBig', 'tooSmall', 'maxString', 'minString']);
                     if (!isset($extRules['format'])) {
                         $extRules['format'] = "php:Y-m-d H:i:s";
                     }
                     break;
                 case InterfaceFields::DATA_TYPE_TIME    : // time
                     $ruleType = $field['data_type'];
-                    $extRules = Util::getArrayByKeys($extRules, ['message', 'format', 'max', 'min', 'tooBig', 'tooSmall', 'maxString', 'minString']);
+                    $extRules = Util::filterArrayByKeys($extRules, ['message', 'format', 'max', 'min', 'tooBig', 'tooSmall', 'maxString', 'minString']);
                     if (!isset($extRules['format'])) {
                         $extRules['format'] = "php:H:i:s";
                     }
                     break;
                 case InterfaceFields::DATA_TYPE_IN      : // in
                     $ruleType = $field['data_type'];
-                    $extRules = Util::getArrayByKeys($extRules, ['message', 'range', 'strict', 'not']);
+                    $extRules = Util::filterArrayByKeys($extRules, ['message', 'range', 'strict', 'not']);
                     if (!isset($extRules['range'])) {
                         $ignore = true;
                     }
                     break;
                 case InterfaceFields::DATA_TYPE_DEFAULT : // default
                     $ruleType = $field['data_type'];
-                    $extRules = Util::getArrayByKeys($extRules, ['message', 'value']);
+                    $extRules = Util::filterArrayByKeys($extRules, ['message', 'value']);
                     if (!isset($extRules['value'])) {
                         $ignore = true;
                     }
                     break;
                 case InterfaceFields::DATA_TYPE_MATCH   : // match
                     $ruleType = $field['data_type'];
-                    $extRules = Util::getArrayByKeys($extRules, ['message', 'pattern']);
+                    $extRules = Util::filterArrayByKeys($extRules, ['message', 'pattern']);
                     if (!isset($extRules['pattern'])) {
                         $ignore = true;
                     }
@@ -533,12 +533,12 @@ class BusinessInterface
                 case InterfaceFields::DATA_TYPE_URL     : // url
                 case InterfaceFields::DATA_TYPE_IP      : // ip
                     $ruleType = $field['data_type'];
-                    $extRules = Util::getArrayByKeys($extRules, ['message']);
+                    $extRules = Util::filterArrayByKeys($extRules, ['message']);
                     break;
                 case InterfaceFields::DATA_TYPE_SAFE    : // safe
                 default:
                     $ruleType = 'safe';
-                    $extRules = Util::getArrayByKeys($extRules, ['message']);
+                    $extRules = Util::filterArrayByKeys($extRules, ['message']);
                     break;
             }
             if ($ignore) {
