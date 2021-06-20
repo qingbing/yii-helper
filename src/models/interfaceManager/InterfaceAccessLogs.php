@@ -27,6 +27,24 @@ use YiiHelper\abstracts\Model;
  */
 class InterfaceAccessLogs extends Model
 {
+    const METHOD_GET  = 'get';
+    const METHOD_POST = 'post';
+    const METHOD_PUT  = 'put';
+
+    /**
+     * 获取所有请求方式
+     *
+     * @return array
+     */
+    public static function methods()
+    {
+        return [
+            self::METHOD_GET  => 'get',
+            self::METHOD_POST => 'post',
+            self::METHOD_PUT  => 'put',
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
