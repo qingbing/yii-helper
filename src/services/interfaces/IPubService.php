@@ -16,19 +16,4 @@ namespace YiiHelper\services\interfaces;
  */
 interface IPubService extends IService
 {
-    /**
-     * 选项卡(系统)
-     *
-     * @param array $params
-     * @return array
-     */
-    public function systems(array $params = []): array;
-
-    /**
-     * 选项卡(路由类型)
-     *
-     * @param array $params
-     * @return array
-     */
-    public function routeTypes(array $params): array;
 }
