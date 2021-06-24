@@ -8,6 +8,7 @@
 namespace YiiHelper\components\interfaceManager;
 
 
+use Exception;
 use Yii;
 use yii\base\Component;
 use yii\base\Event;
@@ -264,6 +265,18 @@ class InterfaceManager extends Component
             // 当接口处于中断或失败时，不记录接口信息
             return;
         }
+        if (is_string($response->data)) {
+            // 防止接口传递传递的响应数据是字符串(string)
+            $json = json_decode($response->data, true);
+            if (isset($json['code']) && isset($json['data'])) {
+                $response->data = $json;
+            } else {
+                $response->data = [
+                    'code' => '-999999',
+                    'data' => $response->data,
+                ];
+            }
+        }
         BusinessInterface::addInterface(
             $this->systemAlias,
             $this->realPathInfo,
@@ -423,7 +436,7 @@ class InterfaceManager extends Component
      * 接口定位为mock时返回mock数据
      *
      * @param Event $event
-     * @throws \yii\base\ExitException
+     * @throws Exception
      */
     public function handleMockData(Event $event)
     {

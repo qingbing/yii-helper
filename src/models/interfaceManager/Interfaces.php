@@ -143,7 +143,7 @@ class Interfaces extends Model
         return [
             'id'                   => '自增ID',
             'system_alias'         => '系统别名',
-            'uri_path'             => '接口的path',
+            'uri_path'             => '接口path',
             'alias'                => '接口别名',
             'name'                 => '接口名称',
             'type'                 => '接口分类',
@@ -203,7 +203,7 @@ class Interfaces extends Model
     {
         return array_merge(parent::fields(), [
             'optionCount',
-            'options',
+            //'options',
         ]);
     }
 

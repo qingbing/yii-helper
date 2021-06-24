@@ -10,6 +10,7 @@ namespace YiiHelper\features\form\actions;
 
 use Exception;
 use yii\base\Action;
+use yii\web\Response;
 use YiiHelper\models\form\FormCategory;
 use YiiHelper\models\form\FormOption as FormOptionModel;
 use YiiHelper\traits\TResponse;
@@ -40,8 +41,9 @@ class FormOption extends Action
             ['key', 'exist', 'label' => '表单标记', 'targetClass' => FormCategory::class, 'targetAttribute' => 'key'],
         ]);
         // 获取所有表单选项
-        $options = FormOptionModel::getEnableOptions($params['key']);
-        $R       = [];
+        $options         = FormOptionModel::getEnableOptions($params['key']);
+        $_replaceOptions = "___replace_option___";
+        $R               = [];
         foreach ($options as $option) {
             $_               = [];
             $_['field']      = $option->field;
@@ -49,6 +51,19 @@ class FormOption extends Action
             $_['input_type'] = $option->input_type;
             $_['default']    = $option->default;
             is_array($option->exts) && count($option->exts) > 0 && ($_['exts'] = $option->exts);
+            if (
+                (
+                    $option->input_type === FormOptionModel::INPUT_TYPE_INPUT_RADIO ||
+                    $option->input_type === FormOptionModel::INPUT_TYPE_INPUT_CHECKBOX ||
+                    $option->input_type === FormOptionModel::INPUT_TYPE_INPUT_SELECT
+                ) && isset($option->exts['options']) && is_array($option->exts['options'])
+            ) {
+                $_options = [];
+                foreach ($option->exts['options'] as $k => $v) {
+                    $_options["{$_replaceOptions}{$k}"] = $v;
+                }
+                $_['exts']['options'] = $_options;
+            }
             if (is_array($option->rules) && count($option->rules) > 0) {
                 $rules = $option->rules;
             } else {
@@ -68,6 +83,10 @@ class FormOption extends Action
             $R[$option->field] = $_;
         }
         // 渲染结果
-        return $this->success($R, "表单选项");
+        $data = $this->success($R, "表单选项");
+        $json = replace(json_encode($data, JSON_UNESCAPED_UNICODE), [
+            $_replaceOptions => '',
+        ]);
+        return $json;
     }
 }
