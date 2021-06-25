@@ -32,7 +32,7 @@ class HeaderOptionService extends Service implements IHeaderOptionService
     public function list(array $params = []): array
     {
         $category = Header::findOne([
-            'key' => $params['header_key'],
+            'key' => $params['key'],
         ]);
         return $category->options;
     }
@@ -62,7 +62,7 @@ class HeaderOptionService extends Service implements IHeaderOptionService
     public function edit(array $params): bool
     {
         $model = $this->getModel($params);
-        unset($params['id'], $params['header_key']);
+        unset($params['id'], $params['key']);
         $model->setFilterAttributes($params);
         return $model->saveOrException();
     }
@@ -104,7 +104,7 @@ class HeaderOptionService extends Service implements IHeaderOptionService
     public function refreshOrder(array $params): bool
     {
         $category = Header::findOne([
-            'key' => $params['header_key'],
+            'key' => $params['key'],
         ]);
         $options  = $category->options;
         AppHelper::app()->getDb()->transaction(function () use ($options) {
@@ -209,7 +209,7 @@ class HeaderOptionService extends Service implements IHeaderOptionService
             NEXT => ['oper' => '>', 'sort' => 'sort_order ASC'],
         ];
         return HeaderOption::find()
-            ->andWhere(['=', 'header_key', $model->header_key])
+            ->andWhere(['=', 'key', $model->key])
             ->andWhere([$differs[$type]['oper'], 'sort_order', $model->sort_order])
             ->orderBy($differs[$type]['sort'])
             ->one();

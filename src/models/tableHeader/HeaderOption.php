@@ -13,7 +13,7 @@ use Zf\Helper\Exceptions\BusinessException;
  * This is the model class for table "pub_header_option".
  *
  * @property int $id 自增ID
- * @property string $header_key 所属表头分类（来自header）
+ * @property string $key 所属表头分类（来自header）
  * @property string $field 字段名
  * @property string $label 显示名
  * @property string $width 固定宽度
@@ -88,17 +88,17 @@ class HeaderOption extends Model
     public function rules()
     {
         return [
-            [['header_key', 'field', 'label'], 'required'],
+            [['key', 'field', 'label'], 'required'],
             [['is_tooltip', 'is_editable', 'is_resizable', 'sort_order', 'is_required', 'is_default', 'is_enable', 'operate_uid'], 'integer'],
             [['options', 'params', 'created_at', 'updated_at'], 'safe'],
-            [['header_key', 'default'], 'string', 'max' => 100],
+            [['key', 'default'], 'string', 'max' => 100],
             [['field', 'component'], 'string', 'max' => 60],
             [['label'], 'string', 'max' => 50],
             [['width', 'fixed', 'align'], 'string', 'max' => 20],
             [['description'], 'string', 'max' => 255],
             [['operate_ip'], 'string', 'max' => 15],
-            [['header_key', 'field'], 'unique', 'targetAttribute' => ['header_key', 'field']],
-            [['header_key', 'label'], 'unique', 'targetAttribute' => ['header_key', 'label']],
+            [['key', 'field'], 'unique', 'targetAttribute' => ['key', 'field']],
+            [['key', 'label'], 'unique', 'targetAttribute' => ['key', 'label']],
         ];
     }
 
@@ -109,7 +109,7 @@ class HeaderOption extends Model
     {
         return [
             'id'           => '自增ID',
-            'header_key'   => '表头标志',
+            'key'          => '表头标志',
             'field'        => '字段名',
             'label'        => '显示名',
             'width'        => '固定宽度',

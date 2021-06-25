@@ -64,7 +64,7 @@ class Header extends Model
     {
         return $this->hasOne(
             HeaderOption::class,
-            ['header_key' => 'key']
+            ['key' => 'key']
         )->count();
     }
 
@@ -77,7 +77,7 @@ class Header extends Model
     {
         return $this->hasMany(
             HeaderOption::class,
-            ['header_key' => 'key']
+            ['key' => 'key']
         )->orderBy("sort_order ASC, id ASC");
     }
 

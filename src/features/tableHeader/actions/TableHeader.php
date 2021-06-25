@@ -40,7 +40,7 @@ class TableHeader extends Action
         ]);
         // 获取所有表头选项
         $options = HeaderOption::find()
-            ->andWhere(['=', 'header_key', $params['key']])
+            ->andWhere(['=', 'key', $params['key']])
             ->andWhere(['=', 'is_enable', 1])
             ->orderBy('sort_order ASC, id ASC')
             ->all();

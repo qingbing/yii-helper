@@ -41,8 +41,8 @@ class HeaderOptionController extends RestController
     {
         // 参数验证和获取
         $params = $this->validateParams([
-            [['header_key'], 'required'],
-            ['header_key', 'exist', 'label' => '表头标记', 'targetClass' => Header::class, 'targetAttribute' => 'key'],
+            [['key'], 'required'],
+            ['key', 'exist', 'label' => '表头标记', 'targetClass' => Header::class, 'targetAttribute' => 'key'],
         ]);
         // 业务处理
         $res = $this->service->list($params);
@@ -59,13 +59,13 @@ class HeaderOptionController extends RestController
     public function actionAdd()
     {
         // 数据提前获取
-        $headerKey = $this->getParam('header_key');
+        $key = $this->getParam('key');
         // 参数验证和获取
         $params = $this->validateParams([
-            [['header_key', 'field', 'label', 'sort_order'], 'required'],
-            ['header_key', 'exist', 'label' => '表头标记', 'targetClass' => Header::class, 'targetAttribute' => 'key'],
-            ['field', 'unique', 'label' => '选项字段', 'targetClass' => HeaderOption::class, 'targetAttribute' => 'field', 'filter' => ['header_key' => $headerKey]],
-            ['label', 'unique', 'label' => '选项名称', 'targetClass' => HeaderOption::class, 'targetAttribute' => 'label', 'filter' => ['header_key' => $headerKey]],
+            [['key', 'field', 'label', 'sort_order'], 'required'],
+            ['key', 'exist', 'label' => '表头标记', 'targetClass' => Header::class, 'targetAttribute' => 'key'],
+            ['field', 'unique', 'label' => '选项字段', 'targetClass' => HeaderOption::class, 'targetAttribute' => 'field', 'filter' => ['key' => $key]],
+            ['label', 'unique', 'label' => '选项名称', 'targetClass' => HeaderOption::class, 'targetAttribute' => 'label', 'filter' => ['key' => $key]],
             ['width', 'string', 'label' => '列宽度'],
             ['default', 'string', 'label' => '默认值'],
             ['component', 'string', 'label' => '组件名'], // 除了程序员（超管），其它人不能修改和查看，因为需要前端代码配合
@@ -97,13 +97,13 @@ class HeaderOptionController extends RestController
     public function actionEdit()
     {
         // 数据提前获取
-        $id        = $this->getParam('id');
-        $headerKey = $this->getParam('header_key');
+        $id  = $this->getParam('id');
+        $key = $this->getParam('key');
         // 参数验证和获取
         $params = $this->validateParams([
-            [['id', 'header_key'], 'required'], // 必填做这么少为了table-cell-edit
+            [['id', 'key'], 'required'], // 必填做这么少为了table-cell-edit
             ['id', 'exist', 'label' => 'ID', 'targetClass' => HeaderOption::class, 'targetAttribute' => 'id'],
-            ['header_key', 'exist', 'label' => '表头标记', 'targetClass' => Header::class, 'targetAttribute' => 'key'],
+            ['key', 'exist', 'label' => '表头标记', 'targetClass' => Header::class, 'targetAttribute' => 'key'],
             [
                 'label',
                 'unique',
@@ -112,7 +112,7 @@ class HeaderOptionController extends RestController
                 'targetAttribute' => 'label',
                 'filter'          => [
                     'and',
-                    ['header_key' => $headerKey],
+                    ['key' => $key],
                     ['!=', 'id', $id],
                 ]
             ],
@@ -186,8 +186,8 @@ class HeaderOptionController extends RestController
     {
         // 参数验证和获取
         $params = $this->validateParams([
-            [['header_key'], 'required'],
-            ['header_key', 'exist', 'label' => '表头标记', 'targetClass' => Header::class, 'targetAttribute' => 'key'],
+            [['key'], 'required'],
+            ['key', 'exist', 'label' => '表头标记', 'targetClass' => Header::class, 'targetAttribute' => 'key'],
         ]);
         // 业务处理
         $res = $this->service->refreshOrder($params);

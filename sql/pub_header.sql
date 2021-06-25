@@ -5,7 +5,7 @@
 -- 实现逻辑
 -- 1. pub_header 表头类型，界面操作，一般由程序员来进行操作
 -- 2. pub_header_option 表头选项，界面操作，由程序员添加，管理员可控制是否显示
--- 3. 提供action(header_key)来对前端统一输入表头选项
+-- 3. 提供action(key)来对前端统一输入表头选项
 -- ----------------------------
 
 -- ----------------------------
@@ -28,7 +28,7 @@ CREATE TABLE `pub_header` (
 CREATE TABLE `pub_header_option` (
   -- 分类信息
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
-  `header_key` varchar(100) NOT NULL COMMENT '所属表头标记',
+  `key` varchar(100) NOT NULL COMMENT '所属表头标记',
   -- 页面需要信息
   `field` varchar(60) NOT NULL COMMENT '字段名',
   `label` varchar(50) NOT NULL COMMENT '显示名',
@@ -54,25 +54,26 @@ CREATE TABLE `pub_header_option` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `uk_key_field` (`header_key`, `field`),
-  UNIQUE KEY `uk_key_label` (`header_key`, `label`),
+  UNIQUE KEY `uk_key_field` (`key`, `field`),
+  UNIQUE KEY `uk_key_label` (`key`, `label`),
   KEY `idx_sortOrder`(`sort_order`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='表头配置选项';
 
 
 -- ----------------------------
---  Data for header-key "program-header-category"
+--  Data for key "program-header-category"
 -- ----------------------------
 
 -- pub_header
 insert into `pub_header`
 ( `key`, `name`, `description`, `sort_order`, `is_open`)
 values
-( 'program-header-category', '程序员管理系统-表头管理', '程序员管理系统-表头管理', '126', '0');
+( 'program-header-category', '程序员管理系统-表头管理', '程序员管理系统-表头管理', '1', '0');
+
 
 -- pub_header_option
 insert into `pub_header_option`
-( `header_key`, `field`, `label`, `width`, `fixed`, `default`, `align`, `is_tooltip`, `is_resizable`, `is_editable`, `component`, `options`, `params`, `description`, `sort_order`, `is_required`, `is_default`, `is_enable`, `operate_ip`, `operate_uid`)
+( `key`, `field`, `label`, `width`, `fixed`, `default`, `align`, `is_tooltip`, `is_resizable`, `is_editable`, `component`, `options`, `params`, `description`, `sort_order`, `is_required`, `is_default`, `is_enable`, `operate_ip`, `operate_uid`)
 values
 ( 'program-header-category', '_idx', '序号', '50', 'left', '', '', '0', '1', '0', '', '\"\"', '\"\"', '', '1', '1', '1', '1', '192.168.1.1', '100000000'),
 ( 'program-header-category', 'key', '表头标识', '240', 'left', '', 'left', '0', '1', '0', '', '\"\"', '\"\"', '', '2', '1', '1', '1', '192.168.1.1', '100000000'),
@@ -83,18 +84,18 @@ values
 
 
 -- ----------------------------
---  Data for header-key "program-header-options"
+--  Data for key "program-header-options"
 -- ----------------------------
 
 -- pub_header
 insert into `pub_header`
 ( `key`, `name`, `description`, `sort_order`, `is_open`)
 values
-( 'program-header-options', '程序员管理系统-表头选项管理', '程序员管理系统-表头选项管理', '127', '0');
+( 'program-header-options', '程序员管理系统-表头选项管理', '程序员管理系统-表头选项管理', '2', '0');
 
 -- pub_header_option
 insert into `pub_header_option`
-( `header_key`, `field`, `label`, `width`, `fixed`, `default`, `align`, `is_tooltip`, `is_resizable`, `is_editable`, `component`, `options`, `params`, `description`, `sort_order`, `is_required`, `is_default`, `is_enable`, `operate_ip`, `operate_uid`)
+( `key`, `field`, `label`, `width`, `fixed`, `default`, `align`, `is_tooltip`, `is_resizable`, `is_editable`, `component`, `options`, `params`, `description`, `sort_order`, `is_required`, `is_default`, `is_enable`, `operate_ip`, `operate_uid`)
 values
 ( 'program-header-options', '_idx', '序号', '50', 'left', '', '', '0', '0', '0', '', '\"\"', '\"\"', '', '1', '0', '1', '1', '192.168.1.1', '100000000'),
 ( 'program-header-options', 'field', '选项字段', '100', 'left', '', 'left', '0', '0', '0', '', '\"\"', '\"\"', '', '2', '1', '1', '1', '192.168.1.1', '100000000'),
