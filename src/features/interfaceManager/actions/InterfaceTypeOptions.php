@@ -37,10 +37,12 @@ class InterfaceTypeOptions extends Action
     {
         // 参数验证和获取
         $params  = $this->validateParams([
+            ['system_alias', 'string', 'label' => '系统别名'],
             ['key', 'string', 'label' => '关键字'],
         ]);
         $items   = InterfaceType::find()
-            ->andFilterWhere(['=', 'type_name', $params['key']])
+            ->andFilterWhere(['=', 'system_alias', $params['system_alias']])
+            ->andFilterWhere(['like', 'type_name', $params['key']])
             ->orderBy('sort_order ASC, id ASC')
             ->all();
         $options = $this->optionFormat($items, 'type', 'type_name');

@@ -36,6 +36,14 @@ class OperateLogService extends Service implements IOperateLogService
         $this->attributeWhere($query, $params, ['id', 'trace_id', 'type', 'system_alias', 'uid', 'keyword', 'nickname']);
         // like 查询
         $this->likeWhere($query, $params, 'message');
+        // 开始时间
+        if (!empty($params['start_at'])) {
+            $query->andWhere(['>=', 'created_at', $params['start_at']]);
+        }
+        // 结束时间
+        if (!empty($params['end_at'])) {
+            $query->andWhere(['<=', 'created_at', $params['end_at']]);
+        }
         return Pager::getInstance()->pagination($query, $params['pageNo'], $params['pageSize']);
     }
 

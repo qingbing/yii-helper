@@ -46,6 +46,9 @@ class OperateLogController extends RestController
             ['message', 'string', 'label' => '消息'],
             ['uid', 'string', 'label' => '用户ID'],
             ['nickname', 'string', 'label' => '用户昵称'],
+
+            ['start_at', 'datetime', 'label' => '开始时间', 'format' => 'php:Y-m-d H:i:s'],
+            ['end_at', 'datetime', 'label' => '结束时间', 'format' => 'php:Y-m-d H:i:s'],
         ], null, true);
 
         // 业务处理
