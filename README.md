@@ -26,6 +26,7 @@ yii 公用的一些基础类库
 1. [对于Yii某些封装的提示完善,仅供提示使用](doc/YiiHelper.md)
 
 ### 抽象类
+1. [基本的队列任务封装 : BaseQueueJob](doc/abstracts/BaseQueueJob.md)
 1. [控制台基类 : ConsoleController](doc/abstracts/ConsoleController.md)
 1. [db-model基类 : Model](doc/abstracts/Model.md)
 1. [控制器基类 : RestController](doc/abstracts/RestController.md)
