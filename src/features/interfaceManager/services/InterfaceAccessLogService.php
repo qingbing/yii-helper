@@ -26,12 +26,13 @@ class InterfaceAccessLogService extends Service implements IInterfaceAccessLogSe
     /**
      * 接口访问日志列表
      *
-     * @param array|null $params
+     * @param array $params
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
     public function list(array $params = []): array
     {
-        $query = (new Query())
+        $query = (\Yii::createObject(Query::class))
             ->from(InterfaceAccessLogs::tableName() . ' AS ial')
             ->leftJoin(Interfaces::tableName() . ' AS i', 'i.id=ial.interface_id')
             ->orderBy('ial.id DESC')
@@ -70,11 +71,12 @@ class InterfaceAccessLogService extends Service implements IInterfaceAccessLogSe
      * 查看接口访问日志详情
      *
      * @param array $params
-     * @return mixed
+     * @return array|bool|mixed
+     * @throws \yii\base\InvalidConfigException
      */
     public function view(array $params)
     {
-        $query = (new Query())
+        $query = (\Yii::createObject(Query::class))
             ->from(InterfaceAccessLogs::tableName() . ' AS ial')
             ->leftJoin(Interfaces::tableName() . ' AS i', 'i.id=ial.interface_id')
             ->orderBy('ial.id DESC')

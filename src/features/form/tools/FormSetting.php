@@ -79,6 +79,7 @@ class FormSetting
      * 实例基本信息初始化
      *
      * @throws BusinessException
+     * @throws \yii\base\InvalidConfigException
      */
     protected function init()
     {
@@ -96,7 +97,7 @@ class FormSetting
         $this->category = $category;
         $setting        = $category->setting;
         if (null === $setting) {
-            $setting      = new \YiiHelper\models\form\FormSetting();
+            $setting      = \Yii::createObject(\YiiHelper\models\form\FormSetting::class);
             $setting->key = $category->key;
         }
         $this->setting = $setting;

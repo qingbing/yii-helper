@@ -228,7 +228,8 @@ class BusinessInterface
      * 保存接口信息
      *
      * @param array $data
-     * @return array|ActiveRecord|Interfaces|null|void
+     * @return array|object|ActiveRecord|Interfaces|null
+     * @throws \yii\base\InvalidConfigException
      */
     protected static function addInterfaceInfo(array $data)
     {
@@ -238,7 +239,7 @@ class BusinessInterface
         if (null !== $model) {
             return $model;
         }
-        $model = new Interfaces();
+        $model = Yii::createObject(Interfaces::class);
         $model->setAttributes($data);
         if ($model->save()) {
             return $model;
@@ -256,7 +257,8 @@ class BusinessInterface
      * 保存接口字段信息
      *
      * @param array $data
-     * @return array|ActiveRecord|InterfaceFields|null|void
+     * @return array|object|ActiveRecord|InterfaceFields|null
+     * @throws \yii\base\InvalidConfigException
      */
     protected static function addInterfaceField(array $data)
     {
@@ -266,7 +268,7 @@ class BusinessInterface
         if (null !== $model) {
             return $model;
         }
-        $model = new InterfaceFields();
+        $model = Yii::createObject(InterfaceFields::class);
         $model->setAttributes($data);
         if ($model->save()) {
             return $model;

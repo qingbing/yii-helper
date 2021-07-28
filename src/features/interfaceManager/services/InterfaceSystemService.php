@@ -52,11 +52,12 @@ class InterfaceSystemService extends Service implements IInterfaceSystemService
      *
      * @param array $params
      * @return bool
+     * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      */
     public function add(array $params): bool
     {
-        $model = new InterfaceSystems();
+        $model = \Yii::createObject(InterfaceSystems::class);
         $model->setFilterAttributes($params);
         return $model->saveOrException();
     }

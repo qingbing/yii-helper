@@ -365,6 +365,7 @@ class InterfaceManager extends Component
      * 访问日志入库
      *
      * @param Event $event
+     * @throws InvalidConfigException
      */
     public function handleAccessLog(Event $event)
     {
@@ -375,7 +376,7 @@ class InterfaceManager extends Component
         $response = $event->sender;
         /* @var Response $response */
         $accessLogData = $this->getAccessLogData($response);
-        $log           = new InterfaceAccessLogs();
+        $log           = Yii::createObject(InterfaceAccessLogs::class);
         $log->setAttributes($accessLogData);
         $log->save();
     }
@@ -427,7 +428,7 @@ class InterfaceManager extends Component
                 $routeLogData['keyword'] = $data['keyword'];
             }
         }
-        $routeLogModel = new InterfaceRouteLogs();
+        $routeLogModel = Yii::createObject(InterfaceRouteLogs::class);
         $routeLogModel->setAttributes($routeLogData);
         $routeLogModel->save();
     }

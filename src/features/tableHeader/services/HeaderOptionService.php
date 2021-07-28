@@ -42,11 +42,12 @@ class HeaderOptionService extends Service implements IHeaderOptionService
      *
      * @param array $params
      * @return bool
+     * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      */
     public function add(array $params): bool
     {
-        $model = new HeaderOption();
+        $model = \Yii::createObject(HeaderOption::class);
         $model->setFilterAttributes($params);
         return $model->saveOrException();
     }

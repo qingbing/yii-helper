@@ -73,11 +73,12 @@ class InterfaceFieldService extends Service implements IInterfaceFieldService
      *
      * @param array $params
      * @return bool
+     * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      */
     public function add(array $params): bool
     {
-        $model           = new InterfaceFields();
+        $model           = \Yii::createObject(InterfaceFields::class);
         $_alias          = $params['parent_field'] ? "{$params['parent_field']}.{$params['field']}" : $params['field'];
         $params['alias'] = "{$params['interface_alias']}|{$params['type']}|{$params['data_area']}|{$_alias}";
         $model->setFilterAttributes($params);

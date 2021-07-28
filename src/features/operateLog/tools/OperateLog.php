@@ -20,13 +20,13 @@ use Zf\Helper\Abstracts\Singleton;
 class OperateLog extends Singleton
 {
     /**
-     * 添加操作日志
-     *
      * @param string $type
-     * @param string $keyword
      * @param mixed $data
+     * @param string $keyword
      * @param string $message
      * @return bool
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
      */
     public function add(string $type, $data, string $keyword = '', string $message = '')
     {
@@ -38,7 +38,7 @@ class OperateLog extends Singleton
             'data'         => $data, // 操作的具体内容
         ];
 
-        $model = new \YiiHelper\models\operateLog\OperateLog();
+        $model = \Yii::createObject(\YiiHelper\models\operateLog\OperateLog::class);
         $model->setAttributes($data);
         return $model->saveOrException();
     }

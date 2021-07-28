@@ -44,11 +44,12 @@ class HeaderService extends Service implements IHeaderService
      *
      * @param array $params
      * @return bool
+     * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      */
     public function add(array $params): bool
     {
-        $model = new Header();
+        $model = \Yii::createObject(Header::class);
         $model->setFilterAttributes($params);
         return $model->saveOrException();
     }

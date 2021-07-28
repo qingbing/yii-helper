@@ -44,11 +44,12 @@ class FormCategoryService extends Service implements IFormCategoryService
      *
      * @param array $params
      * @return bool
+     * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      */
     public function add(array $params): bool
     {
-        $model = new FormCategory();
+        $model = \Yii::createObject(FormCategory::class);
         $model->setFilterAttributes($params);
         return $model->saveOrException();
     }

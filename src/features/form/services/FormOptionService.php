@@ -42,11 +42,12 @@ class FormOptionService extends Service implements IFormOptionService
      *
      * @param array $params
      * @return bool
+     * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      */
     public function add(array $params): bool
     {
-        $model = new FormOption();
+        $model = \Yii::createObject(FormOption::class);
         $model->setFilterAttributes($params);
         return $model->saveOrException();
     }

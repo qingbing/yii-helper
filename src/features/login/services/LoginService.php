@@ -68,6 +68,7 @@ abstract class LoginService extends Service implements ILoginService
      * @param array $params
      * @return bool
      * @throws BusinessException
+     * @throws \yii\base\InvalidConfigException
      */
     public function signIn(array $params): bool
     {
@@ -77,7 +78,7 @@ abstract class LoginService extends Service implements ILoginService
                 '{type}' => $params['type'],
             ]));
         }
-        $service = new $this->serviceMap[$params['type']]($params);
+        $service = Yii::createObject($this->serviceMap[$params['type']]($params));
         if (!$service instanceof LoginBase) {
             throw new BusinessException('登录服务必须继承自"\YiiHelper\services\login\LoginBase"');
         }

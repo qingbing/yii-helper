@@ -26,12 +26,13 @@ class InterfaceRouteLogService extends Service implements IInterfaceRouteLogServ
     /**
      * 路由访问日志列表
      *
-     * @param array|null $params
+     * @param array $params
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
     public function list(array $params = []): array
     {
-        $query = (new Query())
+        $query = (\Yii::createObject(Query::class))
             ->from(InterfaceRouteLogs::tableName() . ' AS ral')
             ->leftJoin(Interfaces::tableName() . ' AS i', 'i.id=ral.interface_id')
             ->orderBy('ral.id DESC')
@@ -70,11 +71,12 @@ class InterfaceRouteLogService extends Service implements IInterfaceRouteLogServ
      * 查看路由访问日志详情
      *
      * @param array $params
-     * @return mixed
+     * @return array|bool|mixed
+     * @throws \yii\base\InvalidConfigException
      */
     public function view(array $params)
     {
-        $query = (new Query())
+        $query = (\Yii::createObject(Query::class))
             ->from(InterfaceRouteLogs::tableName() . ' AS ral')
             ->leftJoin(Interfaces::tableName() . ' AS i', 'i.id=ral.interface_id')
             ->orderBy('ral.id DESC')

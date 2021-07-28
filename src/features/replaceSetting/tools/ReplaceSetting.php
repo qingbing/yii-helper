@@ -26,6 +26,7 @@ class ReplaceSetting
      * @param string $code
      * @return $this
      * @throws BusinessException
+     * @throws \yii\base\InvalidConfigException
      */
     public static function getInstance(string $code)
     {
@@ -43,10 +44,11 @@ class ReplaceSetting
      * ReplaceSetting constructor.
      * @param string $code
      * @throws BusinessException
+     * @throws \yii\base\InvalidConfigException
      */
     final private function __construct(string $code)
     {
-        $record = (new Query())
+        $record = (\Yii::createObject(Query::class))
             ->from('pub_replace_setting')
             ->select(['template', 'content', 'replace_fields'])
             ->andWhere([

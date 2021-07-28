@@ -21,6 +21,14 @@ use Zf\Helper\Exceptions\CustomException;
  */
 class ErrorHandler extends \yii\web\ErrorHandler
 {
+    /**
+     * 渲染异常
+     *
+     * @param \Error|\Exception $exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\base\InvalidRouteException
+     * @throws \yii\console\Exception
+     */
     protected function renderException($exception)
     {
         // 获取 response 组件
@@ -32,7 +40,7 @@ class ErrorHandler extends \yii\web\ErrorHandler
             $response->data    = null;
             $response->content = null;
         } else {
-            $response = new Response();
+            $response = Yii::createObject(Response::class);
         }
         // 异常信息处理
         $isCustomException = $exception instanceof CustomException;

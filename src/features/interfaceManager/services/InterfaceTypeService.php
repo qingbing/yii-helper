@@ -44,11 +44,12 @@ class InterfaceTypeService extends Service implements IInterfaceTypeService
      *
      * @param array $params
      * @return bool
+     * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      */
     public function add(array $params): bool
     {
-        $model          = new InterfaceType();
+        $model          = \Yii::createObject(InterfaceType::class);
         $params['type'] = "{$params['system_alias']}-{$params['type']}";
         $model->setFilterAttributes($params);
         return $model->saveOrException();
