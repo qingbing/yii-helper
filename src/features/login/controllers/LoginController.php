@@ -33,11 +33,11 @@ class LoginController extends RestController
     /**
      * @var string 控制器服务类接口
      */
-    protected $serviceInterface = ILoginService::class;
+    public $serviceInterface = ILoginService::class;
     /**
      * @var string 控制器服务类名
      */
-    protected $serviceClass = LoginService::class;
+    public $serviceClass = LoginService::class;
     /**
      * @todo 子类可覆盖
      *

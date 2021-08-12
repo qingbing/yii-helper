@@ -25,8 +25,8 @@ use Zf\Helper\Traits\Models\TLabelYesNo;
  */
 class FormCategoryController extends RestController
 {
-    protected $serviceInterface = IFormCategoryService::class;
-    protected $serviceClass     = FormCategoryService::class;
+    public $serviceInterface = IFormCategoryService::class;
+    public $serviceClass     = FormCategoryService::class;
 
     /**
      * 表单搜索列表

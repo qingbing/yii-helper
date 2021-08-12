@@ -24,8 +24,8 @@ use Zf\Helper\Traits\Models\TLabelYesNo;
  */
 class OperateLogController extends RestController
 {
-    protected $serviceInterface = IOperateLogService::class;
-    protected $serviceClass     = OperateLogService::class;
+    public $serviceInterface = IOperateLogService::class;
+    public $serviceClass     = OperateLogService::class;
 
     /**
      * 操作日志列表

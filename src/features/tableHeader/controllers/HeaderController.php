@@ -24,8 +24,8 @@ use Zf\Helper\Traits\Models\TLabelYesNo;
  */
 class HeaderController extends RestController
 {
-    protected $serviceClass     = HeaderService::class;
-    protected $serviceInterface = IHeaderService::class;
+    public $serviceClass     = HeaderService::class;
+    public $serviceInterface = IHeaderService::class;
 
     /**
      * 表头搜索列表

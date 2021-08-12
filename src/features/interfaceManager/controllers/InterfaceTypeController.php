@@ -25,8 +25,8 @@ use YiiHelper\models\interfaceManager\InterfaceType;
  */
 class InterfaceTypeController extends RestController
 {
-    protected $serviceInterface = IInterfaceTypeService::class;
-    protected $serviceClass     = InterfaceTypeService::class;
+    public $serviceInterface = IInterfaceTypeService::class;
+    public $serviceClass     = InterfaceTypeService::class;
 
     /**
      * 接口类型搜索列表

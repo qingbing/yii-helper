@@ -27,8 +27,8 @@ use Zf\Helper\Traits\Models\TLabelYesNo;
  */
 class InterfaceFieldController extends RestController
 {
-    protected $serviceInterface = IInterfaceFieldService::class;
-    protected $serviceClass     = InterfaceFieldService::class;
+    public $serviceInterface = IInterfaceFieldService::class;
+    public $serviceClass     = InterfaceFieldService::class;
 
     /**
      * 接口字段列表

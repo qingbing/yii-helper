@@ -26,8 +26,8 @@ use YiiHelper\validators\JsonValidator;
  */
 class FormOptionController extends RestController
 {
-    protected $serviceInterface = IFormOptionService::class;
-    protected $serviceClass     = FormOptionService::class;
+    public $serviceInterface = IFormOptionService::class;
+    public $serviceClass     = FormOptionService::class;
 
     /**
      * 表单选项列表

@@ -27,8 +27,8 @@ use Zf\Helper\Traits\Models\TLabelYesNo;
  */
 class InterfaceAccessLogController extends RestController
 {
-    protected $serviceInterface = IInterfaceAccessLogService::class;
-    protected $serviceClass     = InterfaceAccessLogService::class;
+    public $serviceInterface = IInterfaceAccessLogService::class;
+    public $serviceClass     = InterfaceAccessLogService::class;
 
     /**
      * 接口访问日志列表

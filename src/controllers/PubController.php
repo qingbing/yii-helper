@@ -27,8 +27,8 @@ use YiiHelper\services\PubService;
  */
 class PubController extends RestController
 {
-    protected $serviceInterface = IPubService::class;
-    protected $serviceClass     = PubService::class;
+    public $serviceInterface = IPubService::class;
+    public $serviceClass     = PubService::class;
 
     /**
      * 操作集合

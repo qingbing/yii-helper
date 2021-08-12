@@ -27,8 +27,8 @@ use Zf\Helper\Traits\Models\TLabelYesNo;
  */
 class InterfaceRouteLogController extends RestController
 {
-    protected $serviceInterface = IInterfaceRouteLogService::class;
-    protected $serviceClass     = InterfaceRouteLogService::class;
+    public $serviceInterface = IInterfaceRouteLogService::class;
+    public $serviceClass     = InterfaceRouteLogService::class;
 
     /**
      * 路由日志列表

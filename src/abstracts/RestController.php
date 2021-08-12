@@ -27,11 +27,11 @@ abstract class RestController extends Controller
     /**
      * @var string 控制器服务类接口
      */
-    protected $serviceInterface;
+    public $serviceInterface;
     /**
      * @var string 控制器服务类名
      */
-    protected $serviceClass;
+    public $serviceClass;
     /**
      * @var mixed 控制器服务器类
      */

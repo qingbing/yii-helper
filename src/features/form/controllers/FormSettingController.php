@@ -24,8 +24,8 @@ use YiiHelper\models\form\FormCategory;
  */
 class FormSettingController extends RestController
 {
-    protected $serviceInterface = IFormSettingService::class;
-    protected $serviceClass     = FormSettingService::class;
+    public $serviceInterface = IFormSettingService::class;
+    public $serviceClass     = FormSettingService::class;
 
     /**
      * 获取配置表单选项

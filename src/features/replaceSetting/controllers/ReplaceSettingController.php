@@ -26,8 +26,8 @@ use Zf\Helper\Traits\Models\TLabelYesNo;
  */
 class ReplaceSettingController extends RestController
 {
-    protected $serviceClass     = ReplaceSettingService::class;
-    protected $serviceInterface = IReplaceSettingService::class;
+    public $serviceClass     = ReplaceSettingService::class;
+    public $serviceInterface = IReplaceSettingService::class;
 
     /**
      * 替换配置列表

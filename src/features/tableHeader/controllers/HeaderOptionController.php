@@ -28,8 +28,8 @@ use Zf\Helper\Traits\Models\TLabelYesNo;
  */
 class HeaderOptionController extends RestController
 {
-    protected $serviceClass     = HeaderOptionService::class;
-    protected $serviceInterface = IHeaderOptionService::class;
+    public $serviceClass     = HeaderOptionService::class;
+    public $serviceInterface = IHeaderOptionService::class;
 
     /**
      * 表头选项列表
