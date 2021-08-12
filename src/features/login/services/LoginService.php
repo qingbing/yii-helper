@@ -72,13 +72,15 @@ abstract class LoginService extends Service implements ILoginService
      */
     public function signIn(array $params): bool
     {
-        $params['service'] = $this;
         if (!isset($this->serviceMap[$params['type']])) {
             throw new BusinessException(replace('不支持的登录类型"{type}"', [
                 '{type}' => $params['type'],
             ]));
         }
-        $service = Yii::createObject($this->serviceMap[$params['type']]($params));
+        $params['class']   = $this->serviceMap[$params['type']];
+        $params['service'] = $this;
+        unset($params['type']);
+        $service = Yii::createObject($params);
         if (!$service instanceof LoginBase) {
             throw new BusinessException('登录服务必须继承自"\YiiHelper\services\login\LoginBase"');
         }
