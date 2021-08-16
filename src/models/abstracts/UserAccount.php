@@ -2,19 +2,20 @@
 
 namespace YiiHelper\models\abstracts;
 
-use Yii;
 use YiiHelper\abstracts\Model;
-use Zf\Helper\Util;
+use YiiHelper\features\login\services\loginType\LoginByEmail;
+use YiiHelper\features\login\services\loginType\LoginByMobile;
+use YiiHelper\features\login\services\loginType\LoginByName;
+use YiiHelper\features\login\services\loginType\LoginByUsername;
+use Zf\Helper\Exceptions\CustomException;
 
 /**
- * This is the model class for table "pro_account".
+ * This is the model class for table "portal_user_account".
  *
  * @property int $id 自增ID
  * @property int $uid 用户ID
  * @property string $type 账户类型:username,email,phone,name,weixin,qq等
  * @property string $account 登录账户
- * @property string $password 密码
- * @property string $auth_key 登录的auth_key
  * @property int $is_enable 启用状态
  * @property int $login_times 登录次数
  * @property string $last_login_ip 最后登录IP
@@ -30,7 +31,26 @@ abstract class UserAccount extends Model
     const TYPE_NAME     = 'name';
 
     /**
-     * 支持的登录类型
+     * @var array 程序支持额登录类型，要增减可以重载该变量
+     */
+    protected static $_types = [
+        self::TYPE_USERNAME => '用户名',
+        self::TYPE_EMAIL    => '邮箱',
+        self::TYPE_MOBILE   => '手机号',
+        self::TYPE_NAME     => '姓名',
+    ];
+    /**
+     * @var array 程序支持类型的登录服务，要增减可以重载该变量
+     */
+    protected static $_serviceMaps = [
+        self::TYPE_EMAIL    => LoginByEmail::class,
+        self::TYPE_USERNAME => LoginByUsername::class,
+        self::TYPE_MOBILE   => LoginByMobile::class,
+        self::TYPE_NAME     => LoginByName::class,
+    ];
+
+    /**
+     * 系统支持的登录类型
      *
      * @return array
      *  return [
@@ -39,8 +59,48 @@ abstract class UserAccount extends Model
      *      self::TYPE_MOBILE   => '手机号',
      *      self::TYPE_NAME     => '姓名',
      *  ];
+     *
+     * @throws CustomException
      */
-    abstract public static function types(): array;
+    public static function types(): array
+    {
+        $supportTypes = [];
+        foreach (\Yii::$app->user->loginTypes as $type) {
+            if (!isset(static::$_types[$type])) {
+                throw new CustomException(replace('不支持的登录类型"{type}"', [
+                    '{type}' => $type
+                ]));
+            }
+            $supportTypes[$type] = static::$_types[$type];
+        }
+        if (empty($supportTypes)) {
+            throw new CustomException("未配置系统支持的登录类型");
+        }
+        return $supportTypes;
+    }
+
+    /**
+     * 系统支持的登录类型对应服务
+     *
+     * @return array
+     * @throws CustomException
+     */
+    public static function serviceMaps()
+    {
+        $supportServiceMaps = [];
+        foreach (\Yii::$app->user->loginTypes as $type) {
+            if (!isset(static::$_serviceMaps[$type])) {
+                throw new CustomException(replace('不支持的登录类型"{type}"', [
+                    '{type}' => $type
+                ]));
+            }
+            $supportServiceMaps[$type] = static::$_serviceMaps[$type];
+        }
+        if (empty($supportServiceMaps)) {
+            throw new CustomException('未配置系统支持的登录类型');
+        }
+        return $supportServiceMaps;
+    }
 
     /**
      * {@inheritdoc}
@@ -53,8 +113,6 @@ abstract class UserAccount extends Model
             [['last_login_at', 'register_at', 'updated_at'], 'safe'],
             [['type'], 'string', 'max' => 20],
             [['account'], 'string', 'max' => 100],
-            [['password'], 'string', 'max' => 60],
-            [['auth_key'], 'string', 'max' => 32],
             [['last_login_ip'], 'string', 'max' => 15],
             [['type', 'account'], 'unique', 'targetAttribute' => ['type', 'account']],
         ];
@@ -70,8 +128,6 @@ abstract class UserAccount extends Model
             'uid'           => '用户ID',
             'type'          => '账户类型',
             'account'       => '登录账户',
-            'password'      => '密码',
-            'auth_key'      => '登录的auth_key',
             'is_enable'     => '启用状态',
             'login_times'   => '登录次数',
             'last_login_ip' => '登录IP',
@@ -79,57 +135,5 @@ abstract class UserAccount extends Model
             'register_at'   => '注册时间',
             'updated_at'    => '更新时间',
         ];
-    }
-
-    /**
-     * 生成 db 密码
-     *
-     * @param string $pass
-     * @return string
-     * @throws \yii\base\Exception
-     */
-    public function generatePassword(string $pass)
-    {
-        return Yii::$app->getSecurity()->generatePasswordHash($pass);
-    }
-
-    /**
-     * 验证 db 密码是否正确
-     *
-     * @param string $pass
-     * @return bool
-     */
-    public function validatePassword(string $pass)
-    {
-        return Yii::$app->getSecurity()->validatePassword($pass, $this->password);
-    }
-
-    /**
-     * 创建登录auth_key
-     * @return $this
-     */
-    public function generateAuthKey()
-    {
-        $this->auth_key = Util::uniqid();
-        return $this;
-    }
-
-    /**
-     * 获取登录auth_key
-     * @return string
-     */
-    public function getAuthKey()
-    {
-        return $this->auth_key;
-    }
-
-    /**
-     * 验证auth_key
-     * @param string $authKey
-     * @return bool
-     */
-    public function validateAuthKey(string $authKey)
-    {
-        return $this->auth_key == $authKey;
     }
 }

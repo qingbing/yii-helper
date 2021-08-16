@@ -81,12 +81,15 @@ class User extends \yii\web\User
         /* @var \YiiHelper\models\abstracts\User $identity */
         if (!$this->multiLogin) {
             // 不允许多机登录时，创建新登录的 auth_key，这样会挤出其它地方登录的账户
-            $identity->getLoginAccount()->generateAuthKey();
+            $identity->generateAuthKey();
         }
-        // 设置必要的登录 session
-        Yii::$app->getSession()->set(self::LOGIN_TYPE_KEY, $identity->getLoginAccount()->type); // 登录账号类型
-        Yii::$app->getSession()->set(self::LOGIN_ACCOUNT_KEY, $identity->getLoginAccount()->account); // 登录账号
-        return parent::beforeLogin($identity, $cookieBased, $duration);
+        if (parent::beforeLogin($identity, $cookieBased, $duration)) {
+            // 设置必要的登录 session
+            Yii::$app->getSession()->set(self::LOGIN_TYPE_KEY, $identity->getLoginAccount()->type); // 登录账号类型
+            Yii::$app->getSession()->set(self::LOGIN_ACCOUNT_KEY, $identity->getLoginAccount()->account); // 登录账号
+            return true;
+        }
+        return false;
     }
 
     /**

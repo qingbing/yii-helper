@@ -29,16 +29,6 @@ use Zf\Helper\Exceptions\BusinessException;
 abstract class LoginService extends Service implements ILoginService
 {
     /**
-     * @var array 登录类型服务配置
-     */
-    public $serviceMap = [
-        UserAccount::TYPE_EMAIL    => LoginByEmail::class,
-        UserAccount::TYPE_USERNAME => LoginByUsername::class,
-        UserAccount::TYPE_MOBILE   => LoginByMobile::class,
-        UserAccount::TYPE_NAME     => LoginByName::class,
-    ];
-
-    /**
      * 获取登录账户信息
      *
      * @param string $type
@@ -63,6 +53,14 @@ abstract class LoginService extends Service implements ILoginService
     abstract public function getSupportTypes(): array;
 
     /**
+     * 获取支持的登录类型服务
+     *
+     * @param string|null $loginType
+     * @return array
+     */
+    abstract public function getSupportServiceMaps(?string $loginType = null): array;
+
+    /**
      * 账户登录
      *
      * @param array $params
@@ -72,12 +70,13 @@ abstract class LoginService extends Service implements ILoginService
      */
     public function signIn(array $params): bool
     {
-        if (!isset($this->serviceMap[$params['type']])) {
+        $supportServiceMap = $this->getSupportServiceMaps();
+        if (!isset($supportServiceMap[$params['type']])) {
             throw new BusinessException(replace('不支持的登录类型"{type}"', [
                 '{type}' => $params['type'],
             ]));
         }
-        $params['class']   = $this->serviceMap[$params['type']];
+        $params['class']   = $supportServiceMap[$params['type']];
         $params['service'] = $this;
         unset($params['type']);
         $service = Yii::createObject($params);

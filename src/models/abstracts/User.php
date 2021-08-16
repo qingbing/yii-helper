@@ -8,13 +8,16 @@ use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use YiiHelper\abstracts\Model;
 use YiiHelper\behaviors\DefaultBehavior;
+use Zf\Helper\Util;
 
 /**
- * This is the model class for table "pro_user".
+ * This is the model class for table "portal_user".
  *
  * @property int $uid 自增ID
  * @property string $nickname 用户昵称
  * @property string $real_name 姓名
+ * @property string $password 密码
+ * @property string $auth_key 登录的auth_key
  * @property int $sex 性别[0:保密,1:男士,2:女士]
  * @property string $avatar 头像
  * @property string $email 邮箱账户
@@ -53,6 +56,8 @@ abstract class User extends Model implements IdentityInterface
             [['birthday', 'expire_begin_at', 'expire_end_at', 'last_login_at', 'register_at', 'updated_at'], 'safe'],
             [['nickname'], 'string', 'max' => 50],
             [['real_name'], 'string', 'max' => 30],
+            [['password'], 'string', 'max' => 60],
+            [['auth_key'], 'string', 'max' => 32],
             [['avatar'], 'string', 'max' => 200],
             [['email'], 'string', 'max' => 100],
             [['mobile', 'phone', 'qq', 'last_login_ip', 'register_ip'], 'string', 'max' => 15],
@@ -72,6 +77,8 @@ abstract class User extends Model implements IdentityInterface
             'uid'             => '自增ID',
             'nickname'        => '昵称',
             'real_name'       => '姓名',
+            'password'        => '密码',
+            'auth_key'        => '登录的auth_key',
             'sex'             => '性别',
             'avatar'          => '头像',
             'email'           => '邮箱账户',
@@ -152,11 +159,7 @@ abstract class User extends Model implements IdentityInterface
      */
     public function getAuthKey()
     {
-        if (null === $this->getLoginAccount()) {
-            // 未登录的并且未设置登录账户时
-            return '*';
-        }
-        return $this->getLoginAccount()->getAuthKey();
+        return $this->auth_key;
     }
 
     /**
@@ -164,11 +167,7 @@ abstract class User extends Model implements IdentityInterface
      */
     public function validateAuthKey($authKey)
     {
-        if (null === $this->getLoginAccount()) {
-            // 未登录的并且未设置登录账户时
-            return false;
-        }
-        return $this->getLoginAccount()->validateAuthKey($authKey);
+        return $this->auth_key == $authKey;
     }
 
     /**
@@ -178,6 +177,39 @@ abstract class User extends Model implements IdentityInterface
     public static function findIdentityByAccessToken($token, $type = null)
     {
         throw new NotSupportedException('"findIdentityByAccessToken" is not support');
+    }
+
+    /**
+     * 生成 db 密码
+     *
+     * @param string $pass
+     * @return string
+     * @throws \yii\base\Exception
+     */
+    public function generatePassword(string $pass)
+    {
+        return Yii::$app->getSecurity()->generatePasswordHash($pass);
+    }
+
+    /**
+     * 验证 db 密码是否正确
+     *
+     * @param string $pass
+     * @return bool
+     */
+    public function validatePassword(string $pass)
+    {
+        return Yii::$app->getSecurity()->validatePassword($pass, $this->password);
+    }
+
+    /**
+     * 创建登录auth_key
+     * @return $this
+     */
+    public function generateAuthKey()
+    {
+        $this->auth_key = Util::uniqid();
+        return $this;
     }
 
     /**

@@ -70,19 +70,21 @@ abstract class LoginBase extends BaseObject
      */
     public function signIn()
     {
+        // 用户账户
         $userAccount = $this->service->getUserAccount($this->getType(), $this->account);
-        // 密码检查
-        if (!$userAccount->validatePassword($this->password)) {
-            throw new BusinessException('请确认账户密码正确');
-        }
         // 账户检查
         if ($userAccount->is_enable == IS_ENABLE_NO) {
             throw new BusinessException('账户已停用');
         }
+        // 用户主体信息
         $user = $this->service->getUser($userAccount->uid);
         // 用户检查
         if ($user->is_enable == IS_ENABLE_NO) {
             throw new BusinessException('用户已停用');
+        }
+        // 密码检查
+        if (!$user->validatePassword($this->password)) {
+            throw new BusinessException('请确认账户密码正确');
         }
         $today = Format::date();
         // 用户生效判断
