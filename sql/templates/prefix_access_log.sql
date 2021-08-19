@@ -1,7 +1,7 @@
 -- ----------------------------
---  Table structure for `{{access_logs}}`
+--  Table structure for `{{%access_logs}}`
 -- ----------------------------
-CREATE TABLE `{{access_logs}}` (
+CREATE TABLE `{{%access_logs}}` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `system` varchar(50) NOT NULL COMMENT '系统别名',
   `trace_id` varchar(32) NOT NULL DEFAULT '' COMMENT '客户端日志ID',

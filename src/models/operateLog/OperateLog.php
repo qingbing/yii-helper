@@ -36,7 +36,7 @@ class OperateLog extends Model
      */
     public static function tableName()
     {
-        return 'pub_operate_log';
+        return '{{%operate_log}}';
     }
 
     /**

@@ -34,8 +34,9 @@ yii 公用的一些基础类库
 
 
 ### 组件封装
+1. [系统接口访问日志组件 : CacheHelper](doc/components/AccessLog.md)
 1. [缓存助手 : CacheHelper](doc/components/CacheHelper.md)
-1. [接口及接口日志组件 : InterfaceLog](doc/components/InterfaceLog.md)
+1. [路由及路由日志组件 : RouteManager](doc/components/RouteManager.md)
 1. [扩展用户登录组件 : User](doc/components/User.md)
 
 

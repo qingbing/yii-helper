@@ -1,8 +1,8 @@
 
 -- ----------------------------
---  Table structure for `{{user}}`
+--  Table structure for `{{%user}}`
 -- ----------------------------
-CREATE TABLE `{{user}}` (
+CREATE TABLE `{{%user}}` (
   `uid` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `nickname` varchar(50) NOT NULL COMMENT '用户昵称',
   `real_name` varchar(30) NOT NULL DEFAULT '' COMMENT '姓名',
@@ -37,9 +37,9 @@ CREATE TABLE `{{user}}` (
 
 
 -- ----------------------------
---  Table structure for `{{user_account}}`
+--  Table structure for `{{%user_account}}`
 -- ----------------------------
-CREATE TABLE `{{user_account}}` (
+CREATE TABLE `{{%user_account}}` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `uid` bigint(20) unsigned NOT NULL COMMENT '用户ID',
   `type` varchar(20) NOT NULL COMMENT '账户类型:username,email,phone,name,weixin,qq等',
@@ -57,11 +57,11 @@ CREATE TABLE `{{user_account}}` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='网站用户账户';
 
 
-insert into `{{user}}`
+insert into `{{%user}}`
 ( `nickname`, `real_name`, `sex`, `avatar`, `email`, `mobile`, `phone`, `qq`, `id_card`, `birthday`, `address`, `zip_code`, `is_enable`, `is_super`, `refer_uid`, `expire_ip`, `expire_begin_at`, `expire_end_at`, `login_times`, `last_login_ip`, `last_login_at`, `register_ip`) values
 ( '追xin族', 'qingbing', '0', '', 'top-world@qq.com', '', '', '', '', '1000-01-01', '', '', '1', '1', '0', '', '1000-01-01', '1000-01-01', '0', '', '1000-01-01 01:01:01', '');
 
 
-insert into `{{user_account}}`
+insert into `{{%user_account}}`
 ( `uid`, `type`, `account`, `password`, `auth_key`, `is_enable`, `login_times`, `last_login_ip`, `last_login_at`) values
 ( '100000000', 'email', 'top-world@qq.com', '$2y$13$10RjkwZ8kbam8hRAYqAoxuxMHnnPScxDljb1wxrXlTniY8kIjDaBm', 'auth_key', '1', '0', '', '1000-01-01 01:01:01');

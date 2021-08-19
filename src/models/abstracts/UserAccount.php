@@ -25,6 +25,14 @@ use Zf\Helper\Exceptions\CustomException;
  */
 abstract class UserAccount extends Model
 {
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName()
+    {
+        return '{{%user_account}}';
+    }
+
     const TYPE_USERNAME = 'username';
     const TYPE_EMAIL    = 'email';
     const TYPE_MOBILE   = 'mobile';

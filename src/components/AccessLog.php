@@ -15,7 +15,7 @@ use yii\web\HeaderCollection;
 use yii\web\Response;
 use YiiHelper\helpers\AppHelper;
 use YiiHelper\helpers\Req;
-use YiiHelper\models\abstracts\AccessLogs;
+use YiiHelper\models\accessLog\AccessLogs;
 use Zf\Helper\DataStore;
 use Zf\Helper\Exceptions\CustomException;
 use Zf\Helper\ReqHelper;
@@ -31,7 +31,7 @@ class AccessLog extends Component
 {
     const TIMER_KEY_BEFORE_REQUEST = __CLASS__ . ':beforeRequest';
     /**
-     * @var bool 是否开启日志
+     * @var bool 开启访问日志
      */
     public $open = false;
     /**
@@ -54,40 +54,6 @@ class AccessLog extends Component
     protected $system;
     // 请求路由
     protected $realPathInfo;
-
-    /**
-     * @throws \Exception
-     */
-    public function init()
-    {
-        $this->request = Yii::$app->getRequest();
-        // 接口记录只在 web 应用上有效
-        if ($this->request->getIsConsoleRequest()) {
-            return;
-        }
-        // 访问日志关闭
-        if (false === $this->open) {
-            return;
-        }
-        // 请求开始时间
-        Timer::begin(self::TIMER_KEY_BEFORE_REQUEST);
-
-        $this->system = AppHelper::app()->getSystemAlias();
-        if (empty($this->system)) {
-            $this->realPathInfo = $this->request->getPathInfo();
-        } else {
-            $this->realPathInfo = $this->system . '/' . $this->request->getPathInfo();
-        }
-
-        // 参数记录
-        DataStore::set($this->getStoreKey(), [
-            'header' => $this->getCustomHeaders(),
-            'get'    => $this->request->get(),
-            'post'   => $this->request->post(),
-            'file'   => $_FILES,
-        ]);
-        \Yii::$app->getResponse()->on(Response::EVENT_AFTER_SEND, [$this, "afterSendHandle"]);
-    }
 
     /**
      * 获取参数保存的 dataStore 的key
@@ -120,6 +86,40 @@ class AccessLog extends Component
     }
 
     /**
+     * @throws \Exception
+     */
+    public function init()
+    {
+        $this->request = Yii::$app->getRequest();
+        // 接口记录只在 web 应用上有效
+        if ($this->request->getIsConsoleRequest()) {
+            return;
+        }
+        // 访问日志关闭
+        if (false === $this->open) {
+            return;
+        }
+        // 请求开始时间
+        Timer::begin(self::TIMER_KEY_BEFORE_REQUEST);
+
+        $this->system = AppHelper::app()->getSystemAlias();
+        if (empty($this->system)) {
+            $this->realPathInfo = $this->request->getPathInfo();
+        } else {
+            $this->realPathInfo = $this->system . '/' . $this->request->getPathInfo();
+        }
+
+        // 参数记录
+        DataStore::set($this->getStoreKey(), [
+            'header' => $this->getCustomHeaders(),
+            'get'    => $this->request->get(),
+            'post'   => $this->request->post(),
+            'file'   => $_FILES,
+        ]);
+        Yii::$app->getResponse()->on(Response::EVENT_AFTER_SEND, [$this, "afterSendHandle"]);
+    }
+
+    /**
      * 响应后事件，对日志进行入库操作
      *
      * @param Event $event
@@ -133,7 +133,7 @@ class AccessLog extends Component
         $accessLogData = $this->getAccessLogData($response);
         $log           = Yii::createObject($this->accessLogModel);
         if (!$log instanceof AccessLogs) {
-            throw new CustomException("\YiiHelper\components\AccessLog::accessLogModel必须继承\YiiHelper\models\abstracts\AccessLogs");
+            throw new CustomException("\YiiHelper\components\AccessLog::accessLogModel必须继承\YiiHelper\models\accessLog\AccessLogs");
         }
         $log->setAttributes($accessLogData);
         $log->save();

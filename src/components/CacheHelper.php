@@ -75,7 +75,7 @@ class CacheHelper extends Component
      * @param int|null $duration
      * @return bool|mixed
      */
-    public function get($key, ?callable $callback, ?int $duration = null)
+    public function get($key, ?callable $callback = null, ?int $duration = null)
     {
         if (!is_callable($callback)) {
             // 常规的缓存获取

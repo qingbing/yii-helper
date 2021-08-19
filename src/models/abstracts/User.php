@@ -48,6 +48,14 @@ abstract class User extends Model implements IdentityInterface
     /**
      * {@inheritdoc}
      */
+    public static function tableName()
+    {
+        return '{{%user}}';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function rules()
     {
         return [

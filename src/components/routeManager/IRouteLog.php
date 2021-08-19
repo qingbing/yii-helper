@@ -5,7 +5,7 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\components\interfaceManager\assist;
+namespace YiiHelper\components\routeManager;
 
 
 use yii\base\Event;

@@ -5,33 +5,33 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\components\interfaceManager\assist;
+namespace YiiHelper\components\routeManager;
 
 
 use yii\base\BaseObject;
-use YiiHelper\components\interfaceManager\InterfaceManager;
 
 /**
  * 抽象类 ： 路由日志自定义
+ *
  * Class RouteLogBase
  * @package YiiHelper\components
  */
 abstract class RouteLogBase extends BaseObject implements IRouteLog
 {
     /**
-     * @var InterfaceManager 路由日志组件
+     * @var RouteManager 路由日志组件
      */
-    protected $interfaceManager;
+    protected $routeManager;
 
     /**
      * 路由日志构造函数
      *
-     * @param InterfaceManager $interfaceManager
+     * @param RouteManager $routeManager
      * @param array $config
      */
-    public function __construct(InterfaceManager $interfaceManager, $config = [])
+    public function __construct(RouteManager $routeManager, $config = [])
     {
         parent::__construct($config);
-        $this->interfaceManager = $interfaceManager;
+        $this->routeManager = $routeManager;
     }
 }
