@@ -54,6 +54,18 @@ class Application extends \yii\web\Application
     }
 
     /**
+     * 获取配置的 params 参数
+     *
+     * @param string $key
+     * @param mixed $default
+     * @return mixed
+     */
+    public function getParam(string $key, $default = null)
+    {
+        return $this->params[$key] ?? $default;
+    }
+
+    /**
      * @inheritDoc
      *
      * @throws InvalidRouteException

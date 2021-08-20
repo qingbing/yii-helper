@@ -27,11 +27,13 @@ trait TValidator
      * @param array $rules
      * @param array|null $data
      * @param bool $withPageRule 是否含有分页参数
+     * @param array $explodeFields 需要分解的字段，设置的字段，如果为字符串，会根据 $delimiter 进行数据拆分并去重
+     * @param string $delimiter 拆分字段时的分隔符
      * @return array|bool
      * @throws BusinessException
      * @throws InvalidConfigException
      */
-    protected function validateParams($rules = [], ?array $data = null, $withPageRule = false)
+    protected function validateParams($rules = [], ?array $data = null, $withPageRule = false, array $explodeFields = [], ?string $delimiter = ',')
     {
         // 数据获取
         $request = \Yii::$app->getRequest();
@@ -40,6 +42,12 @@ trait TValidator
         }
         if (empty($rules)) {
             return [];
+        }
+        // 数组字段拆解
+        foreach ($explodeFields as $field) {
+            if (isset($data[$field])) {
+                $data[$field] = explode_data($data[$field], $delimiter, true);
+            }
         }
         if ($withPageRule) {
             // 统一规范分页信息

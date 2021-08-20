@@ -38,42 +38,6 @@ use Zf\Helper\Exceptions\BusinessException;
  */
 class HeaderOption extends Model
 {
-    const FIXED_NONE  = 'none';
-    const FIXED_LEFT  = 'left';
-    const FIXED_RIGHT = 'right';
-
-    /**
-     * 固定方位
-     *
-     * @return array
-     */
-    public static function fixedTypes(): array
-    {
-        return [
-            self::FIXED_NONE  => '无',
-            self::FIXED_LEFT  => '固定在左',
-            self::FIXED_RIGHT => '固定在右',
-        ];
-    }
-
-    const ALIGN_LEFT   = 'left';
-    const ALIGN_CENTER = 'center';
-    const ALIGN_RIGHT  = 'right';
-
-    /**
-     * 列对齐方式
-     *
-     * @return array
-     */
-    public static function alignTypes()
-    {
-        return [
-            self::ALIGN_LEFT   => '左对齐',
-            self::ALIGN_CENTER => '居中对齐',
-            self::ALIGN_RIGHT  => '右对齐',
-        ];
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -131,6 +95,42 @@ class HeaderOption extends Model
             'operate_uid'  => '操作UID',
             'created_at'   => '创建时间',
             'updated_at'   => '更新时间',
+        ];
+    }
+
+    const FIXED_NONE  = 'none';
+    const FIXED_LEFT  = 'left';
+    const FIXED_RIGHT = 'right';
+
+    /**
+     * 固定方位
+     *
+     * @return array
+     */
+    public static function fixedTypes(): array
+    {
+        return [
+            self::FIXED_NONE  => '无',
+            self::FIXED_LEFT  => '固定在左',
+            self::FIXED_RIGHT => '固定在右',
+        ];
+    }
+
+    const ALIGN_LEFT   = 'left';
+    const ALIGN_CENTER = 'center';
+    const ALIGN_RIGHT  = 'right';
+
+    /**
+     * 列对齐方式
+     *
+     * @return array
+     */
+    public static function alignTypes()
+    {
+        return [
+            self::ALIGN_LEFT   => '左对齐',
+            self::ALIGN_CENTER => '居中对齐',
+            self::ALIGN_RIGHT  => '右对齐',
         ];
     }
 

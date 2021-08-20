@@ -34,24 +34,6 @@ class AccessLogs extends Model
         return '{{%access_logs}}';
     }
 
-    const METHOD_GET  = 'get';
-    const METHOD_POST = 'post';
-    const METHOD_PUT  = 'put';
-
-    /**
-     * 获取所有请求方式
-     *
-     * @return array
-     */
-    public static function methods()
-    {
-        return [
-            self::METHOD_GET  => 'get',
-            self::METHOD_POST => 'post',
-            self::METHOD_PUT  => 'put',
-        ];
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -92,6 +74,24 @@ class AccessLogs extends Model
             'ip'            => '登录IP',
             'uid'           => '用户ID',
             'created_at'    => '创建时间',
+        ];
+    }
+
+    const METHOD_GET  = 'get';
+    const METHOD_POST = 'post';
+    const METHOD_PUT  = 'put';
+
+    /**
+     * 获取所有请求方式
+     *
+     * @return array
+     */
+    public static function methods()
+    {
+        return [
+            self::METHOD_GET  => 'get',
+            self::METHOD_POST => 'post',
+            self::METHOD_PUT  => 'put',
         ];
     }
 }

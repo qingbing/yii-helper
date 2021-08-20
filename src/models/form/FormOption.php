@@ -27,6 +27,56 @@ use YiiHelper\abstracts\Model;
 class FormOption extends Model
 {
     /**
+     * {@inheritdoc}
+     */
+    public static function tableName()
+    {
+        return 'pub_form_option';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['key', 'field', 'label'], 'required'],
+            [['input_type'], 'string'],
+            [['sort_order', 'is_enable', 'is_required'], 'integer'],
+            [['exts', 'rules', 'created_at', 'updated_at'], 'safe'],
+            [['key', 'field', 'label', 'default'], 'string', 'max' => 100],
+            [['description'], 'string', 'max' => 255],
+            [['required_msg'], 'string', 'max' => 200],
+            [['field', 'key'], 'unique', 'targetAttribute' => ['field', 'key']],
+            [['label', 'key'], 'unique', 'targetAttribute' => ['label', 'key']],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id'           => '自增ID',
+            'key'          => '表单分类',
+            'field'        => '字段',
+            'label'        => '字段名',
+            'input_type'   => '表单类型',
+            'default'      => '默认值',
+            'description'  => '分类配置描述',
+            'sort_order'   => '当前分类排序',
+            'is_enable'    => '表单项目启用状态',
+            'exts'         => '扩展信息',
+            'rules'        => '验证规则',
+            'is_required'  => '是否必填',
+            'required_msg' => '必填时信息为空的提示',
+            'created_at'   => '创建时间',
+            'updated_at'   => '更新时间',
+        ];
+    }
+
+    /**
      * 表单项输入类型
      */
     const INPUT_TYPE_VIEW_TEXT      = 'view-text';
@@ -76,56 +126,6 @@ class FormOption extends Model
             self::INPUT_TYPE_AUTO_COMPLETE  => '建议输入', // auto-complete
             self::INPUT_TYPE_JSON_EDITOR    => 'JSON编辑', // json-editor
             self::INPUT_TYPE_VUE_EDITOR     => '富文本编辑', // vue-editor
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return 'pub_form_option';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-            [['key', 'field', 'label'], 'required'],
-            [['input_type'], 'string'],
-            [['sort_order', 'is_enable', 'is_required'], 'integer'],
-            [['exts', 'rules', 'created_at', 'updated_at'], 'safe'],
-            [['key', 'field', 'label', 'default'], 'string', 'max' => 100],
-            [['description'], 'string', 'max' => 255],
-            [['required_msg'], 'string', 'max' => 200],
-            [['field', 'key'], 'unique', 'targetAttribute' => ['field', 'key']],
-            [['label', 'key'], 'unique', 'targetAttribute' => ['label', 'key']],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id'           => '自增ID',
-            'key'          => '表单分类',
-            'field'        => '字段',
-            'label'        => '字段名',
-            'input_type'   => '表单类型',
-            'default'      => '默认值',
-            'description'  => '分类配置描述',
-            'sort_order'   => '当前分类排序',
-            'is_enable'    => '表单项目启用状态',
-            'exts'         => '扩展信息',
-            'rules'        => '验证规则',
-            'is_required'  => '是否必填',
-            'required_msg' => '必填时信息为空的提示',
-            'created_at'   => '创建时间',
-            'updated_at'   => '更新时间',
         ];
     }
 

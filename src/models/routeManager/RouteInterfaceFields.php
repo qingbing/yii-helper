@@ -27,6 +27,58 @@ use YiiHelper\abstracts\Model;
  */
 class RouteInterfaceFields extends Model
 {
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName()
+    {
+        return '{{%route_interface_fields}}';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['alias', 'field'], 'required'],
+            [['is_required', 'is_last_level'], 'integer'],
+            [['rules', 'created_at', 'updated_at'], 'safe'],
+            [['url_path'], 'string', 'max' => 200],
+            [['parent_alias', 'alias', 'description'], 'string', 'max' => 255],
+            [['field', 'data_type'], 'string', 'max' => 50],
+            [['name', 'default'], 'string', 'max' => 100],
+            [['type', 'data_area'], 'string', 'max' => 20],
+            [['url_path', 'parent_alias', 'field'], 'unique', 'targetAttribute' => ['url_path', 'parent_alias', 'field']],
+            [['alias'], 'unique'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id'            => '自增ID',
+            'url_path'      => '接口的path',
+            'parent_alias'  => '上级字段别名',
+            'alias'         => '字段别名',
+            'field'         => '字段名',
+            'name'          => '字段意义',
+            'default'       => '默认值',
+            'type'          => '字段类型[input,output]',
+            'data_area'     => '字段区域[header,file,get,post]',
+            'data_type'     => '数据类型[integer,double,boolean,string,object,array,items,compare,date,datetime,time,email,in,url,ip,number,default,match,safe,file,image,safe]',
+            'description'   => '描述',
+            'is_required'   => '是否必填[0:否; 1:是]',
+            'is_last_level' => '最后级别，子字段不记录',
+            'rules'         => '额外验证规则',
+            'created_at'    => '创建时间',
+            'updated_at'    => '更新时间',
+        ];
+    }
+
     const TYPE_INPUT  = 'input';
     const TYPE_OUTPUT = 'output';
 
@@ -118,58 +170,6 @@ class RouteInterfaceFields extends Model
             self::DATA_TYPE_SAFE     => '安全', // safe
             // self::DATA_TYPE_FILE     => '文件', // file
             // self::DATA_TYPE_IMAGE    => '图片', // image
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return '{{%route_interface_fields}}';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-            [['alias', 'field'], 'required'],
-            [['is_required', 'is_last_level'], 'integer'],
-            [['rules', 'created_at', 'updated_at'], 'safe'],
-            [['url_path'], 'string', 'max' => 200],
-            [['parent_alias', 'alias', 'description'], 'string', 'max' => 255],
-            [['field', 'data_type'], 'string', 'max' => 50],
-            [['name', 'default'], 'string', 'max' => 100],
-            [['type', 'data_area'], 'string', 'max' => 20],
-            [['url_path', 'parent_alias', 'field'], 'unique', 'targetAttribute' => ['url_path', 'parent_alias', 'field']],
-            [['alias'], 'unique'],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id'            => '自增ID',
-            'url_path'      => '接口的path',
-            'parent_alias'  => '上级字段别名',
-            'alias'         => '字段别名',
-            'field'         => '字段名',
-            'name'          => '字段意义',
-            'default'       => '默认值',
-            'type'          => '字段类型[input,output]',
-            'data_area'     => '字段区域[header,file,get,post]',
-            'data_type'     => '数据类型[integer,double,boolean,string,object,array,items,compare,date,datetime,time,email,in,url,ip,number,default,match,safe,file,image,safe]',
-            'description'   => '描述',
-            'is_required'   => '是否必填[0:否; 1:是]',
-            'is_last_level' => '最后级别，子字段不记录',
-            'rules'         => '额外验证规则',
-            'created_at'    => '创建时间',
-            'updated_at'    => '更新时间',
         ];
     }
 }

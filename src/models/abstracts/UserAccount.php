@@ -33,6 +33,41 @@ abstract class UserAccount extends Model
         return '{{%user_account}}';
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['uid', 'type', 'account'], 'required'],
+            [['uid', 'is_enable', 'login_times'], 'integer'],
+            [['last_login_at', 'register_at', 'updated_at'], 'safe'],
+            [['type'], 'string', 'max' => 20],
+            [['account'], 'string', 'max' => 100],
+            [['last_login_ip'], 'string', 'max' => 15],
+            [['type', 'account'], 'unique', 'targetAttribute' => ['type', 'account']],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id'            => '自增ID',
+            'uid'           => '用户ID',
+            'type'          => '账户类型',
+            'account'       => '登录账户',
+            'is_enable'     => '启用状态',
+            'login_times'   => '登录次数',
+            'last_login_ip' => '登录IP',
+            'last_login_at' => '登录时间',
+            'register_at'   => '注册时间',
+            'updated_at'    => '更新时间',
+        ];
+    }
+
     const TYPE_USERNAME = 'username';
     const TYPE_EMAIL    = 'email';
     const TYPE_MOBILE   = 'mobile';
@@ -108,40 +143,5 @@ abstract class UserAccount extends Model
             throw new CustomException('未配置系统支持的登录类型');
         }
         return $supportServiceMaps;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-            [['uid', 'type', 'account'], 'required'],
-            [['uid', 'is_enable', 'login_times'], 'integer'],
-            [['last_login_at', 'register_at', 'updated_at'], 'safe'],
-            [['type'], 'string', 'max' => 20],
-            [['account'], 'string', 'max' => 100],
-            [['last_login_ip'], 'string', 'max' => 15],
-            [['type', 'account'], 'unique', 'targetAttribute' => ['type', 'account']],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id'            => '自增ID',
-            'uid'           => '用户ID',
-            'type'          => '账户类型',
-            'account'       => '登录账户',
-            'is_enable'     => '启用状态',
-            'login_times'   => '登录次数',
-            'last_login_ip' => '登录IP',
-            'last_login_at' => '登录时间',
-            'register_at'   => '注册时间',
-            'updated_at'    => '更新时间',
-        ];
     }
 }

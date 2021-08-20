@@ -23,7 +23,8 @@ class UidBehavior extends AttributeBehavior
      * @var array 操作事件及字段定义
      */
     public $attributes = [
-        ActiveRecord::EVENT_BEFORE_INSERT => 'uid'
+        ActiveRecord::EVENT_BEFORE_INSERT => 'uid',
+        ActiveRecord::EVENT_BEFORE_UPDATE => 'uid',
     ];
 
     /**
