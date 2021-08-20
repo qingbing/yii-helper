@@ -1,0 +1,111 @@
+<?php
+
+namespace YiiHelper\models\permission;
+
+use YiiHelper\abstracts\Model;
+use YiiHelper\models\permission\traits\TBehaviors;
+use Zf\Helper\Exceptions\BusinessException;
+
+/**
+ * 模型 : 角色信息
+ * This is the model class for table "portal_permission_path".
+ *
+ * @property int $id 自增ID
+ * @property string $code 路径标识
+ * @property string $path API路径
+ * @property string $remark 路径描述
+ * @property string|null $exts 扩展信息
+ * @property int $is_public 是否公共路径，公共路径不需要权限
+ * @property int $is_enable 是否启用
+ * @property string $operate_ip 操作IP
+ * @property int $operate_uid 操作UID
+ * @property string $created_at 创建时间
+ * @property string $updated_at 更新时间
+ *
+ * @property-read PermissionMenu[] $menus
+ * @property-read int $menuCount
+ */
+class PermissionApi extends Model
+{
+    use TBehaviors;
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName()
+    {
+        return '{{%permission_api}}';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['code'], 'required'],
+            [['exts', 'created_at', 'updated_at'], 'safe'],
+            [['is_public', 'is_enable', 'operate_uid'], 'integer'],
+            [['code'], 'string', 'max' => 50],
+            [['path', 'remark'], 'string', 'max' => 200],
+            [['operate_ip'], 'string', 'max' => 15],
+            [['path'], 'unique'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id'          => '自增ID',
+            'code'        => '路径标识',
+            'path'        => 'API路径',
+            'remark'      => '路径描述',
+            'exts'        => '扩展信息',
+            'is_public'   => '是否公共路径，公共路径不需要权限',
+            'is_enable'   => '是否启用',
+            'operate_ip'  => '操作IP',
+            'operate_uid' => '操作UID',
+            'created_at'  => '创建时间',
+            'updated_at'  => '更新时间',
+        ];
+    }
+
+    /**
+     * 关联 : 获取路径下配置的所有menu
+     * @return \yii\db\ActiveQuery
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getMenus()
+    {
+        return $this->hasMany(PermissionMenu::class, [
+            'code' => 'menu_code'
+        ])->viaTable(PermissionMenuApi::tableName(), [
+            'api_code' => 'code'
+        ]);
+    }
+
+    /**
+     * @return int|string|null
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getMenuCount()
+    {
+        return $this->getMenus()->count();
+    }
+
+    /**
+     * 检查是否可以删除
+     *
+     * @return bool
+     * @throws BusinessException
+     */
+    public function beforeDelete()
+    {
+        // 删除 menu-api 的关联关系
+        PermissionMenuApi::deleteAll(['api_code' => $this->code]);
+        return parent::beforeDelete();
+    }
+}
