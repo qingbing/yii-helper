@@ -64,7 +64,7 @@ class ApiPathController extends RestController
         $params = $this->validateParams([
             [['path', 'remark'], 'required'],
             ['path', 'unique', 'label' => 'API路径', 'targetClass' => PermissionApi::class, 'targetAttribute' => 'path'],
-            ['remark', 'string', 'label' => '路径描述'],
+            ['remark', 'unique', 'label' => '路径描述', 'targetClass' => PermissionApi::class, 'targetAttribute' => 'remark'],
             ['exts', JsonValidator::class, 'label' => '扩展信息'],
             ['is_public', 'in', 'label' => '公共路径', 'range' => array_keys(TLabelYesNo::isLabels())],
             ['is_enable', 'in', 'label' => '启用状态', 'range' => array_keys(TLabelEnable::enableLabels())],
@@ -85,10 +85,11 @@ class ApiPathController extends RestController
     public function actionEdit()
     {
         // 参数验证和获取
+        $id     = $this->getParam('id');
         $params = $this->validateParams([
             [['id', 'remark'], 'required'],
             ['id', 'exist', 'label' => '路径ID', 'targetClass' => PermissionApi::class, 'targetAttribute' => 'id'],
-            ['remark', 'string', 'label' => '路径描述'],
+            ['remark', 'unique', 'label' => '路径描述', 'targetClass' => PermissionApi::class, 'targetAttribute' => 'remark', 'filter' => ['!=', 'id', $id]],
             ['exts', JsonValidator::class, 'label' => '扩展信息'],
             ['is_public', 'in', 'label' => '公共路径', 'range' => array_keys(TLabelYesNo::isLabels())],
             ['is_enable', 'in', 'label' => '启用状态', 'range' => array_keys(TLabelEnable::enableLabels())],

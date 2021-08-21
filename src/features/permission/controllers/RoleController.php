@@ -147,8 +147,8 @@ class RoleController extends RestController
     {
         // 参数验证和获取
         $params = $this->validateParams([
-            [['id', 'is_valid', 'menu_codes'], 'required'],
-            ['is_valid', 'in', 'label' => '是否有效', 'range' => array_keys(TLabelYesNo::isLabels())],
+            [['id', 'is_enable', 'menu_codes'], 'required'],
+            ['is_enable', 'in', 'label' => '是否有效', 'range' => array_keys(TLabelYesNo::isLabels())],
             ['id', 'exist', 'label' => '角色ID', 'targetClass' => PermissionRole::class, 'targetAttribute' => 'id'],
             [
                 'menu_codes',

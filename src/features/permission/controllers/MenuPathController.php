@@ -44,7 +44,7 @@ class MenuPathController extends RestController
             ['type', 'in', 'label' => '菜单类型', 'range' => array_keys(PermissionMenu::types())],
             ['parent_code', 'exist', 'label' => '上级标识', 'targetClass' => PermissionMenu::class, 'targetAttribute' => 'code'],
             ['path', 'string', 'label' => '菜单路径'],
-            ['remark', 'string', 'label' => '路径描述'],
+            ['remark', 'string', 'label' => '菜单描述'],
             ['is_public', 'in', 'label' => '公共路径', 'range' => array_keys(TLabelYesNo::isLabels())],
             ['is_enable', 'in', 'label' => '启用状态', 'range' => array_keys(TLabelEnable::enableLabels())],
         ], null, true);
@@ -71,7 +71,7 @@ class MenuPathController extends RestController
             ['path', 'unique', 'label' => '菜单路径', 'targetClass' => PermissionMenu::class, 'targetAttribute' => 'path', 'filter' => ['=', 'type', $type]],
             ['code', 'unique', 'label' => '菜单标识', 'targetClass' => PermissionMenu::class, 'targetAttribute' => 'code', 'filter' => ['=', 'type', $type]],
             ['parent_code', 'exist', 'label' => '上级标识', 'targetClass' => PermissionMenu::class, 'targetAttribute' => 'code'],
-            ['remark', 'string', 'label' => '路径描述'],
+            ['remark', 'unique', 'label' => '菜单描述', 'targetClass' => PermissionMenu::class, 'targetAttribute' => 'remark'],
             ['exts', JsonValidator::class, 'label' => '扩展信息'],
             ['is_public', 'in', 'label' => '公共路径', 'range' => array_keys(TLabelYesNo::isLabels())],
             ['is_enable', 'in', 'label' => '启用状态', 'range' => array_keys(TLabelEnable::enableLabels())],
@@ -92,10 +92,11 @@ class MenuPathController extends RestController
     public function actionEdit()
     {
         // 参数验证和获取
+        $id     = $this->getParam('id');
         $params = $this->validateParams([
             [['id', 'remark'], 'required'],
             ['id', 'exist', 'label' => '菜单ID', 'targetClass' => PermissionMenu::class, 'targetAttribute' => 'id'],
-            ['remark', 'string', 'label' => '路径描述'],
+            ['remark', 'unique', 'label' => '菜单描述', 'targetClass' => PermissionMenu::class, 'targetAttribute' => 'remark', 'filter' => ['!=', 'id', $id]],
             ['exts', JsonValidator::class, 'label' => '扩展信息'],
             ['is_public', 'in', 'label' => '公共路径', 'range' => array_keys(TLabelYesNo::isLabels())],
             ['is_enable', 'in', 'label' => '启用状态', 'range' => array_keys(TLabelEnable::enableLabels())],
@@ -157,8 +158,8 @@ class MenuPathController extends RestController
     {
         // 参数验证和获取
         $params = $this->validateParams([
-            [['id', 'is_valid', 'api_codes'], 'required'],
-            ['is_valid', 'in', 'label' => '是否有效', 'range' => array_keys(TLabelYesNo::isLabels())],
+            [['id', 'is_enable', 'api_codes'], 'required'],
+            ['is_enable', 'in', 'label' => '是否有效', 'range' => array_keys(TLabelYesNo::isLabels())],
             ['id', 'exist', 'label' => '菜单ID', 'targetClass' => PermissionMenu::class, 'targetAttribute' => 'id'],
             [
                 'api_codes',

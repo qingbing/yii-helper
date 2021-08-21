@@ -114,18 +114,25 @@ class RoleService extends Service implements IRoleService
     public function assignMenu(array $params = []): bool
     {
         $model = $this->getModel($params);
-        foreach ($params['menu_codes'] as $menu_code) {
-            $dbData               = [
+        if ($params['is_enable']) {
+
+            foreach ($params['menu_codes'] as $menu_code) {
+                $dbData   = [
+                    'role_code' => $model->code,
+                    'menu_code' => $menu_code,
+                ];
+                $viaModel = PermissionRoleMenu::findOne($dbData);
+                $viaModel = $viaModel ?: new PermissionRoleMenu();
+                $viaModel->setAttributes($dbData);
+                $viaModel->saveOrException();
+            }
+            return true;
+        } else {
+            return PermissionRoleMenu::deleteAll([
                 'role_code' => $model->code,
-                'menu_code' => $menu_code,
-            ];
-            $viaModel             = PermissionRoleMenu::findOne($dbData);
-            $viaModel             = $viaModel ?: new PermissionRoleMenu();
-            $viaModel['is_valid'] = $params['is_valid'];
-            $viaModel->setAttributes($dbData);
-            $viaModel->saveOrException();
+                'menu_code' => $params['menu_codes'],
+            ]);
         }
-        return true;
     }
 
     /**

@@ -116,18 +116,24 @@ class MenuPathService extends Service implements IMenuPathService
     public function assignApiPath(array $params = []): bool
     {
         $model = $this->getModel($params);
-        foreach ($params['api_codes'] as $api_code) {
-            $dbData             = [
+        if ($params['is_enable']) {
+            foreach ($params['api_codes'] as $api_code) {
+                $dbData   = [
+                    'menu_code' => $model->code,
+                    'api_code'  => $api_code,
+                ];
+                $viaModel = PermissionMenuApi::findOne($dbData);
+                $viaModel = $viaModel ?: new PermissionMenuApi();
+                $viaModel->setAttributes($dbData);
+                $viaModel->saveOrException();
+            }
+            return true;
+        } else {
+            return PermissionMenuApi::deleteAll([
                 'menu_code' => $model->code,
-                'api_code'  => $api_code,
-            ];
-            $viaModel           = PermissionMenuApi::findOne($dbData);
-            $viaModel           = $viaModel ?: new PermissionMenuApi();
-            $dbData['is_valid'] = $params['is_valid'];
-            $viaModel->setAttributes($dbData);
-            $viaModel->saveOrException();
+                'api_code'  => $params['api_codes'],
+            ]);
         }
-        return true;
     }
 
     /**

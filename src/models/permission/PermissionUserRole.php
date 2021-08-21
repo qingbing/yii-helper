@@ -12,7 +12,6 @@ use YiiHelper\models\permission\traits\TBehaviors;
  * @property int $id 自增ID
  * @property int $uid 用户ID
  * @property string $role_code 角色代码
- * @property int $is_valid 是否有效
  * @property string $operate_ip 操作IP
  * @property int $operate_uid 操作UID
  * @property string $created_at 创建时间
@@ -37,7 +36,7 @@ class PermissionUserRole extends Model
     {
         return [
             [['uid', 'role_code'], 'required'],
-            [['uid', 'is_valid', 'operate_uid'], 'integer'],
+            [['uid', 'operate_uid'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['role_code'], 'string', 'max' => 50],
             [['operate_ip'], 'string', 'max' => 15],
@@ -54,7 +53,6 @@ class PermissionUserRole extends Model
             'id'          => '自增ID',
             'uid'         => '用户ID',
             'role_code'   => '角色代码',
-            'is_valid'    => '是否有效',
             'operate_ip'  => '操作IP',
             'operate_uid' => '操作UID',
             'created_at'  => '创建时间',

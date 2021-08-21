@@ -103,7 +103,7 @@ class PermissionRole extends Model
     {
         return $this->hasMany(PermissionUserRole::class, [
             'role_code' => 'code'
-        ])->andWhere(['=', 'is_valid', 1]);
+        ]);
     }
 
     /**

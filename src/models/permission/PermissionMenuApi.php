@@ -12,7 +12,6 @@ use YiiHelper\models\permission\traits\TBehaviors;
  * @property int $id 自增ID
  * @property string $menu_code 菜单、按钮代码
  * @property string $api_code api代码
- * @property int $is_valid 是否有效
  * @property string $operate_ip 操作IP
  * @property int $operate_uid 操作UID
  * @property string $created_at 创建时间
@@ -37,7 +36,7 @@ class PermissionMenuApi extends Model
     {
         return [
             [['menu_code', 'api_code'], 'required'],
-            [['is_valid', 'operate_uid'], 'integer'],
+            [['operate_uid'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['menu_code', 'api_code'], 'string', 'max' => 50],
             [['operate_ip'], 'string', 'max' => 15],
@@ -54,7 +53,6 @@ class PermissionMenuApi extends Model
             'id'          => '自增ID',
             'menu_code'   => '菜单、按钮代码',
             'api_code'    => 'api代码',
-            'is_valid'    => '是否有效',
             'operate_ip'  => '操作IP',
             'operate_uid' => '操作UID',
             'created_at'  => '创建时间',
