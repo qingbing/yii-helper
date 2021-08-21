@@ -45,7 +45,7 @@ use Zf\Helper\Util;
  * @property string $register_at 注册或添加时间
  * @property string $updated_at 最后数据更新时间
  *
- * 用户
+ * @property-read PermissionRole[] $roles 用户的有效角色
  */
 class User extends Model implements IdentityInterface
 {
@@ -289,35 +289,69 @@ class User extends Model implements IdentityInterface
      */
     public function getRoles($onlyValid = true)
     {
-        $query = $this->hasMany(PermissionRole::class, [
-            'code' => 'role_code',
-        ]);
-        if ($onlyValid) {
-            return $query->andWhere(['=', 'is_enable', 1])
-                ->viaTable(PermissionUserRole::tableName(), [
-                    'uid' => 'uid'
-                ])->andWhere(['=', 'is_valid', 1]);
-        }
-        return $query->viaTable(PermissionUserRole::tableName(), [
-            'uid' => 'uid'
-        ]);
-
-
         if ($this->is_super) {
-            $query = PermissionRole::find();
+            // 超级管理员
+            $query = PermissionRole::find()
+                ->alias('role');
             if ($onlyValid) {
-                $query->andWhere(['=', 'is_enable', 1]);
+                $query->andWhere(['=', 'role.is_enable', 1]);
             }
             return $query;
         }
+        // 普通管理员
         $query = $this->hasMany(PermissionRole::class, [
             'code' => 'role_code',
-        ]);
+        ])
+            ->alias('role')
+            ->viaTable(PermissionUserRole::tableName(), [
+                'uid' => 'uid'
+            ]);
         if ($onlyValid) {
-            $query->andWhere(['=', 'is_enable', 1]);
+            $query->andWhere(['=', 'role.is_enable', 1]);
         }
-        return $query->viaTable(PermissionUserRole::tableName(), [
-            'uid' => 'uid'
-        ]);
+        return $query;
+    }
+
+    /**
+     * 获取用户的权限，包括 角色、菜单、路径
+     *
+     * @param User $user
+     * @return array
+     * @throws InvalidConfigException
+     */
+    public static function getPermissions(User $user)
+    {
+        // 获取用户分配的角色、权限、路径
+        $res = $user->getRoles()
+            ->joinWith(['menus.apis'])
+            ->select([
+                'role_code' => 'role.code',
+                'role_name' => 'role.remark',
+                'menu_code' => 'menu.code',
+                'menu_path' => 'menu.path',
+                'api_code'  => 'api.code',
+                'api_path'  => 'api.path',
+            ])
+            ->andWhere(['=', 'menu.is_enable', 1])
+            ->andWhere(['=', 'api.is_enable', 1])
+            ->asArray()
+            ->all();
+        // 分配的角色
+        $roles = array_column($res, 'role_name', 'role_code');
+        // 分配的菜单
+        $menus = array_column($res, 'menu_path', 'menu_code');
+        // 分配的api后端路径
+        $paths = array_column($res, 'api_path', 'api_code');
+        // 公共的api后端路径
+        $pubApiPaths = Instance::modelPermissionApi()::getPublicApi(true, 1);
+        // 公共的菜单
+        $pubMenuPaths = Instance::modelPermissionMenu()::getPublicApi(true, 1);
+        $menus        = array_merge($pubMenuPaths, $menus);
+        $paths        = array_merge($pubApiPaths, $paths);
+        return [
+            'roles' => $roles,
+            'menus' => $menus,
+            'paths' => $paths,
+        ];
     }
 }

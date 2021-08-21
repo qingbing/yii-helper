@@ -78,9 +78,11 @@ class PermissionRole extends Model
     {
         return $this->hasMany(PermissionMenu::class, [
             'code' => 'menu_code'
-        ])->viaTable(PermissionRoleMenu::tableName(), [
+        ])
+            ->alias('menu')
+            ->viaTable(PermissionRoleMenu::tableName(), [
             'role_code' => 'code'
-        ])->orderBy('is_enable DESC, id ASC');
+        ]);
     }
 
     /**

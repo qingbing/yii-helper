@@ -116,9 +116,11 @@ class PermissionMenu extends Model
     {
         return $this->hasMany(PermissionApi::class, [
             'code' => 'api_code'
-        ])->viaTable(PermissionMenuApi::tableName(), [
-            'menu_code' => 'code'
-        ])->orderBy('is_enable DESC, id ASC');
+        ])
+            ->alias('api')
+            ->viaTable(PermissionMenuApi::tableName(), [
+                'menu_code' => 'code'
+            ]);
     }
 
     /**
@@ -140,9 +142,11 @@ class PermissionMenu extends Model
     {
         return $this->hasMany(PermissionRole::class, [
             'code' => 'role_code',
-        ])->viaTable(PermissionRoleMenu::tableName(), [
-            'menu_code' => 'code'
-        ])->orderBy('is_enable DESC, id ASC');
+        ])
+            ->alias('role')
+            ->viaTable(PermissionRoleMenu::tableName(), [
+                'menu_code' => 'code'
+            ]);
     }
 
     /**
@@ -166,5 +170,28 @@ class PermissionMenu extends Model
         // 删除 role-menu 的关联关系
         PermissionRoleMenu::deleteAll(['menu_code' => $this->code]);
         return parent::beforeDelete();
+    }
+
+    /**
+     * 获取公用的路径
+     *
+     * @param bool $isOptions
+     * @param int $isEnable
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function getPublicApi($isOptions = true, $isEnable = 1)
+    {
+        $query = static::find()
+            ->andWhere(['=', 'is_public', 1]);
+        if ($isEnable) {
+            $query->andWhere(['=', 'is_enable', $isEnable]);
+        }
+        if ($isOptions) {
+            $res = $query->select(['code', 'path'])
+                ->asArray()
+                ->all();
+            return array_column($res, 'path', 'code');
+        }
+        return $query->all();
     }
 }

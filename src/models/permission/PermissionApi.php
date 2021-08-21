@@ -82,9 +82,11 @@ class PermissionApi extends Model
     {
         return $this->hasMany(PermissionMenu::class, [
             'code' => 'menu_code'
-        ])->viaTable(PermissionMenuApi::tableName(), [
-            'api_code' => 'code'
-        ]);
+        ])
+            ->alias('menu')
+            ->viaTable(PermissionMenuApi::tableName(), [
+                'api_code' => 'code'
+            ]);
     }
 
     /**
@@ -107,5 +109,28 @@ class PermissionApi extends Model
         // 删除 menu-api 的关联关系
         PermissionMenuApi::deleteAll(['api_code' => $this->code]);
         return parent::beforeDelete();
+    }
+
+    /**
+     * 获取公用的路径
+     *
+     * @param bool $isOptions
+     * @param int $isEnable
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public static function getPublicApi($isOptions = true, $isEnable = 1)
+    {
+        $query = static::find()
+            ->andWhere(['=', 'is_public', 1]);
+        if ($isEnable) {
+            $query->andWhere(['=', 'is_enable', $isEnable]);
+        }
+        if ($isOptions) {
+            $res = $query->select(['code', 'path'])
+                ->asArray()
+                ->all();
+            return array_column($res, 'path', 'code');
+        }
+        return $query->all();
     }
 }
