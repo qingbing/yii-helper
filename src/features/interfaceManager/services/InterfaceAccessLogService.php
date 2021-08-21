@@ -32,7 +32,7 @@ class InterfaceAccessLogService extends Service implements IInterfaceAccessLogSe
      */
     public function list(array $params = []): array
     {
-        $query = (\Yii::createObject(Query::class))
+        $query = (new Query())
             ->from(InterfaceAccessLogs::tableName() . ' AS ial')
             ->leftJoin(Interfaces::tableName() . ' AS i', 'i.id=ial.interface_id')
             ->orderBy('ial.id DESC')
@@ -76,7 +76,7 @@ class InterfaceAccessLogService extends Service implements IInterfaceAccessLogSe
      */
     public function view(array $params)
     {
-        $query = (\Yii::createObject(Query::class))
+        $query = (new Query())
             ->from(InterfaceAccessLogs::tableName() . ' AS ial')
             ->leftJoin(Interfaces::tableName() . ' AS i', 'i.id=ial.interface_id')
             ->orderBy('ial.id DESC')

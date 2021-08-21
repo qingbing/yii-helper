@@ -32,7 +32,7 @@ class InterfaceRouteLogService extends Service implements IInterfaceRouteLogServ
      */
     public function list(array $params = []): array
     {
-        $query = (\Yii::createObject(Query::class))
+        $query = (new Query())
             ->from(InterfaceRouteLogs::tableName() . ' AS ral')
             ->leftJoin(Interfaces::tableName() . ' AS i', 'i.id=ral.interface_id')
             ->orderBy('ral.id DESC')
@@ -76,7 +76,7 @@ class InterfaceRouteLogService extends Service implements IInterfaceRouteLogServ
      */
     public function view(array $params)
     {
-        $query = (\Yii::createObject(Query::class))
+        $query = (new Query())
             ->from(InterfaceRouteLogs::tableName() . ' AS ral')
             ->leftJoin(Interfaces::tableName() . ' AS i', 'i.id=ral.interface_id')
             ->orderBy('ral.id DESC')

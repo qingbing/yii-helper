@@ -9,16 +9,15 @@ namespace YiiHelper\features\login\services;
 
 
 use Yii;
+use yii\base\InvalidConfigException;
 use YiiHelper\abstracts\Service;
 use YiiHelper\features\login\services\interfaces\ILoginService;
 use YiiHelper\features\login\services\loginType\abstracts\LoginBase;
-use YiiHelper\features\login\services\loginType\LoginByEmail;
-use YiiHelper\features\login\services\loginType\LoginByMobile;
-use YiiHelper\features\login\services\loginType\LoginByName;
-use YiiHelper\features\login\services\loginType\LoginByUsername;
-use YiiHelper\models\abstracts\User;
-use YiiHelper\models\abstracts\UserAccount;
+use YiiHelper\helpers\Instance;
+use YiiHelper\models\user\User;
+use YiiHelper\models\user\UserAccount;
 use Zf\Helper\Exceptions\BusinessException;
+use Zf\Helper\Exceptions\CustomException;
 
 /**
  * 服务类 ： 用户登录
@@ -26,7 +25,7 @@ use Zf\Helper\Exceptions\BusinessException;
  * Class LoginService
  * @package YiiHelper\features\login\services
  */
-abstract class LoginService extends Service implements ILoginService
+class LoginService extends Service implements ILoginService
 {
     /**
      * 获取登录账户信息
@@ -34,31 +33,63 @@ abstract class LoginService extends Service implements ILoginService
      * @param string $type
      * @param string $account
      * @return UserAccount
+     * @throws InvalidConfigException
      */
-    abstract public function getUserAccount(string $type, string $account): UserAccount;
+    public function getUserAccount(string $type, string $account): UserAccount
+    {
+        return Instance::modelUserAccount()::findOne([
+            'type'    => $type,
+            'account' => $account,
+        ]);
+    }
 
     /**
      * 获取登录账户信息
      *
      * @param int $uid
      * @return User
+     * @throws InvalidConfigException
      */
-    abstract public function getUser($uid): User;
+    public function getUser($uid): User
+    {
+        return Instance::modelUser()::findOne([
+            'uid' => $uid,
+        ]);
+    }
 
     /**
      * 获取支持的登录类型
      *
      * @return array
+     * @throws CustomException
+     * @throws InvalidConfigException
      */
-    abstract public function getSupportTypes(): array;
+    public function getSupportTypes(): array
+    {
+        return Instance::modelUserAccount()::types();
+    }
 
     /**
      * 获取支持的登录类型服务
      *
      * @param string|null $loginType
      * @return array
+     * @throws CustomException
+     * @throws InvalidConfigException
      */
-    abstract public function getSupportServiceMaps(?string $loginType = null): array;
+    public function getSupportServiceMaps(?string $loginType = null): array
+    {
+        $serviceMaps = Instance::modelUserAccount()::serviceMaps();
+        if (empty($loginType)) {
+            return $serviceMaps;
+        }
+        if (!isset($serviceMaps[$loginType])) {
+            throw new CustomException(replace('不支持的登录类型"{type}"', [
+                '{type}' => $loginType
+            ]));
+        }
+        return $serviceMaps[$loginType];
+    }
 
     /**
      * 账户登录
@@ -66,7 +97,8 @@ abstract class LoginService extends Service implements ILoginService
      * @param array $params
      * @return bool
      * @throws BusinessException
-     * @throws \yii\base\InvalidConfigException
+     * @throws CustomException
+     * @throws InvalidConfigException
      */
     public function signIn(array $params): bool
     {

@@ -8,7 +8,7 @@
 namespace YiiHelper\traits;
 
 
-use function Webmozart\Assert\Tests\StaticAnalysis\false;
+use Yii;
 use yii\base\InvalidConfigException;
 use YiiHelper\helpers\DynamicModel;
 use Zf\Helper\Exceptions\BusinessException;
@@ -36,7 +36,7 @@ trait TValidator
     protected function validateParams($rules = [], ?array $data = null, $withPageRule = false, array $explodeFields = [], ?string $delimiter = ',')
     {
         // 数据获取
-        $request = \Yii::$app->getRequest();
+        $request = Yii::$app->getRequest();
         if (null === $data) {
             $data = array_merge($request->getQueryParams(), $request->getBodyParams());
         }

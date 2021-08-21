@@ -1,6 +1,6 @@
 <?php
 
-namespace YiiHelper\models\abstracts;
+namespace YiiHelper\models\user;
 
 use YiiHelper\abstracts\Model;
 use YiiHelper\features\login\services\loginType\LoginByEmail;
@@ -23,7 +23,7 @@ use Zf\Helper\Exceptions\CustomException;
  * @property string $register_at 注册或添加时间
  * @property string $updated_at 最后数据更新时间
  */
-abstract class UserAccount extends Model
+class UserAccount extends Model
 {
     /**
      * {@inheritdoc}

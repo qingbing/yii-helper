@@ -9,6 +9,7 @@ namespace YiiHelper\features\operateLog\tools;
 
 
 use YiiHelper\helpers\AppHelper;
+use YiiHelper\helpers\Instance;
 use Zf\Helper\Abstracts\Singleton;
 
 /**
@@ -38,7 +39,7 @@ class OperateLog extends Singleton
             'data'         => $data, // 操作的具体内容
         ];
 
-        $model = \Yii::createObject(\YiiHelper\models\operateLog\OperateLog::class);
+        $model = Instance::modelOperateLog();
         $model->setAttributes($data);
         return $model->saveOrException();
     }

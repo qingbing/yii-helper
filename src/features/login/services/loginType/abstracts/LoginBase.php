@@ -10,6 +10,7 @@ namespace YiiHelper\features\login\services\loginType\abstracts;
 
 use Yii;
 use yii\base\BaseObject;
+use yii\base\InvalidConfigException;
 use YiiHelper\features\login\services\LoginService;
 use YiiHelper\helpers\Req;
 use Zf\Helper\Business\IpHelper;
@@ -67,6 +68,7 @@ abstract class LoginBase extends BaseObject
      *
      * @return bool
      * @throws BusinessException
+     * @throws InvalidConfigException
      */
     public function signIn()
     {
@@ -116,7 +118,6 @@ abstract class LoginBase extends BaseObject
     /**
      * 判断ip是否在范围之类
      *
-     * @param string $ip
      * @param string|null|array $range
      * @return bool
      */

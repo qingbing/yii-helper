@@ -9,7 +9,7 @@ namespace YiiHelper\components;
 
 use Yii;
 use YiiHelper\helpers\Req;
-use YiiHelper\models\abstracts\UserAccount;
+use YiiHelper\models\user\UserAccount;
 use Zf\Helper\DataStore;
 use Zf\Helper\Format;
 
@@ -20,7 +20,7 @@ use Zf\Helper\Format;
  * @package YiiHelper\components
  *
  * @property string $username
- * @property \YiiHelper\models\abstracts\User $identity
+ * @property \YiiHelper\models\user\User $identity
  */
 class User extends \yii\web\User
 {
@@ -78,7 +78,7 @@ class User extends \yii\web\User
      */
     protected function beforeLogin($identity, $cookieBased, $duration)
     {
-        /* @var \YiiHelper\models\abstracts\User $identity */
+        /* @var \YiiHelper\models\user\User $identity */
         if (!$this->multiLogin) {
             // 不允许多机登录时，创建新登录的 auth_key，这样会挤出其它地方登录的账户
             $identity->generateAuthKey();
@@ -98,7 +98,7 @@ class User extends \yii\web\User
     protected function afterLogin($identity, $cookieBased, $duration)
     {
         parent::afterLogin($identity, $cookieBased, $duration);
-        /* @var \YiiHelper\models\abstracts\User $identity */
+        /* @var \YiiHelper\models\user\User $identity */
         $nowDatetime = Format::datetime();
         // 更新相应登录数据信息
         $identity->last_login_at = $nowDatetime;

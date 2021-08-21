@@ -14,7 +14,7 @@ use yii\validators\EmailValidator;
 use YiiHelper\abstracts\RestController;
 use YiiHelper\features\login\services\interfaces\ILoginService;
 use YiiHelper\features\login\services\LoginService;
-use YiiHelper\models\abstracts\UserAccount;
+use YiiHelper\models\user\UserAccount;
 use YiiHelper\validators\MobileValidator;
 use YiiHelper\validators\NameValidator;
 use YiiHelper\validators\UsernameValidator;

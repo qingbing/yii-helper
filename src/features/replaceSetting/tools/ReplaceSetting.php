@@ -48,7 +48,7 @@ class ReplaceSetting
      */
     final private function __construct(string $code)
     {
-        $record = (\Yii::createObject(Query::class))
+        $record = (new Query())
             ->from('pub_replace_setting')
             ->select(['template', 'content', 'replace_fields'])
             ->andWhere([

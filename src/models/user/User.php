@@ -1,13 +1,17 @@
 <?php
 
-namespace YiiHelper\models\abstracts;
+namespace YiiHelper\models\user;
 
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
 use YiiHelper\abstracts\Model;
 use YiiHelper\behaviors\DefaultBehavior;
+use YiiHelper\helpers\Instance;
+use YiiHelper\models\permission\PermissionRole;
+use YiiHelper\models\permission\PermissionUserRole;
 use Zf\Helper\Util;
 
 /**
@@ -43,7 +47,7 @@ use Zf\Helper\Util;
  *
  * 用户
  */
-abstract class User extends Model implements IdentityInterface
+class User extends Model implements IdentityInterface
 {
     /**
      * {@inheritdoc}
@@ -241,6 +245,7 @@ abstract class User extends Model implements IdentityInterface
      * 获取登录的的账户信息
      *
      * @return UserAccount
+     * @throws InvalidConfigException
      */
     public function getLoginAccount()
     {
@@ -259,10 +264,60 @@ abstract class User extends Model implements IdentityInterface
 
     /**
      * 查询用户账户信息
-     * @param int $uid
+     *
+     * @param $uid
      * @param string $type
      * @param string $account
      * @return UserAccount
+     * @throws InvalidConfigException
      */
-    abstract protected function getUserAccount($uid, string $type, string $account): UserAccount;
+    protected function getUserAccount($uid, string $type, string $account): UserAccount
+    {
+        return Instance::modelUserAccount()::findOne([
+            'uid'     => $uid,
+            'type'    => $type,
+            'account' => $account,
+        ]);
+    }
+
+    /**
+     * 关联 : 获取用户已经分配的角色
+     *
+     * @param bool $onlyValid
+     * @return \yii\db\ActiveQuery
+     * @throws InvalidConfigException
+     */
+    public function getRoles($onlyValid = true)
+    {
+        $query = $this->hasMany(PermissionRole::class, [
+            'code' => 'role_code',
+        ]);
+        if ($onlyValid) {
+            return $query->andWhere(['=', 'is_enable', 1])
+                ->viaTable(PermissionUserRole::tableName(), [
+                    'uid' => 'uid'
+                ])->andWhere(['=', 'is_valid', 1]);
+        }
+        return $query->viaTable(PermissionUserRole::tableName(), [
+            'uid' => 'uid'
+        ]);
+
+
+        if ($this->is_super) {
+            $query = PermissionRole::find();
+            if ($onlyValid) {
+                $query->andWhere(['=', 'is_enable', 1]);
+            }
+            return $query;
+        }
+        $query = $this->hasMany(PermissionRole::class, [
+            'code' => 'role_code',
+        ]);
+        if ($onlyValid) {
+            $query->andWhere(['=', 'is_enable', 1]);
+        }
+        return $query->viaTable(PermissionUserRole::tableName(), [
+            'uid' => 'uid'
+        ]);
+    }
 }
