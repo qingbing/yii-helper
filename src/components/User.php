@@ -23,9 +23,11 @@ use Zf\Helper\Format;
  * @property string $username
  * @property \YiiHelper\models\user\User $identity
  * @property-read array $permissions
+ * @property-read bool $isSuper
  */
 class User extends \yii\web\User
 {
+    const LOGIN_IS_SUPER_KEY   = 'user:isSuper';
     const LOGIN_TYPE_KEY       = 'user:loginType';
     const LOGIN_ACCOUNT_KEY    = 'user:loginAccount';
     const LOGIN_PERMISSION_KEY = 'user:permission';
@@ -94,6 +96,7 @@ class User extends \yii\web\User
         }
         if (parent::beforeLogin($identity, $cookieBased, $duration)) {
             // 设置必要的登录 session
+            Yii::$app->getSession()->set(self::LOGIN_IS_SUPER_KEY, !!$identity->is_super); // 登录账号类型
             Yii::$app->getSession()->set(self::LOGIN_TYPE_KEY, $identity->getLoginAccount()->type); // 登录账号类型
             Yii::$app->getSession()->set(self::LOGIN_ACCOUNT_KEY, $identity->getLoginAccount()->account); // 登录账号
             Yii::$app->getSession()->set(self::LOGIN_PERMISSION_KEY, $this->getPermissions($identity)); // 用户权限
@@ -121,6 +124,19 @@ class User extends \yii\web\User
         $userAccount->last_login_ip = Req::getUserIp();
         $userAccount->login_times   = $userAccount->login_times + 1;
         $userAccount->save();
+    }
+
+    /**
+     * 判断登录用户是否是超级管理员
+     *
+     * @return bool|mixed
+     */
+    public function getIsSuper()
+    {
+        if ($this->getIsGuest()) {
+            return false;
+        }
+        return Yii::$app->getSession()->get(self::LOGIN_IS_SUPER_KEY, false);
     }
 
     /**

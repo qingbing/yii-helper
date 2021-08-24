@@ -188,7 +188,7 @@ class Bootstrap implements BootstrapInterface
     /**
      * init 后执行，这里主要进行必要的验证的数据参数覆盖
      */
-    protected function afterInit()
+    protected function afterBootstrap()
     {
         if ($this->getResultType('is_strict_validate', 'strict_validate_type')) {
             // 开启强制校验
@@ -278,7 +278,7 @@ class Bootstrap implements BootstrapInterface
         // 路由记录
         $this->initOpenRoute();
         // 访问检查
-        $this->afterInit();
+        $this->afterBootstrap();
     }
 
     /**
