@@ -5,12 +5,15 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\components;
+namespace YiiHelper\features\accessLog\bootstrap;
 
 
+use Exception;
 use Yii;
-use yii\base\Component;
+use yii\base\Application;
+use yii\base\BootstrapInterface;
 use yii\base\Event;
+use yii\base\InvalidConfigException;
 use yii\web\HeaderCollection;
 use yii\web\Response;
 use YiiHelper\helpers\AppHelper;
@@ -22,12 +25,12 @@ use Zf\Helper\ReqHelper;
 use Zf\Helper\Timer;
 
 /**
- * 组件 : 系统接口访问日志
+ * bootstrap组件 : 系统接口访问日志
  *
- * Class AccessLog
- * @package YiiHelper\components
+ * Class BootstrapAccessLog
+ * @package YiiHelper\features\accessLog\bootstrap
  */
-class AccessLog extends Component
+class BootstrapAccessLog implements BootstrapInterface
 {
     const TIMER_KEY_BEFORE_REQUEST = __CLASS__ . ':beforeRequest';
     /**
@@ -85,12 +88,15 @@ class AccessLog extends Component
         return $res;
     }
 
+
     /**
-     * @throws \Exception
+     * Bootstrap method to be called during application bootstrap stage.
+     * @param Application $app the application currently running
+     * @throws Exception
      */
-    public function init()
+    public function bootstrap($app)
     {
-        $this->request = Yii::$app->getRequest();
+        $this->request = $app->getRequest();
         // 接口记录只在 web 应用上有效
         if ($this->request->getIsConsoleRequest()) {
             return;
@@ -116,7 +122,7 @@ class AccessLog extends Component
             'post'   => $this->request->post(),
             'file'   => $_FILES,
         ]);
-        Yii::$app->getResponse()->on(Response::EVENT_AFTER_SEND, [$this, "afterSendHandle"]);
+        $app->getResponse()->on(Response::EVENT_AFTER_SEND, [$this, "afterSendHandle"]);
     }
 
     /**
@@ -124,7 +130,7 @@ class AccessLog extends Component
      *
      * @param Event $event
      * @throws CustomException
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
     public function afterSendHandle(Event $event)
     {
@@ -133,7 +139,7 @@ class AccessLog extends Component
         $accessLogData = $this->getAccessLogData($response);
         $log           = Yii::createObject($this->accessLogModel);
         if (!$log instanceof AccessLogs) {
-            throw new CustomException("\YiiHelper\components\AccessLog::accessLogModel必须继承\YiiHelper\models\accessLog\AccessLogs");
+            throw new CustomException("accessLogModel必须继承\YiiHelper\models\accessLog\AccessLogs");
         }
         $log->setAttributes($accessLogData);
         $log->save();
