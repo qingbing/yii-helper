@@ -5,7 +5,7 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\features\accessLog\bootstrap;
+namespace YiiHelper\features\accessLog;
 
 
 use Exception;
@@ -30,7 +30,7 @@ use Zf\Helper\Timer;
  * Class BootstrapAccessLog
  * @package YiiHelper\features\accessLog\bootstrap
  */
-class BootstrapAccessLog implements BootstrapInterface
+class Bootstrap implements BootstrapInterface
 {
     const TIMER_KEY_BEFORE_REQUEST = __CLASS__ . ':beforeRequest';
     /**

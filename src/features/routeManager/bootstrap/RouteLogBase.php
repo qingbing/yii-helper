@@ -5,7 +5,7 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\components\routeManager;
+namespace YiiHelper\features\routeManager\bootstrap;
 
 
 use yii\base\BaseObject;
@@ -14,7 +14,7 @@ use yii\base\BaseObject;
  * 抽象类 ： 路由日志自定义
  *
  * Class RouteLogBase
- * @package YiiHelper\components
+ * @package YiiHelper\features\routeManager\bootstrap
  */
 abstract class RouteLogBase extends BaseObject implements IRouteLog
 {

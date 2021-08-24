@@ -5,7 +5,7 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\components\routeManager;
+namespace YiiHelper\features\routeManager\bootstrap;
 
 
 use yii\base\Event;
@@ -15,7 +15,7 @@ use yii\web\Response;
  * 接口 ： 路由日志自定义
  *
  * Interface IRouteLog
- * @package YiiHelper\components\interfaceManager\assist
+ * @package YiiHelper\features\routeManager\bootstrap
  */
 interface IRouteLog
 {

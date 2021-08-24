@@ -5,18 +5,19 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\components;
+namespace YiiHelper\features\routeManager;
+
 
 use Exception;
 use Yii;
-use yii\base\Component;
+use yii\base\Application;
+use yii\base\BootstrapInterface;
 use yii\base\Event;
 use yii\base\InvalidConfigException;
-use yii\web\Application;
 use yii\web\HeaderCollection;
 use yii\web\Response;
-use YiiHelper\components\routeManager\RouteLogBase;
-use YiiHelper\components\routeManager\RouteManagerTool;
+use YiiHelper\features\routeManager\bootstrap\RouteLogBase;
+use YiiHelper\features\routeManager\tools\RouteManager;
 use YiiHelper\helpers\AppHelper;
 use YiiHelper\helpers\Req;
 use YiiHelper\models\routeManager\RouteInterfaces;
@@ -28,12 +29,12 @@ use Zf\Helper\ReqHelper;
 use Zf\Helper\Timer;
 
 /**
- * 组件 : 路由及路由日志记录入库
+ * bootstrap组件 : 路由及路由日志记录入库
  *
- * Class RouteManager
- * @package YiiHelper\components
+ * Class Bootstrap
+ * @package YiiHelper\features\routeManager
  */
-class RouteManager extends Component
+class Bootstrap implements BootstrapInterface
 {
     use TResponse;
     const TIMER_KEY_BEFORE_REQUEST = __CLASS__ . ':beforeRequest';
@@ -179,7 +180,7 @@ class RouteManager extends Component
                         '{routeLogBase}' => '\YiiHelper\components\interfaceManager\assist\RouteLogBase',
                     ]));
                 }
-                Yii::$app->on(Application::EVENT_BEFORE_REQUEST, [$this->routeLogInstance, 'beforeRequest']);
+                Yii::$app->on(\yii\web\Application::EVENT_BEFORE_REQUEST, [$this->routeLogInstance, 'beforeRequest']);
             }
         }
     }
@@ -230,12 +231,14 @@ class RouteManager extends Component
     }
 
     /**
+     * Bootstrap method to be called during application bootstrap stage.
+     * @param Application $app the application currently running
      * @throws CustomException
      * @throws Exception
      */
-    public function init()
+    public function bootstrap($app)
     {
-        $this->request = Yii::$app->getRequest();
+        $this->request = $app->getRequest();
         // 接口记录只在 web 应用上有效
         if ($this->request->getIsConsoleRequest()) {
             return;
@@ -243,7 +246,7 @@ class RouteManager extends Component
         // 请求开始时间
         Timer::begin(self::TIMER_KEY_BEFORE_REQUEST);
         // 获取访问系统信息
-        $this->system = RouteManagerTool::getSystem(AppHelper::app()->getSystemAlias());
+        $this->system = RouteManager::getSystem(AppHelper::app()->getSystemAlias());
         if (empty($this->system) || !$this->system->is_enable) {
             if ($this->throwIfSystemNotExist) {
                 throw new CustomException(replace('访问不存在的系统{system}', [
@@ -256,7 +259,7 @@ class RouteManager extends Component
         // 构建访问 url_path
         $this->realPathInfo = $this->system->code . '/' . $this->request->getPathInfo();
         // 获取
-        $this->interface = RouteManagerTool::getInterface($this->realPathInfo)['info'];
+        $this->interface = RouteManager::getInterface($this->realPathInfo)['info'];
         if (empty($this->interface) && !$this->system->is_allow_new_interface) {
             // 对于未注册接口，系统不允许访问新接口
             throw new CustomException(replace('访问不存在的接口{interface}', [
@@ -287,7 +290,7 @@ class RouteManager extends Component
      */
     public function handleValidate(Event $event)
     {
-        $validRes = RouteManagerTool::validateData($this->realPathInfo, DataStore::get($this->getStoreKey()));
+        $validRes = RouteManager::validateData($this->realPathInfo, DataStore::get($this->getStoreKey()));
         if (!$validRes['isValidSuccess']) {
             // 验证失败，直接抛出异常
             throw new CustomException($validRes['errorMsg'], $this->errorCodeParamsInvalid);
@@ -311,7 +314,7 @@ class RouteManager extends Component
         if ($this->interface->is_use_custom_mock) {
             $data = json_decode($this->interface->mock_response);
         } else {
-            $data = RouteManagerTool::getMockData($this->realPathInfo);
+            $data = RouteManager::getMockData($this->realPathInfo);
         }
         $response         = AppHelper::app()->getResponse();
         $response->format = Response::FORMAT_JSON;
@@ -394,7 +397,7 @@ class RouteManager extends Component
                 ];
             }
         }
-        RouteManagerTool::saveInterface(
+        RouteManager::saveInterface(
             $this->system->code,
             $this->realPathInfo,
             DataStore::get($this->getStoreKey()),
@@ -437,7 +440,7 @@ class RouteManager extends Component
                 $logData['keyword'] = $data['keyword'];
             }
         }
-        $routeLogModel = RouteManagerTool::getRouteLogModel();
+        $routeLogModel = RouteManager::getRouteLogModel();
         $routeLogModel->setAttributes($logData);
         $routeLogModel->save();
     }

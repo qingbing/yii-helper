@@ -5,7 +5,7 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\components\routeManager;
+namespace YiiHelper\features\routeManager\tools;
 
 
 use Yii;
@@ -24,10 +24,10 @@ use Zf\Helper\Util;
 /**
  * 接口参数信息管理工具
  *
- * Class RouteManagerTool
- * @package YiiHelper\components\routeManager\tools
+ * Class RouteManager
+ * @package YiiHelper\features\routeManager\tools
  */
-class RouteManagerTool
+class RouteManager
 {
     /**
      * 获取系统模型 cache-key
