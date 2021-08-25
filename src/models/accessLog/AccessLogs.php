@@ -3,6 +3,7 @@
 namespace YiiHelper\models\accessLog;
 
 use YiiHelper\abstracts\Model;
+use YiiHelper\models\routeManager\RouteSystems;
 
 /**
  * 模型 : 访问日志模型
@@ -77,9 +78,9 @@ class AccessLogs extends Model
         ];
     }
 
-    const METHOD_GET  = 'get';
-    const METHOD_POST = 'post';
-    const METHOD_PUT  = 'put';
+    const METHOD_GET  = 'GET';
+    const METHOD_POST = 'POST';
+    const METHOD_PUT  = 'PUT';
 
     /**
      * 获取所有请求方式
@@ -89,9 +90,34 @@ class AccessLogs extends Model
     public static function methods()
     {
         return [
-            self::METHOD_GET  => 'get',
-            self::METHOD_POST => 'post',
-            self::METHOD_PUT  => 'put',
+            self::METHOD_GET  => 'GET',
+            self::METHOD_POST => 'POST',
+            self::METHOD_PUT  => 'PUT',
         ];
+    }
+
+    /**
+     * 关联 : 获取关联系统信息
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSystem()
+    {
+        return $this->hasOne(RouteSystems::class, [
+            'code' => 'system_code',
+        ])
+            ->alias("system");
+    }
+
+    /**
+     * 指定可以额外导出的字段
+     *
+     * @return array|false
+     */
+    public function extraFields()
+    {
+        return array_merge([
+            'system' => 'system',
+        ], parent::extraFields());
     }
 }
