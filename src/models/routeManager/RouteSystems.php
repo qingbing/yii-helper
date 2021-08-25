@@ -76,4 +76,22 @@ class RouteSystems extends Model
             'updated_at'             => '更新时间',
         ];
     }
+
+    const TYPE_INNER    = 'inner';
+    const TYPE_TRANSFER = 'transfer';
+    const TYPE_OUTER    = 'outer';
+
+    /**
+     * 系统类型
+     *
+     * @return array
+     */
+    public static function types()
+    {
+        return [
+            self::TYPE_INNER    => '当前系统', // inner
+            self::TYPE_TRANSFER => '转发系统', // transfer
+            self::TYPE_OUTER    => '外部系统', // outer
+        ];
+    }
 }

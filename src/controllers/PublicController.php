@@ -14,6 +14,7 @@ use YiiHelper\features\form\actions\FormOption;
 use YiiHelper\features\interfaceManager\actions\InterfaceSystemOptions;
 use YiiHelper\features\interfaceManager\actions\InterfaceTypeOptions;
 use YiiHelper\features\routeManager\actions\SystemOptions;
+use YiiHelper\features\routeManager\actions\SystemTypeOptions;
 use YiiHelper\features\tableHeader\actions\TableHeader;
 use YiiHelper\services\interfaces\IPubService;
 use YiiHelper\services\PubService;
@@ -39,21 +40,22 @@ class PublicController extends RestController
     public function actions()
     {
         return [
-            // 清除系统缓存
-            'clear-cache'    => [
-                'class' => ClearCache::class
+            // 接口系统选项
+            'option-systems'      => [
+                'class' => SystemOptions::class
             ],
+            // 接口系统类型选项
+            'option-type-systems' => [
+                'class' => SystemTypeOptions::class
+            ],
+
             // 获取表头类型选项
-            'header-options' => [
+            'header-options'      => [
                 'class' => TableHeader::class
             ],
             // 获取表单类型选项
-            'form-options'   => [
+            'form-options'        => [
                 'class' => FormOption::class
-            ],
-            // 获取表单类型选项
-            'option-systems' => [
-                'class' => SystemOptions::class
             ],
         ];
     }
