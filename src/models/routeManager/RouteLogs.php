@@ -76,4 +76,47 @@ class RouteLogs extends Model
             'created_at'  => '创建时间',
         ];
     }
+
+    const METHOD_GET  = 'GET';
+    const METHOD_POST = 'POST';
+    const METHOD_PUT  = 'PUT';
+
+    /**
+     * 获取所有请求方式
+     *
+     * @return array
+     */
+    public static function methods()
+    {
+        return [
+            self::METHOD_GET  => 'GET',
+            self::METHOD_POST => 'POST',
+            self::METHOD_PUT  => 'PUT',
+        ];
+    }
+
+    /**
+     * 关联 : 获取关联系统信息
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSystem()
+    {
+        return $this->hasOne(RouteSystems::class, [
+            'code' => 'system_code',
+        ])
+            ->alias("system");
+    }
+
+    /**
+     * 指定可以额外导出的字段
+     *
+     * @return array|false
+     */
+    public function extraFields()
+    {
+        return array_merge([
+            'system' => 'system',
+        ], parent::extraFields());
+    }
 }

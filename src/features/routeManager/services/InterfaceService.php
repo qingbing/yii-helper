@@ -5,20 +5,20 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\features\interfaceManager\services;
+namespace YiiHelper\features\routeManager\services;
 
-
+use Exception;
 use YiiHelper\abstracts\Service;
-use YiiHelper\features\interfaceManager\services\interfaces\IInterfaceService;
+use YiiHelper\features\routeManager\services\interfaces\IInterfaceService;
 use YiiHelper\helpers\Pager;
-use YiiHelper\models\interfaceManager\Interfaces;
+use YiiHelper\models\routeManager\RouteInterfaces;
 use Zf\Helper\Exceptions\BusinessException;
 
 /**
  * 服务 ： 接口管理
  *
  * Class InterfaceService
- * @package YiiHelper\features\interfaceManager\services
+ * @package YiiHelper\features\routeManager\services
  */
 class InterfaceService extends Service implements IInterfaceService
 {
@@ -30,24 +30,24 @@ class InterfaceService extends Service implements IInterfaceService
      */
     public function list(array $params = []): array
     {
-        $query = Interfaces::find()
+        $query = RouteInterfaces::find()
             ->orderBy('updated_at DESC');
         // 等于查询
         $this->attributeWhere($query, $params, [
             'id',
-            'system_alias',
+            'system_code',
+            'source',
             'type',
             'is_operate',
             'is_open_route_log',
             'is_open_mocking',
             'is_use_custom_mock',
             'record_field_type',
-            'access_log_type',
             'validate_type',
             'strict_validate_type',
         ]);
         // like 查询
-        $this->likeWhere($query, $params, ['name', 'uri_path']);
+        $this->likeWhere($query, $params, ['name', 'url_path']);
         // 开始时间
         if (!empty($params['start_at'])) {
             $query->andWhere(['>=', 'created_at', $params['start_at']]);
@@ -60,12 +60,26 @@ class InterfaceService extends Service implements IInterfaceService
     }
 
     /**
+     * 添加接口
+     *
+     * @param array $params
+     * @return bool
+     * @throws Exception
+     */
+    public function add(array $params): bool
+    {
+        $model = new RouteInterfaces();
+        $model->setFilterAttributes($params);
+        $model->source = RouteInterfaces::SOURCE_MANUAL;
+        return $model->saveOrException();
+    }
+
+    /**
      * 编辑接口
      *
      * @param array $params
      * @return bool
-     * @throws BusinessException
-     * @throws \yii\db\Exception
+     * @throws Exception
      */
     public function edit(array $params): bool
     {
@@ -80,9 +94,6 @@ class InterfaceService extends Service implements IInterfaceService
      *
      * @param array $params
      * @return bool
-     * @throws BusinessException
-     * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
      */
     public function del(array $params): bool
     {
@@ -94,8 +105,7 @@ class InterfaceService extends Service implements IInterfaceService
      * 查看接口详情
      *
      * @param array $params
-     * @return mixed|Interfaces
-     * @throws BusinessException
+     * @return mixed
      */
     public function view(array $params)
     {
@@ -106,12 +116,12 @@ class InterfaceService extends Service implements IInterfaceService
      * 获取当前操作模型
      *
      * @param $params
-     * @return Interfaces
+     * @return RouteInterfaces
      * @throws BusinessException
      */
-    protected function getModel(array $params): Interfaces
+    protected function getModel(array $params): RouteInterfaces
     {
-        $model = Interfaces::findOne([
+        $model = RouteInterfaces::findOne([
             'id' => $params['id'] ?? null,
         ]);
         if (null === $model) {
