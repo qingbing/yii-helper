@@ -99,16 +99,18 @@ class RouteManager
      * @param string $urlPath
      * @param array|null $input
      * @param array|null $output
+     * @param string $source
      * @throws \Throwable
      */
-    public static function saveInterface(string $systemCode, string $urlPath, ?array $input = [], ?array $output = [])
+    public static function saveInterface(string $systemCode, string $urlPath, ?array $input = [], ?array $output = [], $source = RouteInterfaces::SOURCE_AUTH)
     {
         // 利用事务的形式，写入接口数据
-        AppHelper::app()->getDb()->transaction(function () use ($systemCode, $urlPath, $input, $output) {
+        AppHelper::app()->getDb()->transaction(function () use ($systemCode, $urlPath, $input, $output, $source) {
             // 写入接口主体信息
             $data = [
                 'system_code' => $systemCode,
                 'url_path'    => $urlPath,
+                'source'      => $source,
             ];
 
             // 接口信息写入

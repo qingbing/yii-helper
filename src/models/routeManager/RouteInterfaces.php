@@ -12,6 +12,7 @@ use YiiHelper\helpers\AppHelper;
  * @property string $system_code 系统别名
  * @property string $url_path 接口的path
  * @property string $name 接口名称
+ * @property string $source 接口来源
  * @property int $is_operate 是否操作类[0:否; 1:是]
  * @property string $description 描述
  * @property int $record_field_type 接口是否记录新字段[0:随系统; 1:强制开启；2:强制关闭]
@@ -48,9 +49,9 @@ class RouteInterfaces extends Model
             [['system_code'], 'string', 'max' => 50],
             [['url_path', 'route_log_key_fields'], 'string', 'max' => 200],
             [['name'], 'string', 'max' => 100],
+            [['source'], 'string', 'max' => 20],
             [['description', 'route_log_message'], 'string', 'max' => 255],
             [['url_path'], 'unique'],
-            [['system_code', 'name'], 'unique', 'targetAttribute' => ['system_code', 'name']],
         ];
     }
 
@@ -64,6 +65,7 @@ class RouteInterfaces extends Model
             'system_code'          => '系统别名',
             'url_path'             => '接口的path',
             'name'                 => '接口名称',
+            'source'               => '接口来源',
             'is_operate'           => '是否操作类[0:否; 1:是]',
             'description'          => '描述',
             'record_field_type'    => '接口是否记录新字段[0:随系统; 1:强制开启；2:强制关闭]',
@@ -77,6 +79,76 @@ class RouteInterfaces extends Model
             'mock_response'        => '开启mock时的响应json',
             'created_at'           => '创建时间',
             'updated_at'           => '更新时间',
+        ];
+    }
+
+    const SOURCE_AUTH   = "auto";
+    const SOURCE_MANUAL = "manual";
+
+    /**
+     * 接口创建来源
+     *
+     * @return array
+     */
+    public static function sources()
+    {
+        return [
+            self::SOURCE_AUTH   => '自动记录', // auto
+            self::SOURCE_MANUAL => '手动添加', // manual
+        ];
+    }
+
+    const RECORD_FIELD_TYPE_AUTO  = 0;
+    const RECORD_FIELD_TYPE_OPEN  = 1;
+    const RECORD_FIELD_TYPE_CLOSE = 2;
+
+    /**
+     * 字段记录方式
+     *
+     * @return array
+     */
+    public static function recordFieldTypes()
+    {
+        return [
+            self::RECORD_FIELD_TYPE_AUTO  => '随系统', // 0
+            self::RECORD_FIELD_TYPE_OPEN  => '强制开启', // 1
+            self::RECORD_FIELD_TYPE_CLOSE => '强制关闭', // 2
+        ];
+    }
+
+    const VALIDATE_TYPE_TYPE_AUTO  = 0;
+    const VALIDATE_TYPE_TYPE_OPEN  = 1;
+    const VALIDATE_TYPE_TYPE_CLOSE = 2;
+
+    /**
+     * 接口校验方式
+     *
+     * @return array
+     */
+    public static function validateTypes()
+    {
+        return [
+            self::VALIDATE_TYPE_TYPE_AUTO  => '随系统', // 0
+            self::VALIDATE_TYPE_TYPE_OPEN  => '强制开启', // 1
+            self::VALIDATE_TYPE_TYPE_CLOSE => '强制关闭', // 2
+        ];
+    }
+
+    const STRICT_VALIDATE_TYPE_AUTO  = 0;
+    const STRICT_VALIDATE_TYPE_OPEN  = 1;
+    const STRICT_VALIDATE_TYPE_CLOSE = 2;
+
+    /**
+     * 严格校验方式
+     *
+     * @return array
+     */
+    public static function strictValidateTypes()
+    {
+        return [
+            self::STRICT_VALIDATE_TYPE_AUTO  => '随系统', // 0
+            self::STRICT_VALIDATE_TYPE_OPEN  => '强制开启', // 1
+            self::STRICT_VALIDATE_TYPE_CLOSE => '强制关闭', // 2
         ];
     }
 }

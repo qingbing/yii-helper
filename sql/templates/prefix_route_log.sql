@@ -52,6 +52,7 @@ CREATE TABLE `{{%route_interfaces}}` (
   `system_code` varchar(50) NOT NULL COMMENT '系统别名',
   `url_path` varchar(200) NOT NULL DEFAULT '' COMMENT '接口的path',
   `name` varchar(100) NOT NULL DEFAULT '' COMMENT '接口名称',
+  `source` varchar(20) NOT NULL DEFAULT 'auto' COMMENT '接口来源',
   `is_operate` tinyint(2) unsigned NOT NULL DEFAULT '0' COMMENT '是否操作类[0:否; 1:是]',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
 
@@ -77,6 +78,7 @@ CREATE TABLE `{{%route_interfaces}}` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_urlPath` (`url_path`),
   KEY `idx_systemCode` (`system_code`),
+  KEY `idx_source` (`source`),
   KEY `idx_isOperate` (`is_operate`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='接口信息表';
 

@@ -404,7 +404,8 @@ class Bootstrap implements BootstrapInterface
             [
                 'header'   => $this->getCustomHeaders($response->getHeaders()),
                 'response' => (0 == $response->data['code'] && $response->data['data']) ? $response->data['data'] : null,
-            ]
+            ],
+            RouteInterfaces::SOURCE_AUTH
         );
     }
 
