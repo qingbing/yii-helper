@@ -54,7 +54,7 @@ class Bootstrap implements BootstrapInterface
      */
     protected $request;
     // 系统别名
-    protected $system;
+    protected $systemCode;
     // 请求路由
     protected $realPathInfo;
 
@@ -108,11 +108,11 @@ class Bootstrap implements BootstrapInterface
         // 请求开始时间
         Timer::begin(self::TIMER_KEY_BEFORE_REQUEST);
 
-        $this->system = AppHelper::app()->getSystemAlias();
-        if (empty($this->system)) {
+        $this->systemCode = AppHelper::app()->getSystemAlias();
+        if (empty($this->systemCode)) {
             $this->realPathInfo = $this->request->getPathInfo();
         } else {
-            $this->realPathInfo = $this->system . '/' . $this->request->getPathInfo();
+            $this->realPathInfo = $this->systemCode . '/' . $this->request->getPathInfo();
         }
 
         // 参数记录
@@ -157,7 +157,7 @@ class Bootstrap implements BootstrapInterface
         if (null === $inData) {
             $inData = [
                 // 'id'            => '', // 自增ID
-                'system'       => $this->system, // 系统别名
+                'system_code'  => $this->systemCode, // 系统别名
                 'trace_id'     => ReqHelper::getTraceId(), // 日志ID
                 'url_path'     => $this->realPathInfo, // URL路径
                 'method'       => $this->request->getMethod(), // 请求方法

@@ -9,7 +9,7 @@ use YiiHelper\abstracts\Model;
  * This is the model class for table "{{access_logs}}".
  *
  * @property int $id 自增ID
- * @property string $system 系统别名
+ * @property string $system_code 系统别名
  * @property string $trace_id 客户端日志ID
  * @property string $url_path 接口的path
  * @property string $method 请求方法[get post put...]
@@ -40,11 +40,11 @@ class AccessLogs extends Model
     public function rules()
     {
         return [
-            [['system'], 'required'],
+            [['system_code'], 'required'],
             [['request_data', 'response_data', 'exts', 'created_at'], 'safe'],
             [['is_success', 'response_code', 'uid'], 'integer'],
             [['use_time'], 'number'],
-            [['system'], 'string', 'max' => 50],
+            [['system_code'], 'string', 'max' => 50],
             [['trace_id'], 'string', 'max' => 32],
             [['url_path'], 'string', 'max' => 200],
             [['method'], 'string', 'max' => 10],
@@ -60,7 +60,7 @@ class AccessLogs extends Model
     {
         return [
             'id'            => '自增ID',
-            'system'        => '系统别名',
+            'system_code'   => '系统代码',
             'trace_id'      => '日志ID',
             'url_path'      => 'URL路径',
             'method'        => '请求方法',

@@ -10,6 +10,7 @@ namespace YiiHelper\features\permission;
 
 use yii\base\Application;
 use yii\base\BootstrapInterface;
+use yii\base\InvalidConfigException;
 use YiiHelper\helpers\Instance;
 use YiiHelper\helpers\Req;
 use YiiHelper\traits\TResponse;
@@ -41,6 +42,10 @@ class Bootstrap implements BootstrapInterface
      */
     public $errorMessages = [];
     /**
+     * @var array 公共路径名单
+     */
+    public $pubPaths = [];
+    /**
      * @var array 路径白名单
      */
     public $whitePaths = [];
@@ -63,7 +68,7 @@ class Bootstrap implements BootstrapInterface
      * @param Application $app the application currently running
      * @return bool|mixed
      * @throws BusinessException
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
     public function bootstrap($app)
     {
@@ -96,8 +101,12 @@ class Bootstrap implements BootstrapInterface
             // 访问
             return true;
         }
+        // 公共路径检查
+        if ($this->inUrlPath($urlPath, $this->pubPaths)) {
+            return true;
+        }
         // 路径白名单检查
-        if (!$this->inWhitePath($urlPath)) {
+        if (!$this->inUrlPath($urlPath, $this->whitePaths)) {
             return $this->deny(self::ERROR_CODE_PATH_NOT_ALLOW);
         }
         // ip 白名单检查
@@ -126,15 +135,16 @@ class Bootstrap implements BootstrapInterface
     /**
      * 判断url-path是否在设置的白名单内
      *
-     * @param string $urlPath
+     * @param string $path
+     * @param array $urlPaths
      * @return bool
      */
-    protected function inWhitePath(string $urlPath)
+    protected function inUrlPath(string $path, array $urlPaths)
     {
-        foreach ($this->whitePaths as $whilePath) {
-            $whilePath = str_replace('/', '\/', trim($whilePath));
-            $whilePath = str_replace('*', '(.*)', trim($whilePath));
-            if (preg_match('#^' . $whilePath . '$#', $urlPath, $ms)) {
+        foreach ($urlPaths as $urlPath) {
+            $urlPath = str_replace('/', '\/', trim($urlPath));
+            $urlPath = str_replace('*', '(.*)', trim($urlPath));
+            if (preg_match('#^' . $urlPath . '$#', $path, $ms)) {
                 return true;
             }
         }

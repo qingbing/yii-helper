@@ -3,7 +3,7 @@
 -- ----------------------------
 CREATE TABLE `{{%access_logs}}` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
-  `system` varchar(50) NOT NULL COMMENT '系统别名',
+  `system_code` varchar(50) NOT NULL COMMENT '系统别名',
   `trace_id` varchar(32) NOT NULL DEFAULT '' COMMENT '客户端日志ID',
   `url_path` varchar(200) NOT NULL DEFAULT '' COMMENT '接口的path',
   `method` varchar(10) NOT NULL DEFAULT '' COMMENT '请求方法[get post put...]',
@@ -23,7 +23,7 @@ CREATE TABLE `{{%access_logs}}` (
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
   KEY `idx_traceId` (`trace_id`),
-  KEY `idx_system` (`system`),
+  KEY `idx_systemCode` (`system_code`),
   KEY `idx_urlPath` (`url_path`),
   KEY `idx_isSuccess` (`is_success`),
   KEY `idx_useTime` (`use_time`),
