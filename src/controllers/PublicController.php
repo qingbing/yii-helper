@@ -9,10 +9,7 @@ namespace YiiHelper\controllers;
 
 
 use YiiHelper\abstracts\RestController;
-use YiiHelper\actions\ClearCache;
 use YiiHelper\features\form\actions\FormOption;
-use YiiHelper\features\interfaceManager\actions\InterfaceSystemOptions;
-use YiiHelper\features\interfaceManager\actions\InterfaceTypeOptions;
 use YiiHelper\features\routeManager\actions\SystemOptions;
 use YiiHelper\features\routeManager\actions\SystemTypeOptions;
 use YiiHelper\features\tableHeader\actions\TableHeader;

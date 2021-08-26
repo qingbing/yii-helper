@@ -177,7 +177,7 @@ class Bootstrap implements BootstrapInterface
                 if (!$this->routeLogInstance instanceof RouteLogBase) {
                     throw new CustomException(replace('日志路由"{routeClass}"必须继承路由抽象类"{routeLogBase}"', [
                         '{routeClass}'   => $routeLogClass,
-                        '{routeLogBase}' => '\YiiHelper\components\interfaceManager\assist\RouteLogBase',
+                        '{routeLogBase}' => '\YiiHelper\features\routeManager\bootstrap\RouteLogBase',
                     ]));
                 }
                 Yii::$app->on(\yii\web\Application::EVENT_BEFORE_REQUEST, [$this->routeLogInstance, 'beforeRequest']);
