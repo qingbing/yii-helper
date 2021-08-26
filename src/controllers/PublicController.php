@@ -13,21 +13,15 @@ use YiiHelper\features\form\actions\FormOption;
 use YiiHelper\features\routeManager\actions\SystemOptions;
 use YiiHelper\features\routeManager\actions\SystemTypeOptions;
 use YiiHelper\features\tableHeader\actions\TableHeader;
-use YiiHelper\services\interfaces\IPubService;
-use YiiHelper\services\PubService;
 
 /**
  * 控制器 ： 公共服务
  *
  * Class PubController
  * @package YiiHelper\controllers
- *
- * @property-read IPubService $service
  */
 class PublicController extends RestController
 {
-    public $serviceInterface = IPubService::class;
-    public $serviceClass     = PubService::class;
 
     /**
      * 操作集合
