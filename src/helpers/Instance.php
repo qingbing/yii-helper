@@ -10,7 +10,7 @@ namespace YiiHelper\helpers;
 
 use Yii;
 use yii\base\InvalidConfigException;
-use YiiHelper\models\operateLog\OperateLog;
+use YiiHelper\models\operateLog\OperateLogs;
 use YiiHelper\models\permission\PermissionApi;
 use YiiHelper\models\permission\PermissionMenu;
 use YiiHelper\models\user\User;
@@ -46,9 +46,9 @@ class Instance
      * @return object|User
      * @throws InvalidConfigException
      */
-    public static function modelOperateLog()
+    public static function modelOperateLogs()
     {
-        return Yii::createObject(OperateLog::class);
+        return Yii::createObject(OperateLogs::class);
     }
 
     /**

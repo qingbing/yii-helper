@@ -8,9 +8,9 @@
 -- ----------------------------
 
 -- ----------------------------
---  Table structure for `{{%operate_log}}`
+--  Table structure for `{{%operate_logs}}`
 -- ----------------------------
-CREATE TABLE `{{%operate_log}}` (
+CREATE TABLE `{{%operate_logs}}` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `trace_id` varchar(32) NOT NULL DEFAULT '' COMMENT '客户端日志ID',
   `system_alias` varchar(50) NOT NULL DEFAULT '' COMMENT '系统别名',

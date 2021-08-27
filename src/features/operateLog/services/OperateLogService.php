@@ -11,7 +11,7 @@ namespace YiiHelper\features\operateLog\services;
 use YiiHelper\abstracts\Service;
 use YiiHelper\features\operateLog\services\interfaces\IOperateLogService;
 use YiiHelper\helpers\Pager;
-use YiiHelper\models\operateLog\OperateLog;
+use YiiHelper\models\operateLog\OperateLogs;
 use Zf\Helper\Exceptions\BusinessException;
 
 /**
@@ -30,7 +30,7 @@ class OperateLogService extends Service implements IOperateLogService
      */
     public function list(array $params = []): array
     {
-        $query = OperateLog::find()
+        $query = OperateLogs::find()
             ->orderBy('id DESC');
         // 等于查询
         $this->attributeWhere($query, $params, ['id', 'trace_id', 'type', 'system_alias', 'uid', 'keyword', 'nickname']);
@@ -62,12 +62,12 @@ class OperateLogService extends Service implements IOperateLogService
      * 获取当前操作模型
      *
      * @param array $params
-     * @return OperateLog
+     * @return OperateLogs
      * @throws BusinessException
      */
-    protected function getModel(array $params): OperateLog
+    protected function getModel(array $params): OperateLogs
     {
-        $model = OperateLog::findOne([
+        $model = OperateLogs::findOne([
             'id' => $params['id'] ?? null
         ]);
         if (null === $model) {

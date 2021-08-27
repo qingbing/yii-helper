@@ -39,7 +39,7 @@ class OperateLog extends Singleton
             'data'         => $data, // 操作的具体内容
         ];
 
-        $model = Instance::modelOperateLog();
+        $model = Instance::modelOperateLogs();
         $model->setAttributes($data);
         return $model->saveOrException();
     }

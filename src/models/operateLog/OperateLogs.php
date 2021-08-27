@@ -26,17 +26,17 @@ use YiiHelper\behaviors\UidBehavior;
  * @property string $nickname 用户昵称
  * @property string $created_at 创建时间
  *
- * Class OperateLog
+ * Class OperateLogs
  * @package YiiHelper\models\operateLog
  */
-class OperateLog extends Model
+class OperateLogs extends Model
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return '{{%operate_log}}';
+        return '{{%operate_logs}}';
     }
 
     /**
