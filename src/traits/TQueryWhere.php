@@ -28,9 +28,10 @@ trait TQueryWhere
             $fields = (array)$fields;
         }
         $where = [];
-        foreach ($fields as $field) {
+        foreach ($fields as $idx => $field) {
+            $dbField = is_numeric($idx) ? $field : $idx;
             if (isset($params[$field]) && "" !== $params[$field] && null !== $params[$field]) {
-                $where[$field] = $params[$field];
+                $where[$dbField] = $params[$field];
             }
         }
         if (empty($where)) {
@@ -55,9 +56,10 @@ trait TQueryWhere
         if (!is_array($fields)) {
             $fields = (array)$fields;
         }
-        foreach ($fields as $field) {
+        foreach ($fields as $idx => $field) {
+            $dbField = is_numeric($idx) ? $field : $idx;
             if (isset($params[$field]) && "" !== $params[$field] && null !== $params[$field]) {
-                $query->andWhere(['like', $field, $params[$field]]);
+                $query->andWhere(['like', $dbField, $params[$field]]);
             }
         }
         return $query;
