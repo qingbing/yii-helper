@@ -7,6 +7,7 @@ use YiiHelper\features\login\services\loginType\LoginByEmail;
 use YiiHelper\features\login\services\loginType\LoginByMobile;
 use YiiHelper\features\login\services\loginType\LoginByName;
 use YiiHelper\features\login\services\loginType\LoginByUsername;
+use YiiHelper\helpers\AppHelper;
 use YiiHelper\validators\MobileValidator;
 use YiiHelper\validators\NameValidator;
 use YiiHelper\validators\UsernameValidator;
@@ -69,6 +70,18 @@ class UserAccount extends Model
             'register_at'   => '注册时间',
             'updated_at'    => '更新时间',
         ];
+    }
+
+    /**
+     * 关联 : 用户信息
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::class, [
+            'uid' => 'uid',
+        ]);
     }
 
     const TYPE_USERNAME = 'username';
@@ -149,26 +162,37 @@ class UserAccount extends Model
     }
 
     /**
+     * 后管获取默认的登录账号
+     *
+     * @return mixed
+     */
+    public static function getDefaultAccountType()
+    {
+        return AppHelper::app()->getParam('defaultAccountType', 'email');
+    }
+
+    /**
      * 根据账户类型获取账户类型的验证规则
      *
      * @param string $type
+     * @param string $field
      * @return array
      * @throws CustomException
      */
-    public static function getAccountValidatorRule(string $type): array
+    public static function getAccountValidatorRule(string $type, $field = 'account'): array
     {
         switch ($type) {
             case static::TYPE_USERNAME :// 'username';
-                $rule = ['account', UsernameValidator::class];
+                $rule = [$field, UsernameValidator::class];
                 break;
             case static::TYPE_EMAIL    :// 'email';
-                $rule = ['account', 'email'];
+                $rule = [$field, 'email'];
                 break;
             case static::TYPE_MOBILE   :// 'mobile';
-                $rule = ['account', MobileValidator::class];
+                $rule = [$field, MobileValidator::class];
                 break;
             case static::TYPE_NAME     :// 'name';
-                $rule = ['account', NameValidator::class];
+                $rule = [$field, NameValidator::class];
                 break;
             default:
                 throw new CustomException("不支持的账户类型");
