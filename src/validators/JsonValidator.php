@@ -26,7 +26,7 @@ class JsonValidator extends Validator
         parent::init();
 
         if (null === $this->message) {
-            $this->message = \Yii::t('yii', '{attribute} 必须时有效的json字符串');
+            $this->message = \Yii::t('yii', '{attribute} 必须是有效的json字符串');
         }
     }
 

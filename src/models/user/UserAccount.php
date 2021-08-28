@@ -7,6 +7,9 @@ use YiiHelper\features\login\services\loginType\LoginByEmail;
 use YiiHelper\features\login\services\loginType\LoginByMobile;
 use YiiHelper\features\login\services\loginType\LoginByName;
 use YiiHelper\features\login\services\loginType\LoginByUsername;
+use YiiHelper\validators\MobileValidator;
+use YiiHelper\validators\NameValidator;
+use YiiHelper\validators\UsernameValidator;
 use Zf\Helper\Exceptions\CustomException;
 
 /**
@@ -143,5 +146,33 @@ class UserAccount extends Model
             throw new CustomException('未配置系统支持的登录类型');
         }
         return $supportServiceMaps;
+    }
+
+    /**
+     * 根据账户类型获取账户类型的验证规则
+     *
+     * @param string $type
+     * @return array
+     * @throws CustomException
+     */
+    public static function getAccountValidatorRule(string $type): array
+    {
+        switch ($type) {
+            case static::TYPE_USERNAME :// 'username';
+                $rule = ['account', UsernameValidator::class];
+                break;
+            case static::TYPE_EMAIL    :// 'email';
+                $rule = ['account', 'email'];
+                break;
+            case static::TYPE_MOBILE   :// 'mobile';
+                $rule = ['account', MobileValidator::class];
+                break;
+            case static::TYPE_NAME     :// 'name';
+                $rule = ['account', NameValidator::class];
+                break;
+            default:
+                throw new CustomException("不支持的账户类型");
+        }
+        return $rule;
     }
 }

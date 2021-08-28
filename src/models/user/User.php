@@ -46,6 +46,7 @@ use Zf\Helper\Util;
  * @property string $updated_at 最后数据更新时间
  *
  * @property-read PermissionRole[] $roles 用户的有效角色
+ * @property-read UserAccount[] $accounts 用户的有效角色
  */
 class User extends Model implements IdentityInterface
 {
@@ -222,6 +223,32 @@ class User extends Model implements IdentityInterface
     {
         $this->auth_key = Util::uniqid();
         return $this;
+    }
+
+    /**
+     * 设置常规模型的 toArray 字段
+     *
+     * @return array|false
+     */
+    public function fields()
+    {
+        $fields = parent::fields();
+        unset($fields['password'], $fields['auth_key']);
+        return $fields;
+    }
+
+    /**
+     * 关联 : 用户账户
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    protected function getAccounts()
+    {
+        return $this->hasMany(UserAccount::class, [
+            'uid' => 'uid',
+        ])
+            ->alias('account')
+            ->orderBy("is_enable DESC, id ASC");
     }
 
     /**
