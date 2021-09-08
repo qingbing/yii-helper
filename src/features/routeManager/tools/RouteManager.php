@@ -55,7 +55,7 @@ class RouteManager
      * 通过系统代码获取系统模型
      *
      * @param string $code
-     * @return bool|mixed
+     * @return bool|RouteSystems
      */
     public static function getSystem(string $code)
     {

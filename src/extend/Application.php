@@ -29,7 +29,7 @@ class Application extends \yii\web\Application
     /**
      * @var string 默认中转传输路由
      */
-    public $transmitRoute = 'transmit/index';
+    public $transmitRoute = 'transmit/do';
     /**
      * @var string 默认系统
      */

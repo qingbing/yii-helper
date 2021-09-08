@@ -31,6 +31,7 @@ class User extends \yii\web\User
     const LOGIN_TYPE_KEY       = 'user:loginType';
     const LOGIN_ACCOUNT_KEY    = 'user:loginAccount';
     const LOGIN_PERMISSION_KEY = 'user:permission';
+    const LOGIN_AUTH_KEY       = 'user:authKey';
 
     /**
      * @var string 操作日志类名
@@ -85,7 +86,6 @@ class User extends \yii\web\User
      * @param bool $cookieBased
      * @param int $duration
      * @return bool
-     * @throws \yii\base\InvalidConfigException
      */
     protected function beforeLogin($identity, $cookieBased, $duration)
     {
@@ -94,26 +94,28 @@ class User extends \yii\web\User
             // 不允许多机登录时，创建新登录的 auth_key，这样会挤出其它地方登录的账户
             $identity->generateAuthKey();
         }
-        if (parent::beforeLogin($identity, $cookieBased, $duration)) {
-            // 设置必要的登录 session
-            Yii::$app->getSession()->set(self::LOGIN_IS_SUPER_KEY, !!$identity->is_super); // 登录账号类型
-            Yii::$app->getSession()->set(self::LOGIN_TYPE_KEY, $identity->getLoginAccount()->type); // 登录账号类型
-            Yii::$app->getSession()->set(self::LOGIN_ACCOUNT_KEY, $identity->getLoginAccount()->account); // 登录账号
-            Yii::$app->getSession()->set(self::LOGIN_PERMISSION_KEY, $this->getPermissions($identity)); // 用户权限
-            return true;
-        }
-        return false;
+        return parent::beforeLogin($identity, $cookieBased, $duration);
     }
 
     /**
-     * @inheritDoc
+     * @param \yii\web\IdentityInterface $identity
+     * @param bool $cookieBased
+     * @param int $duration
+     * @throws \yii\base\InvalidConfigException
      */
     protected function afterLogin($identity, $cookieBased, $duration)
     {
-        parent::afterLogin($identity, $cookieBased, $duration);
         /* @var \YiiHelper\models\user\User $identity */
-        $nowDatetime = Format::datetime();
+        parent::afterLogin($identity, $cookieBased, $duration);
+        // 设置必要的登录 session
+        Yii::$app->getSession()->set(self::LOGIN_IS_SUPER_KEY, !!$identity->is_super); // 登录账号类型
+        Yii::$app->getSession()->set(self::LOGIN_TYPE_KEY, $identity->getLoginAccount()->type); // 登录账号类型
+        Yii::$app->getSession()->set(self::LOGIN_ACCOUNT_KEY, $identity->getLoginAccount()->account); // 登录账号
+        Yii::$app->getSession()->set(self::LOGIN_PERMISSION_KEY, $this->getPermissions($identity)); // 用户权限
+        Yii::$app->getSession()->set(self::LOGIN_AUTH_KEY, $identity->getAuthKey()); // 用户权限
+
         // 更新相应登录数据信息
+        $nowDatetime             = Format::datetime();
         $identity->last_login_at = $nowDatetime;
         $identity->last_login_ip = Req::getUserIp();
         $identity->login_times   = $identity->login_times + 1;
@@ -137,6 +139,19 @@ class User extends \yii\web\User
             return false;
         }
         return Yii::$app->getSession()->get(self::LOGIN_IS_SUPER_KEY, false);
+    }
+
+    /**
+     * 获取用户登录的 authKey
+     *
+     * @return mixed|string
+     */
+    public function getAuthKey()
+    {
+        if ($this->getIsGuest()) {
+            return "";
+        }
+        return Yii::$app->getSession()->get(self::LOGIN_AUTH_KEY, "");
     }
 
     /**

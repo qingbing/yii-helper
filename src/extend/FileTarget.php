@@ -19,6 +19,17 @@ use Zf\Helper\ReqHelper;
  */
 class FileTarget extends \yii\log\FileTarget
 {
+    /**
+     * @var bool 是否包含日志出处的trace信息
+     */
+    public $trace = false;
+
+    /**
+     * 格式化消息
+     *
+     * @param array $message
+     * @return string
+     */
     public function formatMessage($message)
     {
         list($text, $level, $category, $timestamp) = $message;
@@ -40,7 +51,11 @@ class FileTarget extends \yii\log\FileTarget
 
         $prefix  = $this->getMessagePrefix($message);
         $traceId = ReqHelper::getTraceId();
-        return $this->getTime($timestamp) . " {$prefix}[$level][$traceId][$category] $text"
-            . (empty($traces) ? '' : "\n    " . implode("\n    ", $traces));
+        if ($this->trace) {
+            return $this->getTime($timestamp) . " {$prefix}[$level][$traceId][$category] $text"
+                . (empty($traces) ? '' : "\n    " . implode("\n    ", $traces));
+        } else {
+            return $this->getTime($timestamp) . " {$prefix}[$level][$traceId][$category] $text";
+        }
     }
 }
