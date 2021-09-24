@@ -31,7 +31,8 @@ class Proxy extends BaseObject
      * @var Client | array client的配置或实例
      */
     public $client = [
-        'class' => Client::class,
+        'class'              => Client::class,
+        'unTranslateHeaders' => [],
     ];
     /**
      * @var Request
@@ -60,7 +61,7 @@ class Proxy extends BaseObject
         }
         $this->request = $this->client->createRequest();
         // 获取并设置 client 超时时间
-        $timeout = Yii::$app->getRequest()->getHeaders()->get("X-TIMEOUT", $this->timeout);
+        $timeout = Yii::$app->getRequest()->getHeaders()->get("R-TIMEOUT", $this->timeout);
         if ($timeout > 5) {
             $this->addOptions(['timeout' => $timeout]);
         }

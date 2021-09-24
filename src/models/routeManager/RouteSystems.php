@@ -94,4 +94,29 @@ class RouteSystems extends Model
             self::TYPE_OUTER    => '外部系统', // outer
         ];
     }
+
+    /**
+     * 通过系统标记查找系统模型
+     *
+     * @param string $code
+     * @return RouteSystems|null
+     */
+    public static function getByCode(string $code)
+    {
+        return self::findOne([
+            'code' => $code,
+        ]);
+    }
+
+    /**
+     * 通过关键字获取扩展值
+     *
+     * @param null|string $key
+     * @param null|mixed $default
+     * @return mixed|null
+     */
+    public function getExtValueByKey(?string $key = null, $default = null)
+    {
+        return $this->ext[$key] ?? $default;
+    }
 }

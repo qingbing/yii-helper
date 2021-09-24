@@ -32,7 +32,7 @@ CREATE TABLE `{{%route_systems}}` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统信息表';
 
 -- ----------------------------
---  Data for "{{%route_systems}}"
+--  Data for `{{%route_systems}}`
 -- ----------------------------
 
 insert into `{{%route_systems}}`

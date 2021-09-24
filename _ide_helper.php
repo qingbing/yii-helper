@@ -21,5 +21,13 @@ namespace {
          * @var \YiiHelper\components\User
          */
         public $user;
+        /**
+         * @var \YiiHelper\components\oauth\Oauth
+         */
+        public $oauth;
+        /**
+         * @var \yii\redis\Connection
+         */
+        public $redis;
     }
 }

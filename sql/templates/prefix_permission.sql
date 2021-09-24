@@ -7,9 +7,9 @@
 
 
 -- ----------------------------
---  Table structure for `portal_permission_path`
+--  Table structure for `{{%permission_path}}`
 -- ----------------------------
-CREATE TABLE `portal_permission_api` (
+CREATE TABLE `{{%permission_api}}` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `code` varchar(50) NOT NULL COMMENT '路径标识',
   `path` varchar(200) NOT NULL DEFAULT '' COMMENT 'API路径',
@@ -30,9 +30,9 @@ CREATE TABLE `portal_permission_api` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='后端api路径信息表';
 
 -- ----------------------------
---  Table structure for `portal_permission_menu`
+--  Table structure for `{{%permission_menu}}`
 -- ----------------------------
-CREATE TABLE `portal_permission_menu` (
+CREATE TABLE `{{%permission_menu}}` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `type` varchar(20) NOT NULL COMMENT '类型[menu:菜单,footer:底部菜单,top:顶端菜单,button:按钮]',
   `path` varchar(200) NOT NULL DEFAULT '' COMMENT '菜单路径',
@@ -58,9 +58,9 @@ CREATE TABLE `portal_permission_menu` (
 
 
 -- ----------------------------
---  Table structure for `portal_permission_menu_api`
+--  Table structure for `{{%permission_menu_api}}`
 -- ----------------------------
-CREATE TABLE `portal_permission_menu_api` (
+CREATE TABLE `{{%permission_menu_api}}` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `menu_code` varchar(50) NOT NULL COMMENT '菜单、按钮代码',
   `api_code` varchar(50) NOT NULL COMMENT 'api代码',
@@ -74,9 +74,9 @@ CREATE TABLE `portal_permission_menu_api` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='菜单、按钮拥有的api关联';
 
 -- ----------------------------
---  Table structure for `portal_permission_role`
+--  Table structure for `{{%permission_role}}`
 -- ----------------------------
-CREATE TABLE `portal_permission_role` (
+CREATE TABLE `{{%permission_role}}` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `code` varchar(50) NOT NULL COMMENT '角色代码',
   `remark` varchar(200) NOT NULL DEFAULT '' COMMENT '角色描述',
@@ -94,9 +94,9 @@ CREATE TABLE `portal_permission_role` (
 
 
 -- ----------------------------
---  Table structure for `portal_permission_role_menu`
+--  Table structure for `{{%permission_role_menu}}`
 -- ----------------------------
-CREATE TABLE `portal_permission_role_menu` (
+CREATE TABLE `{{%permission_role_menu}}` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `role_code` varchar(50) NOT NULL COMMENT '角色代码',
   `menu_code` varchar(50) NOT NULL COMMENT '菜单、按钮代码',
@@ -111,9 +111,9 @@ CREATE TABLE `portal_permission_role_menu` (
 
 
 -- ----------------------------
---  Table structure for `portal_permission_role_menu`
+--  Table structure for `{{%permission_role_menu}}`
 -- ----------------------------
-CREATE TABLE `portal_permission_user_role` (
+CREATE TABLE `{{%permission_user_role}}` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `uid` bigint(20) unsigned NOT NULL COMMENT '用户ID',
   `role_code` varchar(50) NOT NULL COMMENT '角色代码',
