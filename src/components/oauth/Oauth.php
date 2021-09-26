@@ -60,7 +60,7 @@ class Oauth extends Component
                 ];
             }
             if (!isset($this->serverConf['class'])) {
-                throw new ProgramException("oauth-server 必须配置 class");
+                $this->serverConf['class'] = \YiiHelper\components\oauth\drivers\redis\Server::class;
             }
             $this->serverConf['oauth'] = $this;
             // 实例化
