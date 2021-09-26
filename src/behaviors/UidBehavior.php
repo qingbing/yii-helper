@@ -10,6 +10,7 @@ namespace YiiHelper\behaviors;
 
 use yii\behaviors\AttributeBehavior;
 use yii\db\ActiveRecord;
+use YiiHelper\helpers\Req;
 
 /**
  * 模型中用户ID自动填充行为
@@ -36,7 +37,7 @@ class UidBehavior extends AttributeBehavior
     protected function getValue($event)
     {
         if (null === $this->value) {
-            return \Yii::$app->getUser()->getIsGuest() ? 0 : \Yii::$app->getUser()->getId();
+            return Req::getUid();
         }
         return parent::getValue($event);
     }

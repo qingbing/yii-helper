@@ -14,6 +14,7 @@ use YiiHelper\abstracts\RestController;
 use YiiHelper\features\member\validators\UserPasswordValidator;
 use YiiHelper\features\personal\services\interfaces\IPersonalService;
 use YiiHelper\features\personal\services\PersonalService;
+use YiiHelper\helpers\Req;
 use YiiHelper\models\user\User;
 use YiiHelper\models\user\UserAccount;
 use YiiHelper\validators\IdCardValidator;
@@ -81,7 +82,7 @@ class PersonalController extends RestController
      */
     public function actionChangeInfo()
     {
-        $uid = Yii::$app->getUser()->getId();
+        $uid = Req::getUid();
         // 参数验证和获取
         $params = $this->validateParams([
             ['nickname', 'unique', 'label' => '用户昵称', 'targetClass' => User::class, 'targetAttribute' => 'nickname', 'filter' => ['!=', 'uid', $uid]],

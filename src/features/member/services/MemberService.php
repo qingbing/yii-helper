@@ -14,6 +14,7 @@ use YiiHelper\abstracts\Service;
 use YiiHelper\features\member\services\interfaces\IMemberService;
 use YiiHelper\helpers\AppHelper;
 use YiiHelper\helpers\Pager;
+use YiiHelper\helpers\Req;
 use YiiHelper\models\user\User;
 use YiiHelper\models\user\UserAccount;
 use Zf\Helper\Exceptions\BusinessException;
@@ -112,7 +113,7 @@ class MemberService extends Service implements IMemberService
         // 删除账户和密码
         unset($userAttributes['account'], $userAttributes['password']);
         $user->setFilterAttributes($userAttributes);
-        $user->refer_uid      = Yii::$app->getUser()->getId();
+        $user->refer_uid      = Req::getUid();
         $user->password       = $user->generatePassword($params['password']);
         $accountType          = UserAccount::getDefaultAccountType();
         $userAccount->account = $params['account'];
@@ -251,7 +252,7 @@ class MemberService extends Service implements IMemberService
         if (null === $model) {
             throw new BusinessException("用户不存在");
         }
-        if ($isOperate && $model->uid == Yii::$app->getUser()->getId()) {
+        if ($isOperate && $model->uid == Req::getUid()) {
             throw new ForbiddenHttpException("不能在该页面操作自己的信息");
         }
         return $model;

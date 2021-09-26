@@ -10,26 +10,15 @@ namespace YiiHelper\controllers;
 
 use Exception;
 use YiiHelper\abstracts\RestController;
-use YiiHelper\components\oauth\drivers\redis\Server;
-use YiiHelper\helpers\AppHelper;
-use YiiHelper\helpers\Req;
-use YiiHelper\models\oauth\OauthUser;
-use YiiHelper\services\interfaces\IOauthService;
-use YiiHelper\services\OauthService;
 
 /**
  * 控制器 : oauth验证
  *
  * Class OauthController
  * @package YiiHelper\controllers
- *
- * @property-read IOauthService $service
  */
 class OauthController extends RestController
 {
-    public $serviceInterface = IOauthService::class;
-    public $serviceClass     = OauthService::class;
-
     /**
      * @return array
      * @throws Exception

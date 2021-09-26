@@ -13,6 +13,7 @@ use yii\base\BaseObject;
 use yii\base\BootstrapInterface;
 use yii\web\Request;
 use YiiHelper\components\oauth\Oauth;
+use YiiHelper\helpers\Req;
 use Zf\Helper\Exceptions\ForbiddenHttpException;
 
 /**
@@ -23,6 +24,10 @@ use Zf\Helper\Exceptions\ForbiddenHttpException;
  */
 class Bootstrap extends BaseObject implements BootstrapInterface
 {
+    /**
+     * @var bool 开启 oauth 验证
+     */
+    public $enableOauth = false;
     /**
      * @var string 获取 accessToken 的pathInfo，该路径不需要检查 accessToken
      */
@@ -40,9 +45,25 @@ class Bootstrap extends BaseObject implements BootstrapInterface
      */
     public $oauthUuidHeader = 'r-oauth-uuid';
     /**
+     * @var string 传递是否用户登录的 header
+     */
+    public $isGuestHeader = 'x-portal-is-guest';
+    /**
+     * @var string 传递登录用户id的 header
+     */
+    public $uidHeader = 'x-portal-uid';
+    /**
      * @var string oauth组件ID
      */
     public $oauthId = 'oauth';
+    /**
+     * @var bool 是否登录，从 header['x-portal-is-guest'] 中获取
+     */
+    public $isGuest;
+    /**
+     * @var string 当前登录用户id 从 header['x-portal-uid'] 中获取
+     */
+    public $uid;
     /**
      * @var Request
      */
@@ -59,6 +80,13 @@ class Bootstrap extends BaseObject implements BootstrapInterface
     {
         $this->request   = \Yii::$app->getRequest();
         $this->isConsole = $this->request->getIsConsoleRequest();
+        // 获取登录信息
+        $header        = $this->request->getHeaders();
+        $this->isGuest = !!$header->get($this->isGuestHeader);
+        $this->uid     = $header->get($this->uidHeader);
+        // 设置用户登录信息
+        Req::setIsGuest($this->isGuest);
+        Req::setUid($this->uid);
     }
 
     /**
@@ -72,9 +100,15 @@ class Bootstrap extends BaseObject implements BootstrapInterface
     public function bootstrap($app)
     {
         if ($this->isConsole) {
+            // 控制台程序
+            return;
+        }
+        if (!$this->enableOauth) {
+            // 未开启 oauth 验证
             return;
         }
         if (!$this->oauthChecking()) {
+            // 免 oauth 请求
             return;
         }
         $accessToken = $this->request->getHeaders()->get($this->accessTokenHeader);
