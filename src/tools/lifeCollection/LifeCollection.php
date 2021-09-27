@@ -27,6 +27,10 @@ use yii\di\Instance;
 class LifeCollection extends BaseObject
 {
     /**
+     * @var string 集合名称
+     */
+    public $colName;
+    /**
      * @var int 生命周期时间
      */
     public $expireTtl = 7200;
@@ -47,6 +51,21 @@ class LifeCollection extends BaseObject
         if ($this->expireTtl > 0) {
             $this->store->expireTtl = $this->expireTtl;
         }
+        if (null !== $this->colName) {
+            $this->store->colName = $this->colName;
+        }
+    }
+
+    /**
+     * 设置生命周期名称
+     *
+     * @param string $colName
+     * @return $this
+     */
+    public function setColName(string $colName)
+    {
+        $this->store->colName = $this->colName = $colName;
+        return $this;
     }
 
     /**
