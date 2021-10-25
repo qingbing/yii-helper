@@ -29,6 +29,18 @@ class AppHelper
     }
 
     /**
+     * 获取配置的参数信息
+     *
+     * @param string $key
+     * @param null $default
+     * @return mixed
+     */
+    public static function getParam(string $key, $default = null)
+    {
+        return Yii::$app->params[$key] ?? $default;
+    }
+
+    /**
      * 判断使用的是否是yii的基础版
      *
      * @param string $vendorName

@@ -21,6 +21,7 @@ use Zf\Helper\DataStore;
  *
  * @property-read CacheHelper $cacheHelper
  * @property-read User $user
+ * @property-read string $systemAlias
  *
  * @method User getUser()
  */
@@ -29,7 +30,7 @@ class Application extends \yii\web\Application
     /**
      * @var string 默认中转传输路由
      */
-    public $transmitRoute = 'transmit/do';
+    public $transmitRoute = 'transmit/index';
     /**
      * @var string 默认系统
      */

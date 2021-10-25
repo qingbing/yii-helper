@@ -22,9 +22,9 @@ namespace {
          */
         public $user;
         /**
-         * @var \YiiHelper\components\oauth\Oauth
+         * @var \YiiHelper\helpers\client\InnerClientProxy
          */
-        public $oauth;
+        public $portal;
         /**
          * @var \yii\redis\Connection
          */

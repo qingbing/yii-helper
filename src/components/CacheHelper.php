@@ -8,9 +8,11 @@
 namespace YiiHelper\components;
 
 
+use Codeception\Lib\Di;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\caching\CacheInterface;
+use yii\di\Instance;
 
 /**
  * 组件类：缓存助手
@@ -25,13 +27,9 @@ class CacheHelper extends Component
      */
     public $openCache = true;
     /**
-     * @var string
-     */
-    public $cacheId = 'cache';
-    /**
      * @var CacheInterface
      */
-    protected $cache;
+    protected $cache = 'cache';
 
     /**
      * @inheritDoc
@@ -39,7 +37,7 @@ class CacheHelper extends Component
      */
     public function init()
     {
-        $this->cache = \Yii::$app->get(null === $this->cacheId ? 'cache' : $this->cacheId);
+        $this->cache = Instance::ensure($this->cache, CacheInterface::class);
     }
 
     /**
@@ -73,9 +71,10 @@ class CacheHelper extends Component
      * @param mixed $key
      * @param callable|null $callback
      * @param int|null $duration
+     * @param null $dependency
      * @return bool|mixed
      */
-    public function get($key, ?callable $callback = null, ?int $duration = null)
+    public function get($key, ?callable $callback = null, ?int $duration = null, $dependency = null)
     {
         if (!is_callable($callback)) {
             // 常规的缓存获取
@@ -87,13 +86,13 @@ class CacheHelper extends Component
             if (false === ($output = $this->cache->get($key))) {
                 // 重新获取数据并设置缓存
                 $output = call_user_func($callback);
-                $this->cache->set($key, $output, $duration);
+                $this->cache->set($key, $output, $duration, $dependency);
             }
             return $output;
         } else {
             // 未开缓存的回写式
             $output = call_user_func($callback);
-            $this->cache->set($key, $output, $duration);
+            $this->cache->set($key, $output, $duration, $dependency);
             return $output;
         }
         return false;

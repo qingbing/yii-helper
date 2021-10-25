@@ -10,6 +10,7 @@ namespace YiiHelper\tools\lifeCollection;
 
 use yii\base\BaseObject;
 use yii\di\Instance;
+use YiiHelper\tools\lifeCollection\drivers\RedisStore;
 
 /**
  * 工具 : 生命周期集合管理
@@ -38,7 +39,7 @@ class LifeCollection extends BaseObject
      * @var Store
      */
     public $store = [
-        'class' => \YiiHelper\tools\lifeCollection\drivers\RedisStore::class,
+        'class' => RedisStore::class,
     ];
 
     /**
