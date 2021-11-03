@@ -9,7 +9,6 @@ namespace YiiHelper\tools\lifeCollection;
 
 
 use yii\base\BaseObject;
-use yii\di\Instance;
 use Zf\Helper\Format;
 
 /**

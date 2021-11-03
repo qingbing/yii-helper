@@ -18,16 +18,24 @@ namespace {
     class MyApplication
     {
         /**
+         * @var string
+         */
+        public $systemAlias;
+        /**
          * @var \YiiHelper\components\User
          */
         public $user;
         /**
-         * @var \YiiHelper\helpers\client\InnerClientProxy
-         */
-        public $portal;
-        /**
          * @var \yii\redis\Connection
          */
         public $redis;
+        /**
+         * @var \YiiHelper\components\CacheHelper
+         */
+        public $cacheHelper;
+        /**
+         * @var \YiiHelper\components\TokenManager
+         */
+        public $token;
     }
 }

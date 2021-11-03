@@ -9,6 +9,7 @@ namespace YiiHelper\helpers\client;
 
 
 use Exception;
+use Yii;
 use yii\httpclient\Request;
 use yii\web\UrlNormalizerRedirectException;
 use YiiHelper\helpers\AppHelper;
@@ -44,7 +45,7 @@ class InnerClient extends Client
     public function init()
     {
         $this->addHeader('x-system', $this->systemCode)
-            ->addHeader('x-from-system', AppHelper::app()->getSystemAlias())
+            ->addHeader('x-from-system', Yii::$app->id)
             ->addHeader('x-trace-id', ReqHelper::getTraceId());
     }
 

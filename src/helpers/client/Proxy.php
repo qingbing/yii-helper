@@ -11,6 +11,7 @@ namespace YiiHelper\helpers\client;
 use Exception;
 use Yii;
 use yii\base\BaseObject;
+use yii\di\Instance;
 use yii\httpclient\Request;
 use yii\httpclient\RequestEvent;
 use yii\httpclient\Response;
@@ -42,12 +43,16 @@ class Proxy extends BaseObject
     /**
      * Proxy constructor.
      * @param array $config
+     * @throws \yii\base\InvalidConfigException
      */
     public function __construct($config = [])
     {
-        if (isset($config['client']) && is_array($config['client']) && is_array($this->client)) {
-            $config['client'] = array_merge($this->client, $config['client']);
+        if (isset($config['client']) && is_array($config['client'])) {
+            $this->client = array_merge($this->client, $config['client']);
         }
+        // 确保请求client是一个实例
+        $this->client = Instance::ensure($this->client, Client::class);
+        unset($config['client']);
         parent::__construct($config);
     }
 
@@ -56,9 +61,6 @@ class Proxy extends BaseObject
      */
     public function init()
     {
-        if (!is_object($this->client)) {
-            $this->client = Yii::createObject($this->client);
-        }
         $this->request = $this->client->createRequest();
         // 获取并设置 client 超时时间
         $timeout = Yii::$app->getRequest()->getHeaders()->get("R-TIMEOUT", $this->timeout);
@@ -69,6 +71,17 @@ class Proxy extends BaseObject
         $this->client->on(Client::EVENT_BEFORE_SEND, [$this, 'handleBeforeSend']);
         // 发送请求后事件
         $this->client->on(Client::EVENT_AFTER_SEND, [$this, 'handleAfterSend']);
+    }
+
+    /**
+     * 设置请求的 baseUrl
+     * @param string $baseUrl
+     * @return $this
+     */
+    public function setBaseUrl(string $baseUrl)
+    {
+        $this->client->baseUrl = $baseUrl;
+        return $this;
     }
 
     /**
@@ -114,6 +127,8 @@ class Proxy extends BaseObject
     }
 
     /**
+     * URL 请求发送获取响应
+     *
      * @param string $uri
      * @param mixed $data
      * @param string $method

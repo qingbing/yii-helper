@@ -9,7 +9,7 @@ CREATE TABLE `{{%route_systems}}` (
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '描述',
   `uri_prefix` varchar(100) NOT NULL DEFAULT '' COMMENT '系统调用时访问URI前缀',
   `type` varchar(20) NOT NULL DEFAULT 'inner' COMMENT '系统类型[inner->当前系统；transfer->当前系统转发；outer->外部系统]',
-  `rule` varchar(20) NOT NULL DEFAULT 'none' COMMENT '参数验证通过后的规则，eg：可以加入时间戳，sign验证等，每一个规则都需要代码支持',
+  `proxy` varchar(50) NOT NULL DEFAULT '' COMMENT '参数验证通过后的代理组件ID',
   `ext` json DEFAULT NULL COMMENT '扩展字段数据',
 
   -- 访问

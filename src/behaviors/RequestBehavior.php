@@ -15,6 +15,8 @@ use yii\base\Behavior;
  *
  * Class RequestBehavior
  * @package YiiHelper\behaviors
+ *
+ * @property \yii\web\Request $owner
  */
 class RequestBehavior extends Behavior
 {
@@ -37,12 +39,37 @@ class RequestBehavior extends Behavior
     }
 
     /**
+     * 判断是否是 form-data， form-data 表示可以上传文件
+     *
+     * @return bool
+     */
+    public function isFormData()
+    {
+        return $this->getShortContentType() === 'multipart/form-data';
+    }
+
+    /**
      * 获取所有请求参数
      *
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
-    public function getAllParams()
+    public function getParams()
     {
         return array_merge($this->owner->getQueryParams(), $this->owner->getBodyParams());
+    }
+
+    /**
+     * 获取传递参数的值
+     *
+     * @param string $name
+     * @param null $default
+     * @return mixed|null
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getParam(string $name, $default = null)
+    {
+        $params = $this->getParams();
+        return $params[$name] ?? $default;
     }
 }

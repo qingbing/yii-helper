@@ -2,7 +2,9 @@
 
 namespace YiiHelper\models\routeManager;
 
+use Yii;
 use YiiHelper\abstracts\Model;
+use Zf\Helper\Exceptions\ProgramException;
 
 /**
  * This is the model class for table "{{%route_systems}}".
@@ -13,7 +15,7 @@ use YiiHelper\abstracts\Model;
  * @property string $description 描述
  * @property string $uri_prefix 系统调用时访问URI前缀
  * @property string $type 系统类型[inner->当前系统；transfer->当前系统转发；outer->外部系统]
- * @property string $rule 参数验证通过后的规则，eg：可以加入时间戳，sign验证等，每一个规则都需要代码支持
+ * @property string $proxy 参数验证通过后的代理组件ID
  * @property string|null $ext 扩展字段数据
  * @property int $is_enable 系统是否启用状态[0:未启用; 1:已启用]，未启用抛异常
  * @property int $is_allow_new_interface 是否允许未注册接口[0:不允许; 1:允许]
@@ -43,10 +45,10 @@ class RouteSystems extends Model
             [['code', 'name'], 'required'],
             [['ext', 'created_at', 'updated_at'], 'safe'],
             [['is_enable', 'is_allow_new_interface', 'is_record_field', 'is_open_validate', 'is_strict_validate', 'sort_order'], 'integer'],
-            [['code'], 'string', 'max' => 50],
+            [['code', 'proxy'], 'string', 'max' => 50],
             [['name', 'uri_prefix'], 'string', 'max' => 100],
             [['description'], 'string', 'max' => 255],
-            [['type', 'rule'], 'string', 'max' => 20],
+            [['type'], 'string', 'max' => 20],
             [['code'], 'unique'],
             [['name'], 'unique'],
         ];
@@ -64,7 +66,7 @@ class RouteSystems extends Model
             'description'            => '描述',
             'uri_prefix'             => '系统调用时访问URI前缀',
             'type'                   => '系统类型[inner->当前系统；transfer->当前系统转发；outer->外部系统]',
-            'rule'                   => '参数验证通过后的规则，eg：可以加入时间戳，sign验证等，每一个规则都需要代码支持',
+            'proxy'                  => '参数验证通过后的代理组件ID',
             'ext'                    => '扩展字段数据',
             'is_enable'              => '系统是否启用状态[0:未启用; 1:已启用]，未启用抛异常',
             'is_allow_new_interface' => '是否允许未注册接口[0:不允许; 1:允许]',
@@ -118,5 +120,25 @@ class RouteSystems extends Model
     public function getExtValueByKey(?string $key = null, $default = null)
     {
         return $this->ext[$key] ?? $default;
+    }
+
+    /**
+     * 获取缓存中的系统信息模型
+     *
+     * @param string $code
+     * @return bool|RouteSystems
+     */
+    public static function getCacheSystem(string $code)
+    {
+        // 调用频率太高，这里使用缓存获取，减少db的查询，无逻辑，这里不设置db依赖
+        return Yii::$app->cacheHelper->get(Yii::$app->id . ":system:{$code}", function () use ($code) {
+            $system = RouteSystems::findOne([
+                'code' => $code,
+            ]);
+            if (null === $system) {
+                throw new ProgramException("系统「{$code}」不存在");
+            }
+            return $system;
+        }, 300);
     }
 }
