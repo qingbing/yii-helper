@@ -167,10 +167,9 @@ abstract class SystemProxy extends Proxy
     /**
      * 转发系统，获取响应结果
      *
-     * @param bool $parsed
      * @return Response
      */
-    abstract public function transmit($parsed = true);
+    abstract public function transmit();
 
     /**
      * 解析请求响应

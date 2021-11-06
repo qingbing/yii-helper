@@ -9,6 +9,7 @@ use YiiHelper\abstracts\Model;
  *
  * @property int $id 自增ID
  * @property string $uuid 用户/系统标识
+ * @property string|null $flag 允许访问的系统标识,多个用|分割
  * @property string|null $public_key 公钥
  * @property string|null $private_key 私钥
  * @property string $private_password openssl的私钥密码
@@ -34,10 +35,10 @@ class AccessUser extends Model
     public function rules()
     {
         return [
-            [['public_key', 'private_key'], 'string'],
+            [['public_key', 'flag', 'private_key'], 'string'],
             [['expire_begin_at', 'expire_end_at', 'created_at', 'updated_at'], 'safe'],
             [['uuid', 'private_password'], 'string', 'max' => 50],
-            [['expire_ip'], 'string', 'max' => 255],
+            [['expire_ip', 'flag'], 'string', 'max' => 255],
             [['uuid'], 'unique'],
         ];
     }
@@ -50,6 +51,7 @@ class AccessUser extends Model
         return [
             'id'               => '自增ID',
             'uuid'             => '用户/系统标识',
+            'flag'             => '允许访问的系统标识,多个用|分割',
             'public_key'       => '公钥',
             'private_key'      => '私钥',
             'private_password' => 'openssl的私钥密码',

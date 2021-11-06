@@ -11,7 +11,7 @@ CREATE TABLE `{{%access_logs}}` (
 
   `is_success` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否成功[0:失败; 1:成功]',
 
-  `message` varchar(100) NOT NULL DEFAULT '' COMMENT '返回消息',
+  `message` varchar(255) NOT NULL DEFAULT '' COMMENT '返回消息',
   `response_code` int(5) unsigned NOT NULL DEFAULT '0' COMMENT 'http状态返回码',
   `response_data` json DEFAULT NULL COMMENT '接口返回信息',
   `exts` json COMMENT '扩展信息',

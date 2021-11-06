@@ -9,10 +9,10 @@ namespace YiiHelper\proxy;
 
 use YiiHelper\proxy\base\InnerProxy;
 
-class ConfigureProxy extends InnerProxy
+class PortalProxy extends InnerProxy
 {
     const URL_HEALTH = 'health';
-    const URL_TEST   = '/inner/test/test';
+    const URL_TEST   = 'test/test';
 
     public function health()
     {

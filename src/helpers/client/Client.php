@@ -44,7 +44,7 @@ class Client extends \yii\httpclient\Client
     /**
      * @var bool 是否开始文件日志
      */
-    public $openFileLog = false;
+    public $openFileLog = true;
     /**
      * @var bool 是否开启db日志
      */

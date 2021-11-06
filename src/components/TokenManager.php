@@ -9,8 +9,6 @@ namespace YiiHelper\components;
 
 
 use Yii;
-use yii\base\Application;
-use yii\base\BootstrapInterface;
 use yii\base\Component;
 use yii\di\Instance;
 use yii\web\Request;
@@ -32,13 +30,21 @@ use Zf\Helper\ReqHelper;
  * Class TokenManager
  * @package YiiHelper\components
  */
-class TokenManager extends Component implements BootstrapInterface
+class TokenManager extends Component
 {
     use TValidator;
     /**
      * @var bool 接口访问是否开启token验证
      */
     public $enableToken = false;
+    /**
+     * @var string token组件的标识，和uuid在db中配置的一致可以访问
+     */
+    public $flag;
+    /**
+     * @var array 不在检查的URL
+     */
+    public $uncheckUrls = [];
     /**
      * @var string token验证的uri，该接口不参加token验证
      */
@@ -86,21 +92,34 @@ class TokenManager extends Component implements BootstrapInterface
     }
 
     /**
-     * Bootstrap method to be called during application bootstrap stage.
-     * @param Application $app the application currently running
+     * 执行 token 检查
      *
      * @throws ForbiddenHttpException
      * @throws \yii\base\InvalidConfigException
      */
-    public function bootstrap($app)
+    public function checking()
     {
+        // 未开启检查
         if (!$this->enableToken) {
             return;
         }
-        if ($this->tokenUrl == Yii::$app->getRequest()->getPathInfo()) {
+        // 获取当前路径
+        $pathInfo = Yii::$app->getRequest()->getPathInfo();
+        // 检查当前路径是否在不检查token之列
+        foreach ($this->uncheckUrls as $urlPath) {
+            $urlPath = str_replace('/', '\/', trim($urlPath));
+            $urlPath = str_replace('*', '(.*)', trim($urlPath));
+            if (preg_match('#^' . $urlPath . '$#', $pathInfo, $ms)) {
+                return;
+            }
+        }
+
+        // token获取路径不检查
+        if ($this->tokenUrl == $pathInfo) {
             return;
         }
-        if ($this->getUuid() && $this->store->isExpireData($this->getAccessToken())) {
+        if ($this->getUuid() && ($token = $this->getAccessToken()) && $this->store->isExpireData($token)) {
+            // 设置访问uuid和有效的access-token，正常返回
             return;
         }
         throw new ForbiddenHttpException("未设置token，无权访问");
@@ -159,6 +178,10 @@ class TokenManager extends Component implements BootstrapInterface
             throw new CustomException("不存在的系统访问key");
         }
         $today = Format::date();
+        // 标识检查
+        if (!in_array($this->flag, explode_data($accessUser->flag, '|'))) {
+            throw new CustomException("不是合法的UUID访问");
+        }
         // 生效日期验证
         if ($accessUser->expire_begin_at > "1900-01-01" && $accessUser->expire_begin_at > $today) {
             throw new CustomException("该用户未到访问期");

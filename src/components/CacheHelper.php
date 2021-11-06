@@ -8,7 +8,6 @@
 namespace YiiHelper\components;
 
 
-use Codeception\Lib\Di;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\caching\CacheInterface;

@@ -108,11 +108,13 @@ class Bootstrap implements BootstrapInterface
         // 请求开始时间
         Timer::begin(self::TIMER_KEY_BEFORE_REQUEST);
 
-        $this->systemCode = AppHelper::app()->getSystemAlias();
-        if (empty($this->systemCode)) {
+        $system = $app->getRequest()->getHeaders()->get('x-system');
+        if (empty($system)) {
+            $this->systemCode   = Yii::$app->id;
             $this->realPathInfo = $this->request->getPathInfo();
         } else {
-            $this->realPathInfo = $this->systemCode . '/' . $this->request->getPathInfo();
+            $this->systemCode   = $system;
+            $this->realPathInfo = $system . '/' . $this->request->getPathInfo();
         }
 
         // 参数记录
@@ -182,7 +184,7 @@ class Bootstrap implements BootstrapInterface
                 } else {
                     $inData['is_success'] = 1;
                 }
-                $inData['message'] = isset($response->data['msg']) ? $response->data['msg'] : '';
+                $inData['message'] = isset($response->data['msg']) ? substr($response->data['msg'], 0, 255) : '';
             } else {
                 $inData['is_success'] = 1;
                 $inData['message']    = '';

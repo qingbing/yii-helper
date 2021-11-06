@@ -119,7 +119,7 @@ class InnerProxy extends SystemProxy
      * @return Response
      * @throws Exception
      */
-    public function transmit($parsed = true)
+    public function transmit()
     {
         $this->client->addHeader('x-access-uuid', $this->uuid);
         // 添加访问token
@@ -133,9 +133,6 @@ class InnerProxy extends SystemProxy
             $this->unlinkUploadedFiles($files);
         } else {
             $response = $this->send($this->getPathInfo(), $this->getParams(), $this->getMethod());
-        }
-        if ($parsed) {
-            return $this->parseResponse($response);
         }
         return $response;
     }
@@ -158,8 +155,8 @@ class InnerProxy extends SystemProxy
                 ]),
             ]);
             $data     = $this->parseResponse($response);
-            $token    = $data['token'];
-            $this->cache->set($cacheKey, $token, time() + $data['expireTtl'] - 300);
+            $token    = $data['data']['token'];
+            $this->cache->set($cacheKey, $token, time() + $data['data']['expireTtl'] - 300);
         }
         return $token;
     }
@@ -175,7 +172,7 @@ class InnerProxy extends SystemProxy
     {
         $data = $response->getData();
         if (0 == $data['code']) {
-            return $data['data'];
+            return $data;
         }
         throw new CustomException($data['msg'], $data['code']);
     }

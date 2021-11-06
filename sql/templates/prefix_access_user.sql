@@ -4,6 +4,7 @@
 CREATE TABLE `{{%access_user}}` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增ID',
   `uuid` varchar(50) NOT NULL DEFAULT '' COMMENT '用户/系统标识',
+  `flag` varchar(255) NOT NULL DEFAULT '' COMMENT '允许访问的系统标识,多个用|分割',
   `public_key` text DEFAULT NULL COMMENT '公钥',
   `private_key` text DEFAULT NULL COMMENT '私钥',
   `private_password` varchar(50) NOT NULL DEFAULT '' COMMENT 'openssl的私钥密码',

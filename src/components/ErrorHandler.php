@@ -8,7 +8,9 @@
 namespace YiiHelper\components;
 
 
+use Exception;
 use Yii;
+use yii\base\UserException;
 use yii\web\HttpException;
 use yii\web\Response;
 use Zf\Helper\Exceptions\CustomException;
@@ -24,10 +26,8 @@ class ErrorHandler extends \yii\web\ErrorHandler
     /**
      * 渲染异常
      *
-     * @param \Error|\Exception $exception
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\base\InvalidRouteException
-     * @throws \yii\console\Exception
+     * @param \Error|Exception $exception
+     * @throws Exception
      */
     protected function renderException($exception)
     {
@@ -77,8 +77,15 @@ class ErrorHandler extends \yii\web\ErrorHandler
             $data['message'] = $exception->getMessage();
             $data['Trace']   = $exception->getTraceAsString();
         }
+
+        if (!YII_DEBUG && !$exception instanceof CustomException && !$exception instanceof UserException) {
+            $errorMsg = "未知错误";
+        } else {
+            $errorMsg = $exception->getMessage();
+        }
+
         $response->data = \YiiHelper\helpers\Response::getInstance()
-            ->setMsg($exception->getMessage())
+            ->setMsg($errorMsg)
             ->setCode(0 == $exception->getCode() ? -1 : $exception->getCode())
             ->output($data);
 

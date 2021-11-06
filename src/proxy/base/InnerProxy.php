@@ -18,7 +18,6 @@ use YiiHelper\helpers\client\InnerClient;
 use YiiHelper\helpers\client\Proxy;
 use YiiHelper\helpers\Req;
 use Zf\Helper\Crypt\Openssl;
-use Zf\Helper\Exceptions\ParameterException;
 use Zf\Helper\Exceptions\ProgramException;
 
 /**
@@ -80,7 +79,6 @@ abstract class InnerProxy extends Proxy
     /**
      * @inheritDoc
      *
-     * @throws ParameterException
      * @throws Exception
      */
     public function init()
@@ -193,5 +191,4 @@ abstract class InnerProxy extends Proxy
         }
         return $token;
     }
-
 }
