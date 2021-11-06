@@ -19,13 +19,18 @@ use Zf\Helper\DataStore;
  */
 class Req
 {
+    const USER_IP_KEY   = __CLASS__ . ":client-ip";
+    const ACCESS_IP_KEY = __CLASS__ . ":access-ip";
+    const IS_GUEST_KEY  = __CLASS__ . ':isGuest';
+    const LOGIN_UID_KEY = __CLASS__ . ':loginUid';
+
     /**
      * 获取客户端 IP
      * @return mixed|null
      */
     public static function getUserIp()
     {
-        return DataStore::get(__CLASS__ . ":client-ip", function () {
+        return DataStore::get(self::USER_IP_KEY, function () {
             return Yii::$app->getRequest()->getUserIP();
         });
     }
@@ -37,22 +42,12 @@ class Req
      */
     public static function getAccessIp()
     {
-        return DataStore::get(__CLASS__ . ":access-ip", function () {
+        return DataStore::get(self::ACCESS_IP_KEY, function () {
             if (isset($_SERVER['REMOTE_ADDR'])) {
                 return $_SERVER['REMOTE_ADDR'];
             }
             return Yii::$app->getRequest()->getUserIP();
         });
-    }
-
-    /**
-     * 获取是否登录的 storeKey
-     *
-     * @return string
-     */
-    protected static function getIsGuestKey()
-    {
-        return __CLASS__ . ':isGuest';
     }
 
     /**
@@ -62,7 +57,7 @@ class Req
      */
     public static function getIsGuest()
     {
-        return DataStore::get(static::getIsGuestKey(), function () {
+        return DataStore::get(self::IS_GUEST_KEY, function () {
             return Yii::$app->getUser()->getIsGuest();
         });
     }
@@ -74,17 +69,7 @@ class Req
      */
     public static function setIsGuest($isGuest)
     {
-        DataStore::set(static::getIsGuestKey(), $isGuest);
-    }
-
-    /**
-     * 获取登录用户id的 storeKey
-     *
-     * @return string
-     */
-    protected static function getStoreUidKey()
-    {
-        return __CLASS__ . ':loginUid';
+        DataStore::set(self::IS_GUEST_KEY, $isGuest);
     }
 
     /**
@@ -94,7 +79,7 @@ class Req
      */
     public static function getUid()
     {
-        return DataStore::get(static::getStoreUidKey(), function () {
+        return DataStore::get(self::LOGIN_UID_KEY, function () {
             return Yii::$app->getUser()->getIsGuest() ? 0 : Yii::$app->getUser()->getId();
         });
     }
@@ -106,6 +91,6 @@ class Req
      */
     public static function setUid($uid)
     {
-        DataStore::set(static::getStoreUidKey(), $uid);
+        DataStore::set(self::LOGIN_UID_KEY, $uid);
     }
 }

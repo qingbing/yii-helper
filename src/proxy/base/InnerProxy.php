@@ -5,7 +5,7 @@
  * @copyright   Chengdu Qb Technology Co., Ltd.
  */
 
-namespace YiiHelper\helpers\client;
+namespace YiiHelper\proxy\base;
 
 
 use Exception;
@@ -13,19 +13,22 @@ use Yii;
 use yii\caching\CacheInterface;
 use yii\di\Instance;
 use yii\httpclient\Response;
+use YiiHelper\helpers\client\Client;
+use YiiHelper\helpers\client\InnerClient;
+use YiiHelper\helpers\client\Proxy;
 use YiiHelper\helpers\Req;
-use YiiHelper\models\routeManager\RouteSystems;
 use Zf\Helper\Crypt\Openssl;
-use Zf\Helper\Exceptions\CustomException;
 use Zf\Helper\Exceptions\ParameterException;
+use Zf\Helper\Exceptions\ProgramException;
 
 /**
- * 代理类 : 内部系统
- *
  * Class InnerProxy
- * @package YiiHelper\helpers\client
+ * @package YiiHelper\proxy\base
+ *
+ * @property string $baseUrl 访问系统的host
+ * @property string $systemCode 系统代码
  */
-class InnerProxy extends SystemProxy
+abstract class InnerProxy extends Proxy
 {
     /**
      * @var bool 是否开启token验证
@@ -55,7 +58,7 @@ class InnerProxy extends SystemProxy
      * @var Client | array client的配置或实例
      */
     public $client = [
-        'class'                 => Client::class,
+        'class'                 => InnerClient::class,
         'translateHeaderPrefix' => 'x-',
         'unTranslateHeaders'    => [
             'x-system', // InnerClient 中处理
@@ -65,6 +68,14 @@ class InnerProxy extends SystemProxy
             'x-access-token', // 组件自处理
         ],
     ];
+    /**
+     * @var string 访问系统的host
+     */
+    private $_baseUrl;
+    /**
+     * @var string 访问系统代码
+     */
+    private $_systemCode;
 
     /**
      * @inheritDoc
@@ -77,6 +88,9 @@ class InnerProxy extends SystemProxy
         parent::init();
         // 确保缓存组件
         $this->cache = Instance::ensure($this->cache, CacheInterface::class);
+        if (!empty($this->baseUrl)) {
+            $this->client->baseUrl = $this->baseUrl;
+        }
         // 添加透传的 header
         $this->client->addHeaders([
             'x-forwarded-for'   => Req::getUserIp(),
@@ -86,58 +100,75 @@ class InnerProxy extends SystemProxy
     }
 
     /**
-     * 设置系统模型
+     * 获取访问系统代码
      *
-     * @param mixed $system
-     * @return $this
-     * @throws ParameterException
+     * @return string
      */
-    public function setSystem($system)
+    public function getSystemCode(): string
     {
-        if (is_string($system) && !empty($system)) {
-            $system = RouteSystems::getCacheSystem($system);
+        return $this->_systemCode;
+    }
+
+    /**
+     * 设置访问系统代码
+     *
+     * @param string $systemCode
+     * @return $this
+     * @throws ProgramException
+     */
+    public function setSystemCode(string $systemCode)
+    {
+        if (empty($systemCode)) {
+            throw new ProgramException("代理设置的「systemCode」不能为空");
         }
-        if (!$system instanceof RouteSystems) {
-            throw new ParameterException("设置系统参数错误");
-        }
-        $this->system = $system;
-        // 设置client的相关信息
-        $this->client->baseUrl    = $system->uri_prefix;
-        $this->client->systemCode = $system->code;
-        $this->enableToken        = boolval($this->system->getExtValueByKey('enableToken', false));
-        $this->uuid               = $this->system->getExtValueByKey('uuid');
-        $this->publicKey          = $this->system->getExtValueByKey('publicKey');
-        $this->urlExpireTtl       = $this->system->getExtValueByKey('urlExpireTtl', 120);
-        $this->tokenUrl           = $this->system->getExtValueByKey('tokenUrl', 'token/index');
+        $this->_systemCode = $this->client->systemCode = $systemCode;
         return $this;
     }
 
     /**
-     * 转发系统，获取响应结果
+     * 获取访问系统 baseUrl
      *
-     * @param bool $parsed
+     * @return string
+     */
+    public function getBaseUrl(): string
+    {
+        return $this->_baseUrl;
+    }
+
+    /**
+     * 设置访问系统 baseUrl
+     *
+     * @param string $baseUrl
+     * @return $this
+     * @throws ProgramException
+     */
+    public function setBaseUrl(string $baseUrl)
+    {
+        if (empty($baseUrl)) {
+            throw new ProgramException("代理设置的「baseUrl」不能为空");
+        }
+        $this->_baseUrl = $this->client->baseUrl = $baseUrl;
+        return $this;
+    }
+
+    /**
+     * URL 请求发送获取响应
+     *
+     * @param string $uri
+     * @param mixed $data
+     * @param string $method
+     * @param array $files
      * @return Response
      * @throws Exception
      */
-    public function transmit($parsed = true)
+    public function send(string $uri, $data = null, $method = 'POST', array $files = [])
     {
         $this->client->addHeader('x-access-uuid', $this->uuid);
         // 添加访问token
         if ($this->enableToken) {
             $this->client->addHeader('x-access-token', $this->getToken());
         }
-        if ($this->isFormData()) {
-            // 可以文件上传
-            $files    = $this->getUploadedFiles();
-            $response = $this->send($this->getPathInfo(), $this->getParams(), 'POST', $files);
-            $this->unlinkUploadedFiles($files);
-        } else {
-            $response = $this->send($this->getPathInfo(), $this->getParams(), $this->getMethod());
-        }
-        if ($parsed) {
-            return $this->parseResponse($response);
-        }
-        return $response;
+        return parent::send($uri, $data, $method, $files);
     }
 
     /**
@@ -148,35 +179,19 @@ class InnerProxy extends SystemProxy
      */
     protected function getToken()
     {
-        $cacheKey = "innerProxy:token:" . Yii::$app->id . ":{$this->system->code}:{$this->uuid}";
+        $cacheKey = "innerProxy:token:" . Yii::$app->id . ":{$this->systemCode}:{$this->uuid}";
         if (false === ($token = $this->cache->get($cacheKey))) {
             $this->client->addHeader('x-access-uuid', $this->uuid);
-            $response = $this->send($this->tokenUrl, [
+            $data  = parent::send($this->tokenUrl, [
                 'sign' => Openssl::encrypt($this->publicKey, [
                     'timestamp'    => time(),
                     'urlExpireTtl' => $this->urlExpireTtl,
                 ]),
             ]);
-            $data     = $this->parseResponse($response);
-            $token    = $data['token'];
+            $token = $data['token'];
             $this->cache->set($cacheKey, $token, time() + $data['expireTtl'] - 300);
         }
         return $token;
     }
 
-    /**
-     * 解析请求响应
-     *
-     * @param Response $response
-     * @return mixed
-     * @throws CustomException
-     */
-    public function parseResponse(Response $response)
-    {
-        $data = $response->getData();
-        if (0 == $data['code']) {
-            return $data['data'];
-        }
-        throw new CustomException($data['msg'], $data['code']);
-    }
 }

@@ -37,5 +37,9 @@ namespace {
          * @var \YiiHelper\components\TokenManager
          */
         public $token;
+        /**
+         * @var \YiiHelper\proxy\ConfigureProxy::class
+         */
+        public $configure;
     }
 }
