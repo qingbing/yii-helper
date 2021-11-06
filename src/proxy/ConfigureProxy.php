@@ -11,13 +11,7 @@ use YiiHelper\proxy\base\InnerProxy;
 
 class ConfigureProxy extends InnerProxy
 {
-    const URL_HEALTH = 'health';
-    const URL_TEST   = '/inner/test/test';
-
-    public function health()
-    {
-        return $this->send(self::URL_HEALTH);
-    }
+    const URL_TEST = '/inner/test/test';
 
     public function test()
     {

@@ -40,6 +40,10 @@ namespace {
         /**
          * @var \YiiHelper\proxy\ConfigureProxy::class
          */
-        public $configure;
+        public $proxyConfigure;
+        /**
+         * @var \YiiHelper\proxy\PortalProxy::class
+         */
+        public $proxyPortal;
     }
 }

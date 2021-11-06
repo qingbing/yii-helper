@@ -191,4 +191,15 @@ abstract class InnerProxy extends Proxy
         }
         return $token;
     }
+
+    /**
+     * 健康检查
+     *
+     * @return Response
+     * @throws Exception
+     */
+    public function health()
+    {
+        return $this->send('health');
+    }
 }

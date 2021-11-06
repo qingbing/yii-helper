@@ -58,6 +58,9 @@ class Req
     public static function getIsGuest()
     {
         return DataStore::get(self::IS_GUEST_KEY, function () {
+            if (Yii::$app->getRequest()->getHeaders()->has('x-portal-is-guest')) {
+                return Yii::$app->getRequest()->getHeaders()->get('x-portal-is-guest');
+            }
             return Yii::$app->getUser()->getIsGuest();
         });
     }
@@ -80,6 +83,9 @@ class Req
     public static function getUid()
     {
         return DataStore::get(self::LOGIN_UID_KEY, function () {
+            if (Yii::$app->getRequest()->getHeaders()->has('x-portal-uid')) {
+                return Yii::$app->getRequest()->getHeaders()->get('x-portal-uid');
+            }
             return Yii::$app->getUser()->getIsGuest() ? 0 : Yii::$app->getUser()->getId();
         });
     }
