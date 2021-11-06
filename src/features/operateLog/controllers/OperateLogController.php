@@ -8,10 +8,12 @@
 namespace YiiHelper\features\operateLog\controllers;
 
 
+use Exception;
 use YiiHelper\abstracts\RestController;
 use YiiHelper\features\operateLog\services\interfaces\IOperateLogService;
 use YiiHelper\features\operateLog\services\OperateLogService;
 use YiiHelper\models\operateLog\OperateLog;
+use YiiHelper\models\operateLog\OperateLogs;
 use Zf\Helper\Traits\Models\TLabelYesNo;
 
 /**
@@ -31,8 +33,7 @@ class OperateLogController extends RestController
      * 操作日志列表
      *
      * @return array
-     * @throws \Zf\Helper\Exceptions\BusinessException
-     * @throws \yii\base\InvalidConfigException
+     * @throws Exception
      */
     public function actionList()
     {
@@ -61,15 +62,14 @@ class OperateLogController extends RestController
      * 操作日志详情
      *
      * @return array
-     * @throws \Zf\Helper\Exceptions\BusinessException
-     * @throws \yii\base\InvalidConfigException
+     * @throws Exception
      */
     public function actionView()
     {
         // 参数验证和获取
         $params = $this->validateParams([
             [['id'], 'required'],
-            ['id', 'exist', 'label' => '日志ID', 'targetClass' => OperateLog::class, 'targetAttribute' => 'id'],
+            ['id', 'exist', 'label' => '日志ID', 'targetClass' => OperateLogs::class, 'targetAttribute' => 'id'],
         ]);
 
         // 业务处理

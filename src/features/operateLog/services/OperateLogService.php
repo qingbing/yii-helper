@@ -51,7 +51,8 @@ class OperateLogService extends Service implements IOperateLogService
      * 操作日志详情
      *
      * @param array $params
-     * @return mixed
+     * @return mixed|OperateLogs
+     * @throws BusinessException
      */
     public function view(array $params)
     {
