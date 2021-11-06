@@ -120,9 +120,9 @@ class Proxy extends BaseObject
      * @param array $headers
      * @return $this
      */
-    public function addHeaders(array $headers)
+    public function setHeaders(array $headers)
     {
-        $this->client->addHeaders($headers);
+        $this->client->setHeaders($headers);
         return $this;
     }
 

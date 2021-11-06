@@ -122,7 +122,12 @@ class TokenManager extends Component
             // 设置访问uuid和有效的access-token，正常返回
             return;
         }
-        throw new ForbiddenHttpException("未设置token，无权访问");
+        if (YII_DEBUG) {
+            $msg = "未设置token，无权访问{$this->getUuid()} {$this->getAccessToken()} {$this->store->colName} {$this->store->isExpireData($token)}";
+        } else {
+            $msg = "未设置token，无权访问";
+        }
+        throw new ForbiddenHttpException($msg);
     }
 
     private $_uuid;

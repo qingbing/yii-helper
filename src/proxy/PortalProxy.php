@@ -9,18 +9,39 @@ namespace YiiHelper\proxy;
 
 use YiiHelper\proxy\base\InnerProxy;
 
+/**
+ * 系统代理 : portal 代理
+ *
+ * Class PortalProxy
+ * @package YiiHelper\proxy
+ */
 class PortalProxy extends InnerProxy
 {
-    const URL_HEALTH = 'health';
-    const URL_TEST   = 'test/test';
+    const URL_SYSTEM_OPTIONS = '/inner/options/system'; // 系统代码选项
+    const URL_USER_INFO      = '/inner/user/info'; // 获取用户信息
 
-    public function health()
+    /**
+     * 获取系统代码选项
+     *
+     * @return \yii\httpclient\Response
+     * @throws \Exception
+     */
+    public function systemOptions()
     {
-        return $this->send(self::URL_HEALTH);
+        return $this->send(self::URL_SYSTEM_OPTIONS);
     }
 
-    public function test()
+    /**
+     * 通过uid获取用户信息
+     *
+     * @param string $uid
+     * @return \yii\httpclient\Response
+     * @throws \Exception
+     */
+    public function userInfo($uid)
     {
-        return $this->send(self::URL_TEST);
+        return $this->send(self::URL_USER_INFO, [
+            'uid' => $uid,
+        ]);
     }
 }

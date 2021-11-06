@@ -90,7 +90,7 @@ abstract class InnerProxy extends Proxy
             $this->client->baseUrl = $this->baseUrl;
         }
         // 添加透传的 header
-        $this->client->addHeaders([
+        $this->client->setHeaders([
             'x-forwarded-for'   => Req::getUserIp(),
             'x-portal-is-guest' => Req::getIsGuest(),
             'x-portal-uid'      => Req::getUid(),
@@ -161,10 +161,10 @@ abstract class InnerProxy extends Proxy
      */
     public function send(string $uri, $data = null, $method = 'POST', array $files = [])
     {
-        $this->client->addHeader('x-access-uuid', $this->uuid);
+        $this->client->setHeader('x-access-uuid', $this->uuid);
         // 添加访问token
         if ($this->enableToken) {
-            $this->client->addHeader('x-access-token', $this->getToken());
+            $this->client->setHeader('x-access-token', $this->getToken());
         }
         return parent::send($uri, $data, $method, $files);
     }
@@ -179,7 +179,7 @@ abstract class InnerProxy extends Proxy
     {
         $cacheKey = "innerProxy:token:" . Yii::$app->id . ":{$this->systemCode}:{$this->uuid}";
         if (false === ($token = $this->cache->get($cacheKey))) {
-            $this->client->addHeader('x-access-uuid', $this->uuid);
+            $this->client->setHeader('x-access-uuid', $this->uuid);
             $data  = parent::send($this->tokenUrl, [
                 'sign' => Openssl::encrypt($this->publicKey, [
                     'timestamp'    => time(),

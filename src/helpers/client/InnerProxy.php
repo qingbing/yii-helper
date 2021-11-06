@@ -78,7 +78,7 @@ class InnerProxy extends SystemProxy
         // 确保缓存组件
         $this->cache = Instance::ensure($this->cache, CacheInterface::class);
         // 添加透传的 header
-        $this->client->addHeaders([
+        $this->client->setHeaders([
             'x-forwarded-for'   => Req::getUserIp(),
             'x-portal-is-guest' => Req::getIsGuest(),
             'x-portal-uid'      => Req::getUid(),
@@ -121,10 +121,10 @@ class InnerProxy extends SystemProxy
      */
     public function transmit()
     {
-        $this->client->addHeader('x-access-uuid', $this->uuid);
+        $this->client->setHeader('x-access-uuid', $this->uuid);
         // 添加访问token
         if ($this->enableToken) {
-            $this->client->addHeader('x-access-token', $this->getToken());
+            $this->client->setHeader('x-access-token', $this->getToken());
         }
         if ($this->isFormData()) {
             // 可以文件上传
@@ -147,7 +147,7 @@ class InnerProxy extends SystemProxy
     {
         $cacheKey = "innerProxy:token:" . Yii::$app->id . ":{$this->system->code}:{$this->uuid}";
         if (false === ($token = $this->cache->get($cacheKey))) {
-            $this->client->addHeader('x-access-uuid', $this->uuid);
+            $this->client->setHeader('x-access-uuid', $this->uuid);
             $response = $this->send($this->tokenUrl, [
                 'sign' => Openssl::encrypt($this->publicKey, [
                     'timestamp'    => time(),
