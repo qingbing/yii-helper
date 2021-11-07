@@ -187,7 +187,7 @@ abstract class InnerProxy extends Proxy
                 ]),
             ]);
             $token = $data['token'];
-            $this->cache->set($cacheKey, $token, time() + $data['expireTtl'] - 300);
+            $this->cache->set($cacheKey, $token, $data['expireTtl'] - 300);
         }
         return $token;
     }
