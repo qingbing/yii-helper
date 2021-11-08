@@ -156,7 +156,7 @@ class InnerProxy extends SystemProxy
             ]);
             $data     = $this->parseResponse($response);
             $token    = $data['data']['token'];
-            $this->cache->set($cacheKey, $token, time() + $data['data']['expireTtl'] - 300);
+            $this->cache->set($cacheKey, $token, $data['data']['expireTtl'] - 300);
         }
         return $token;
     }

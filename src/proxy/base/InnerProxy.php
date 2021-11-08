@@ -177,7 +177,7 @@ abstract class InnerProxy extends Proxy
      */
     protected function getToken()
     {
-        $cacheKey = "innerProxy:token:" . Yii::$app->id . ":{$this->systemCode}:{$this->uuid}";
+        $cacheKey = "client:innerProxy:token:" . Yii::$app->id . ":{$this->systemCode}:{$this->uuid}";
         if (false === ($token = $this->cache->get($cacheKey))) {
             $this->client->setHeader('x-access-uuid', $this->uuid);
             $data  = parent::send($this->tokenUrl, [
