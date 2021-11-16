@@ -11,7 +11,7 @@ use YiiHelper\proxy\base\InnerProxy;
 
 class ConfigureProxy extends InnerProxy
 {
-    const URL_TEST = '/inner/test/test';
+    const URL_TEST = '/inner/test/index';
 
     public function test()
     {

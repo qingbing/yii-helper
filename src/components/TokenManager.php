@@ -196,7 +196,7 @@ class TokenManager extends Component
             throw new CustomException("该用户已过期");
         }
         // ip验证
-        if (!empty($accessUser->expire_ip) && !$this->ipInRange(explode_data($accessUser->expire_ip, '|'))) {
+        if (!empty($accessUser->expire_ip) && !IpHelper::inRanges(Req::getAccessIp(), explode_data($accessUser->expire_ip, '|'))) {
             throw new CustomException('不允许ip请求该系统');
         }
         // 检验最大次数
@@ -234,28 +234,5 @@ class TokenManager extends Component
             'token'     => $token,
             'expireTtl' => $this->store->expireTtl,
         ];
-    }
-
-    /**
-     * 判断ip是否在范围之类
-     *
-     * @param string|null|array $range
-     * @return bool
-     */
-    protected function ipInRange($range): bool
-    {
-        if (empty($range)) {
-            return true;
-        }
-        $ip = Req::getAccessIp();
-        if (is_array($range)) {
-            foreach ($range as $val) {
-                if (IpHelper::inRange($ip, $val)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        return IpHelper::inRange($ip, $range);
     }
 }

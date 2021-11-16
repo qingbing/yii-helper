@@ -12,6 +12,7 @@ use Exception;
 use Yii;
 use YiiHelper\abstracts\RestController;
 use YiiHelper\features\member\validators\UserPasswordValidator;
+use YiiHelper\features\permission\actions\UserPermission;
 use YiiHelper\features\personal\services\interfaces\IPersonalService;
 use YiiHelper\features\personal\services\PersonalService;
 use YiiHelper\helpers\Req;
@@ -58,6 +59,22 @@ class PersonalController extends RestController
         }
         $this->user = Yii::$app->getUser()->getIdentity();
         parent::init();
+    }
+
+    /**
+     * @inheritDoc
+     * action 集合
+     *
+     * @return array
+     */
+    public function actions()
+    {
+        return [
+            // 登录用户权限
+            'menus' => [
+                'class' => UserPermission::class,
+            ],
+        ];
     }
 
     /**

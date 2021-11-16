@@ -98,12 +98,12 @@ abstract class LoginBase extends BaseObject
             throw new BusinessException('用户已失效');
         }
         // 整体网站IP段配置
-        if (!$this->ipInRange(Yii::$app->params['loginIps'])) {
+        if (IpHelper::inRanges(Req::getUserIp(), Yii::$app->params['loginIps'])) {
             throw new BusinessException('网站禁止IP登录');
         }
         // 用户网站IP段配置
         if (!empty($user->expire_ip)) {
-            if (!$this->ipInRange(explode_data($user->expire_ip, '|'))) {
+            if (IpHelper::inRanges(Req::getUserIp(), explode_data($user->expire_ip, '|'))) {
                 throw new BusinessException('用户禁止IP登录');
             }
         }
@@ -113,28 +113,5 @@ abstract class LoginBase extends BaseObject
         }
         $user->setLoginAccount($userAccount);
         return Yii::$app->getUser()->login($user, $duration);
-    }
-
-    /**
-     * 判断ip是否在范围之类
-     *
-     * @param string|null|array $range
-     * @return bool
-     */
-    protected function ipInRange($range): bool
-    {
-        if (empty($range)) {
-            return true;
-        }
-        $ip = Req::getUserIp();
-        if (is_array($range)) {
-            foreach ($range as $val) {
-                if (IpHelper::inRange($ip, $val)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        return IpHelper::inRange($ip, $range);
     }
 }
